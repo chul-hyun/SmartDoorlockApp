@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "jsx": "react",
+        "noImplicitAny": true,
+        "experimentalDecorators": true,
+        "preserveConstEnums": true,
+        "outDir": "built",
+        "rootDir": "src",
+        "sourceMap": true,
+        "allowJs": true
+    },
+    "filesGlob": [
+      "**/*.ts",
+      "**/*.tsx",
+      "!node_modules/**"
+    ],
+    "exclude": [
+        "typings/browser.d.ts",
+        "typings/browser",
+        "node_modules"
+    ],
+    "compileOnSave": false,
+    "atom": {
+        "rewriteTsconfig": false
+    }
+}

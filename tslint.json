@@ -1,0 +1,61 @@
+{
+    "rules": {
+        "no-inferrable-types": false,
+        "typedef": [true, "call-signature", "parameter", "arrow-parameter", "property-declaration", 
+                    "variable-declaration", "member-variable-declaration"],
+        "typedef-whitespace": 
+            [
+                true,
+                {
+                    "call-signature": "nospace",
+                    "index-signature": "nospace",
+                    "parameter": "nospace",
+                    "property-declaration": "nospace",
+                    "variable-declaration": "nospace"
+                },
+                {
+                    "call-signature": "onespace",
+                    "index-signature": "onespace",
+                    "parameter": "onespace",
+                    "property-declaration": "onespace",
+                    "variable-declaration": "onespace"
+                }
+            ],
+        
+        "forin": true,
+        "no-arg": true,
+        "no-conditional-assignment": true,
+        "no-construct": true,
+        "no-duplicate-key": true,
+        "no-duplicate-variable": true,
+        "no-empty": true,
+        "no-eval": true,
+        "no-switch-case-fall-through": true,
+        "no-unreachable": true,
+        "no-unused-expression": true,
+        "no-unused-variable": [true, {"ignore-pattern": "React"}],
+        "no-use-before-declare": true,
+        "no-var-keyword": true,
+        "radix": true,
+        "switch-default":true,
+        "triple-equals": [true, "allow-null-check"],
+        "use-strict": [true, "check-module", "check-function"],
+        
+        "eofline": true,
+        "indent": [true, 4],
+        "max-line-length": [true, 120],
+        "no-trailing-whitespace": false,
+        "trailing-comma": [true, {"multiline": "always", "singleline": "never"}],
+        
+        "class-name": true,
+        "comment-format": [true, "check-space"],
+        "interface-name": [true, "always-prefix"],
+        "jsdoc-format": true,
+        "no-angle-bracket-type-assertion": true,
+        "no-constructor-vars": true,
+        "one-line": [true, "check-catch", "check-finally", "check-else"],
+        "quotemark": [true, "single", "jsx-double"],
+        "variable-name":[false, "ban-keywords", "check-format", "allow-leading-underscore"],
+        "whitespace": [true, "check-decl", "check-operator", "check-separator", "check-type", "check-typecast"]
+    }
+}
