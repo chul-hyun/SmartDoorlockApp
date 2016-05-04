@@ -1,6 +1,9 @@
 # Smart Doorlock App
 Door locks to control the application
 
+## Preview
+[view](https://appetize.io/embed/qwbfgvuq39h0bhyhdfteuqrurw?device=nexus5&scale=75&orientation=portrait&osVersion=6.0)
+
 ## Tec
 - React Native
 - Redux
