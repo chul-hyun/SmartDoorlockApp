@@ -17,4 +17,4 @@ class ReduxCounterUniversal extends Component {
   }
 }
 
-AppRegistry.registerComponent('doorlockApp', () => ReduxCounterUniversal);
+AppRegistry.registerComponent('DoorlockApp', () => ReduxCounterUniversal);
