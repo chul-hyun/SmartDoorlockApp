@@ -15,12 +15,13 @@ Door locks to control the application
 ```json
 {
     "user": {
-        "registered" : "blooean",
+        "registered" : "boolean",
         "name"       : "string",
         "key"        : "number",
     },
     "histories" : [{
         "datetime": "number",
+        "state"   : "boolean",
         "name"    : "string",
         "id"      : "number",
     }, ...],
@@ -314,3 +315,7 @@ leftIconTouchHandler = this.props.backPageHandler)
 
 #### Handler
 - changeTimeHandler
+
+# TODO LIST
+- [ ] Action, Reducer 설계
+- [ ] 인증의 성공과 실패부분을 히스토리 UI에서 볼수있도록
