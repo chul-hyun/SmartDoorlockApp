@@ -4,6 +4,10 @@ Door locks to control the application
 ## Preview
 [view](https://appetize.io/embed/qwbfgvuq39h0bhyhdfteuqrurw?device=nexus5&scale=75&orientation=portrait&osVersion=6.0)
 
+## TODO LIST
+- [ ] Action, Reducer 설계
+- [ ] 인증의 성공과 실패부분을 히스토리 UI에서 볼수있도록
+
 ## Tec
 - React Native
 - Redux
@@ -315,7 +319,3 @@ leftIconTouchHandler = this.props.backPageHandler)
 
 #### Handler
 - changeTimeHandler
-
-# TODO LIST
-- [ ] Action, Reducer 설계
-- [ ] 인증의 성공과 실패부분을 히스토리 UI에서 볼수있도록
