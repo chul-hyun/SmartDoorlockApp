@@ -7,6 +7,7 @@ Door locks to control the application
 ## TODO LIST
 - [ ] Action, Reducer 설계
 - [ ] 인증의 성공과 실패부분을 히스토리 UI에서 볼수있도록
+- [ ] 설계에 변경된 UI를 적용
 
 ## Tec
 - React Native
@@ -20,6 +21,7 @@ Door locks to control the application
 {
     "user": {
         "registered" : "boolean",
+        "registDate" : "date",
         "name"       : "string",
         "key"        : "number",
     },
@@ -29,7 +31,7 @@ Door locks to control the application
         "name"    : "string",
         "id"      : "number",
     }, ...],
-    "userNames": [..."string"],
+    "userNames": [{"name": "string", "registDate": "date"}, ...],
 }
 ```
 
@@ -50,27 +52,29 @@ Door locks to control the application
 - 없음
 
 #### Structur
-- Pages (currentPageId = 0)
-  - Page (id = 0)
-      - FrontPage (
-          title = 'Smart Doorlock',
-          registered = store.user.registered, registHandler = 우선 임시로 store.user.registered = true로 설정
-          unregistHandler = 우선 임시로 store.user.registered = false로 설정
-          goHistoryPageHandler = go history page)
-  - Page (id = 1)
-      - HistoryPage (
-           histories = store.histories, backPageHandler = go pre page, searchPageHandler = go search page)
-  - Page (id = 2)
-      - SearchPage (
-          histories = store.histories,
-          userNames = store.userNames,
-          backPageHandler = go pre page,
-          searchHandler = set SearchResultPage.props.histories and go search result page)
-  - Page (id = 3)
-      - SearchResultPage (
-          histories = SearchPage.props.searchHandler 에 의해 설정됨,
-          backPageHandler = go pre page,
-          searchPageHandler = go search page)
+- View
+    - SideMenu
+    - Pages (currentPageId = 0)
+      - Page (id = 0)
+          - FrontPage (
+              title = 'Smart Doorlock',
+              registered = store.user.registered, registHandler = 우선 임시로 store.user.registered = true로 설정
+              unregistHandler = 우선 임시로 store.user.registered = false로 설정
+              goHistoryPageHandler = go history page)
+      - Page (id = 1)
+          - HistoryPage (
+               histories = store.histories, backPageHandler = go pre page, searchPageHandler = go search page)
+      - Page (id = 2)
+          - SearchPage (
+              histories = store.histories,
+              userNames = store.userNames,
+              backPageHandler = go pre page,
+              searchHandler = set SearchResultPage.props.histories and go search result page)
+      - Page (id = 3)
+          - SearchResultPage (
+              histories = SearchPage.props.searchHandler 에 의해 설정됨,
+              backPageHandler = go pre page,
+              searchPageHandler = go search page)
 
 #### Property
 - title:string:required
@@ -119,9 +123,9 @@ Door locks to control the application
 ### FrontPage
 #### UI
 ##### 등록 전
-![Imgur](http://i.imgur.com/tBv9tt6.png)
+![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/FrontPage1.PNG)
 ##### 등록 후
-![Imgur](http://i.imgur.com/bNktgSD.png)
+![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/FrontPage2.PNG)
 #### Structur
 - Text
   - this.props.title
@@ -144,7 +148,7 @@ Door locks to control the application
 ---
 ### HistoryPage
 #### UI
-![Imgur](http://i.imgur.com/XbBgm4i.png)
+![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HistoryPage.PNG)
 #### Structur
 - HeaderLayout (title = '출입기록',
     rightIcon = 'search.png',
@@ -165,7 +169,7 @@ Door locks to control the application
 ---
 ### SearchPage
 #### UI
-![Imgur](http://i.imgur.com/Ngd3rFZ.png)
+![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SearchPage.PNG)
 #### Structur
 - HeaderLayout (title = '검색',
 leftIcon = 'back.png',
@@ -198,7 +202,7 @@ leftIconTouchHandler = this.props.backPageHandler)
 ---
 ### SearchResultPage
 #### UI
-![Imgur](http://i.imgur.com/5pQFNVU.png)
+![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SearchResultPage.PNG)
 #### Structur
 - HeaderLayout (
     title = '검색결과',
@@ -220,7 +224,7 @@ leftIconTouchHandler = this.props.backPageHandler)
 ---
 ### HistoryList
 #### UI
-![Imgur](http://i.imgur.com/Ld5mzYp.png)
+![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HistoryList.PNG)
 
 #### Structur
 - ListView ( ... )
@@ -237,7 +241,7 @@ leftIconTouchHandler = this.props.backPageHandler)
 ---
 ### HistoryItem
 #### UI
-![Imgur](http://i.imgur.com/f554Jar.png)
+![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HistoryItem.PNG)
 
 #### Structur
 - View
@@ -259,8 +263,8 @@ leftIconTouchHandler = this.props.backPageHandler)
 ---
 ### TouchButton
 #### UI
-![Imgur](http://i.imgur.com/7dOIqf2.png)
-![Imgur](http://i.imgur.com/W2xWk4Y.png)
+![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/TouchButton1.PNG)
+![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/TouchButton2.PNG)
 
 #### Structur
   - TouchableHighlight
@@ -279,7 +283,7 @@ leftIconTouchHandler = this.props.backPageHandler)
 ---
 ### HeaderLayout
 #### UI
-![Imgur](http://i.imgur.com/JZ12jkL.png)
+![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HeaderLayout.PNG)
 
 #### Structur
   - View
@@ -306,7 +310,7 @@ leftIconTouchHandler = this.props.backPageHandler)
 ---
 ### PeriodPicker
 #### UI
-![Imgur](http://i.imgur.com/0XCZOR7.png)
+![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/PeriodPicker.PNG)
 
 #### Structur
 
