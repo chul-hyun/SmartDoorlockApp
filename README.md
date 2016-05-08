@@ -1,6 +1,9 @@
 # Smart Doorlock App
 Door locks to control the application
 
+## Server Part
+[github](https://github.com/MuteInspiration/graduation_Univ_DoorLock)
+
 ## Preview
 [view](https://appetize.io/embed/qwbfgvuq39h0bhyhdfteuqrurw?device=nexus5&scale=75&orientation=portrait&osVersion=6.0)
 
@@ -8,6 +11,9 @@ Door locks to control the application
 - [ ] Action, Reducer 설계
 - [ ] 인증의 성공과 실패부분을 히스토리 UI에서 볼수있도록
 - [ ] 설계에 변경된 UI를 적용
+- [ ] HeaderLayout와 sideMenu의 통합고려
+- [ ] MyPage 설계
+
 
 ## Tec
 - React Native
@@ -35,6 +41,29 @@ Door locks to control the application
 }
 ```
 
+## Const Store
+```json
+{
+    "title": "Smart Doorlock",
+    "menus": [{
+        "icon"  : "string",
+        "name"  : "string",
+        "pageID": "number"
+    }],
+    "sections": [{
+        "title": "string",
+        "menus": ["number", ...]
+    }],
+    "pages": {
+        "pageName":{
+            "title": "string",
+            "id": "number"
+        }
+    },
+    "indexMenu": "number"
+}
+```
+
 ## Action Types
 - actionTypeA
 
@@ -53,31 +82,80 @@ Door locks to control the application
 
 #### Structur
 - View
-    - SideMenu
-    - Pages (currentPageId = 0)
-      - Page (id = 0)
+    - SideMenu (
+        title = ConstStore.title,
+        menus = ConstStore.menus를 변환한 값,
+        sections = ConstStore.sections,
+        selectedMenu = ConstStore.indexMenu )
+    - Pages (currentPageId = ConstStore.menus[ConstStore.indexMenu].pageID)
+      - Page ( id = ConstStore.pages.FrontPage.id )
           - FrontPage (
-              title = 'Smart Doorlock',
-              registered = store.user.registered, registHandler = 우선 임시로 store.user.registered = true로 설정
-              unregistHandler = 우선 임시로 store.user.registered = false로 설정
+              title = ConstStore.title,
+              registered = store.user.registered,
+              registHandler = 우선 임시로 store.user.registered = true로 설정,
+              unregistHandler = 우선 임시로 store.user.registered = false로 설정,
               goHistoryPageHandler = go history page)
-      - Page (id = 1)
+      - Page ( id = ConstStore.pages.HistoryPage.id )
           - HistoryPage (
-               histories = store.histories, backPageHandler = go pre page, searchPageHandler = go search page)
-      - Page (id = 2)
+              title = ConstStore.pages.HistoryPage.title,
+              histories = store.histories,
+              goBackPageHandler = go pre page, goSearchPageHandler = go search page)
+      - Page ( id = ConstStore.pages.SearchPage.id )
           - SearchPage (
+              title = ConstStore.pages.SearchPage.title,
               histories = store.histories,
               userNames = store.userNames,
-              backPageHandler = go pre page,
+              goBackPageHandler = go pre page,
               searchHandler = set SearchResultPage.props.histories and go search result page)
-      - Page (id = 3)
+      - Page ( id = ConstStore.pages.SearchResultPage.id )
           - SearchResultPage (
+              title = ConstStore.pages.SearchResultPage.title,
               histories = SearchPage.props.searchHandler 에 의해 설정됨,
-              backPageHandler = go pre page,
-              searchPageHandler = go search page)
+              goBackPageHandler = go pre page,
+              goSearchPageHandler = go search page)
 
 #### Property
 - title:string:required
+
+#### State
+- 없음
+
+#### Handler
+- 없음
+
+---
+### SideMenu
+#### UI
+![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SideMenu.PNG)
+
+#### Structur
+- DrawerLayoutAndroid
+    - View
+        - Text
+    - View
+        - TouchableHighlight
+            - Image
+            - Text
+        - ...
+
+#### Property
+- title:string
+- menus:
+```json
+[{
+    "icon"        : "string",
+    "name"        : "string",
+    "touchHandler": "function"
+}, ...]
+```
+- sections
+```json
+[{
+    "title": "string",
+    "menus": ["number", ...]
+}]
+```
+- selectedMenu:number
 
 #### State
 - 없음
@@ -94,10 +172,10 @@ Door locks to control the application
 - View
 
 #### Property
-- indexPageId:number:required
+- currentPageId:number:required
 
 #### State
-- currentPageId:number
+- 없음
 
 #### Handler
 - 없음
@@ -129,9 +207,9 @@ Door locks to control the application
 #### Structur
 - Text
   - this.props.title
-- TouchButton (value = '등록하기') (등록후 숨김)
-- TouchButton (value = '출입기록') (등록전 숨김)
-- TouchButton (value = '등록해제') (등록전 숨김)
+  - TouchButton (value = '등록하기') (등록후 숨김)
+  - TouchButton (value = '출입기록') (등록전 숨김)
+  - TouchButton (value = '등록해제') (등록전 숨김)
 
 #### Property
 - registered:boolean:required
@@ -150,10 +228,9 @@ Door locks to control the application
 #### UI
 ![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HistoryPage.PNG)
 #### Structur
-- HeaderLayout (title = '출입기록',
+- HeaderLayout (title = '인증기록',
     rightIcon = 'search.png',
-    leftIcon = 'back.png', rightIconTouchHandler =  this.props.searchPageHandler ,
-    leftIconTouchHandler = this.props.backPageHandler)
+    leftIcon = 'menu.png', touchRightIconHandler =  this.props.goSearchPageHandler)
   - HistoryList (histories = this.props.histories )
 
 #### Property
@@ -163,8 +240,7 @@ Door locks to control the application
 - 없음
 
 #### Handler
-- searchPageHandler
-- backPageHandler
+- goSearchPageHandler
 
 ---
 ### SearchPage
@@ -172,8 +248,7 @@ Door locks to control the application
 ![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SearchPage.PNG)
 #### Structur
 - HeaderLayout (title = '검색',
-leftIcon = 'back.png',
-leftIconTouchHandler = this.props.backPageHandler)
+leftIcon = 'back.png')
   - View
     - Text
     - PeriodPicker
@@ -195,7 +270,6 @@ leftIconTouchHandler = this.props.backPageHandler)
 - searchName
 
 #### Handler
-- backPageHandler
 - searchHandler:(result:[])
     - 검색시 검색 결과를 매개변수로 보냄.
 
@@ -207,8 +281,7 @@ leftIconTouchHandler = this.props.backPageHandler)
 - HeaderLayout (
     title = '검색결과',
     rightIcon = 'search.png',
-    leftIcon = 'back.png', rightIconTouchHandler =  this.props.searchPageHandler ,
-    leftIconTouchHandler = this.props.backPageHandler)
+    leftIcon = 'back.png', touchRightIconHandler =  this.props.goSearchPageHandler)
   - HistoryList (histories = this.props.histories )
 
 #### Property
@@ -218,8 +291,7 @@ leftIconTouchHandler = this.props.backPageHandler)
 - 없음
 
 #### Handler
-- backPageHandler
-- searchPageHandler
+- goSearchPageHandler
 
 ---
 ### HistoryList
@@ -230,7 +302,7 @@ leftIconTouchHandler = this.props.backPageHandler)
 - ListView ( ... )
 
 #### Property
-- histories:[{datetime, name}]:[]
+- histories:[{name, datetime}]:[]
 
 #### State
 - 없음
@@ -246,13 +318,13 @@ leftIconTouchHandler = this.props.backPageHandler)
 #### Structur
 - View
     - Text
-        - printDatetime(datetime)
-    - Text
         - name
+    - Text
+        - printDatetime(datetime)
 
 #### Property
-- datetime:number
 - name:string
+- datetime:number
 
 #### State
 - 없음
@@ -281,19 +353,48 @@ leftIconTouchHandler = this.props.backPageHandler)
 - clickHandler
 
 ---
+### HeaderSideMenuLayout
+#### UI
+![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HeaderLayout.PNG)
+
+#### Structur
+- HeaderLayout
+    - DrawerLayoutAndroid
+    - View
+        - Image
+    - View
+        - Text
+    - View
+        - Image
+    - View
+        - this.props.children
+
+#### Property
+- title:string
+- rightIcon:string(img URL)
+- menus
+
+#### State
+- 없음
+
+#### Handler
+- touchRightIconHandler
+
+---
 ### HeaderLayout
 #### UI
 ![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HeaderLayout.PNG)
 
 #### Structur
-  - View
-    - Image
-  - View
-    - Text
-  - View
-    - Image
-  - View
-    - this.props.children
+- View
+    - View
+        - Image
+    - View
+        - Text
+    - View
+        - Image
+    - View
+        - this.props.children
 
 #### Property
 - title:string
@@ -304,8 +405,8 @@ leftIconTouchHandler = this.props.backPageHandler)
 - 없음
 
 #### Handler
-- rightIconTouchHandler
-- leftIconTouchHandler
+- touchRightIconHandler
+- touchLeftIconHandler
 
 ---
 ### PeriodPicker
