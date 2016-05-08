@@ -117,13 +117,13 @@ Door locks to control the application
         sections = Store.static.sections,
         selectedMenu = Store.static.indexMenu )
     - Pages (currentPageID = Store.currentPageID)
-        - Page ( id = Store.static.pages.FrontPage.id )
-            - FrontPage (
+        - Page ( id = Store.static.pages.InitPage.id )
+            - InitPage (
                 title = Store.static.title,
-                registered = store.user.registered,
-                registHandler = Action.register(),
-                unregistHandler = Action.unregister(),
-                goHistoryPageHandler = Action.setPage(Store.static.pages.HistoryPage.id))
+                registHandler = Action.register())
+        - Page ( id = Store.static.pages.MainPage.id )
+            - MainPage (
+                title = Store.static.title)
         - Page ( id = Store.static.pages.HistoryPage.id )
             - HistoryPage (
                 title = Store.static.pages.HistoryPage.title,
@@ -144,7 +144,6 @@ Door locks to control the application
                 goSearchPageHandler = Action.setPage(Store.static.pages.SearchPage.id))
         - Page ( id = Store.static.pages.SetupPage.id )
             - SetupPage(
-
                 title = Store.static.pages.SetupPage.title,
                  )
         - Page ( id = Store.static.pages.MyPage.id )
@@ -242,21 +241,15 @@ Door locks to control the application
 - 없음
 
 ---
-### FrontPage
+### InitPage
 #### UI
-##### 등록 전
-![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/FrontPage1.PNG)
-##### 등록 후
-![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/FrontPage2.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/InitPage.PNG)
 #### Structur
 - Text
   - this.props.title
-  - TouchButton (value = '등록하기') (등록후 숨김)
-  - TouchButton (value = '출입기록') (등록전 숨김)
-  - TouchButton (value = '등록해제') (등록전 숨김)
+  - TouchButton (value = '등록하기')
 
 #### Property
-- registered:boolean:required
 - title:string:required
 
 #### State
@@ -264,8 +257,6 @@ Door locks to control the application
 
 #### Handler
 - registHandler
-- unregistHandler
-- goHistoryPageHandler
 
 ---
 ### HistoryPage
