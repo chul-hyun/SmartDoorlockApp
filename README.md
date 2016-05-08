@@ -126,7 +126,7 @@ Door locks to control the application
 ---
 ### SideMenu
 #### UI
-![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SideMenu.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SideMenu.PNG)
 
 #### Structur
 - DrawerLayoutAndroid
@@ -201,9 +201,9 @@ Door locks to control the application
 ### FrontPage
 #### UI
 ##### 등록 전
-![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/FrontPage1.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/FrontPage1.PNG)
 ##### 등록 후
-![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/FrontPage2.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/FrontPage2.PNG)
 #### Structur
 - Text
   - this.props.title
@@ -226,14 +226,15 @@ Door locks to control the application
 ---
 ### HistoryPage
 #### UI
-![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HistoryPage.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HistoryPage.PNG)
 #### Structur
-- HeaderLayout (title = '인증기록',
+- HeaderLayout (title = this.props.title,
     rightIcon = 'search.png',
     leftIcon = 'menu.png', touchRightIconHandler =  this.props.goSearchPageHandler)
   - HistoryList (histories = this.props.histories )
 
 #### Property
+- title:string:required
 - histories:[]:[]
 
 #### State
@@ -245,10 +246,11 @@ Door locks to control the application
 ---
 ### SearchPage
 #### UI
-![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SearchPage.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SearchPage.PNG)
 #### Structur
-- HeaderLayout (title = '검색',
-leftIcon = 'back.png')
+- HeaderLayout (
+    title = this.props.title,
+    leftIcon = 'back.png')
   - View
     - Text
     - PeriodPicker
@@ -261,6 +263,7 @@ leftIcon = 'back.png')
   - TouchButton (value = '검색')
 
 #### Property
+- title:string:required
 - histories
 - userNames
 
@@ -276,15 +279,16 @@ leftIcon = 'back.png')
 ---
 ### SearchResultPage
 #### UI
-![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SearchResultPage.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SearchResultPage.PNG)
 #### Structur
 - HeaderLayout (
-    title = '검색결과',
+    title = this.props.title,
     rightIcon = 'search.png',
     leftIcon = 'back.png', touchRightIconHandler =  this.props.goSearchPageHandler)
   - HistoryList (histories = this.props.histories )
 
 #### Property
+- title:string:required
 - histories:[]:[]
 
 #### State
@@ -296,7 +300,7 @@ leftIcon = 'back.png')
 ---
 ### HistoryList
 #### UI
-![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HistoryList.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HistoryList.PNG)
 
 #### Structur
 - ListView ( ... )
@@ -313,7 +317,7 @@ leftIcon = 'back.png')
 ---
 ### HistoryItem
 #### UI
-![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HistoryItem.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HistoryItem.PNG)
 
 #### Structur
 - View
@@ -335,8 +339,8 @@ leftIcon = 'back.png')
 ---
 ### TouchButton
 #### UI
-![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/TouchButton1.PNG)
-![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/TouchButton2.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/TouchButton1.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/TouchButton2.PNG)
 
 #### Structur
   - TouchableHighlight
@@ -355,7 +359,7 @@ leftIcon = 'back.png')
 ---
 ### HeaderSideMenuLayout
 #### UI
-![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HeaderLayout.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HeaderLayout.PNG)
 
 #### Structur
 - HeaderLayout
@@ -383,7 +387,7 @@ leftIcon = 'back.png')
 ---
 ### HeaderLayout
 #### UI
-![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HeaderLayout.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HeaderLayout.PNG)
 
 #### Structur
 - View
@@ -411,7 +415,7 @@ leftIcon = 'back.png')
 ---
 ### PeriodPicker
 #### UI
-![Imgur](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/PeriodPicker.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/PeriodPicker.PNG)
 
 #### Structur
 
