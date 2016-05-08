@@ -6,7 +6,6 @@
         "experimentalDecorators": true,
         "preserveConstEnums"    : true,
         "declaration"           : true,
-        "noExternalResolve"     : true,
         "sourceMap"             : true,
         "allowJs"               : true
     },

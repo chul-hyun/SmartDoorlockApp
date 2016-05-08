@@ -13,6 +13,9 @@ Door locks to control the application
 - [ ] 설계에 변경된 UI를 적용
 - [ ] HeaderLayout와 sideMenu의 통합고려
 - [ ] MyPage 설계
+- [ ] 핸들러는 store값을 바꾸게.. 설계 (정방향으로..;;)
+- [ ] Action을 모두 root태그에서 처리하는게 옳은가?
+- [ ] Store -> State를 모두 root태그에서 처리 및 전달하는게 옳은가?
 
 
 ## Tec
@@ -25,56 +28,82 @@ Door locks to control the application
 ## Store Structur
 ```json
 {
+    "static": {
+        "title": "Smart Doorlock",
+        "menus": [{
+            "icon"  : "string",
+            "name"  : "string",
+            "pageID": "number"
+        }],
+        "sections": [{
+            "title": "string",
+            "menus": ["number", ...]
+        }],
+        "pages": {
+            "pageName":{
+                "title": "string",
+                "id": "number"
+            }
+        },
+        "indexMenu": "number"
+    },
     "user": {
-        "registered" : "boolean",
-        "registDate" : "date",
-        "name"       : "string",
-        "key"        : "number",
+        "registered"     : "boolean",
+        "registDate"     : "date",
+        "latestAuthDate" : "date",
+        "name"           : "string",
+        "key"            : "number", /* 인증키 */
     },
     "histories" : [{
         "datetime": "number",
         "state"   : "boolean",
-        "name"    : "string",
-        "id"      : "number",
+        "name"    : "string"
     }, ...],
-    "userNames": [{"name": "string", "registDate": "date"}, ...],
-}
-```
-
-## Const Store
-```json
-{
-    "title": "Smart Doorlock",
-    "menus": [{
-        "icon"  : "string",
-        "name"  : "string",
-        "pageID": "number"
-    }],
-    "sections": [{
-        "title": "string",
-        "menus": ["number", ...]
-    }],
-    "pages": {
-        "pageName":{
-            "title": "string",
-            "id": "number"
-        }
-    },
-    "indexMenu": "number"
+    "users": [{
+        "name": "string",
+        "registDate": "date",
+        "latestAuthDate" : "date"
+    }, ...],
+    "search": {
+        "filter": {
+            "startTime": "number",
+            "endTime" : "number",
+            "user": "string",
+            "state": "success | fail"
+        },
+        "result" : [{
+            "datetime": "number",
+            "state"   : "boolean",
+            "name"    : "string"
+        }, ...]
+    }
+    "currentPageID": "number"
 }
 ```
 
 ## Action Types
-- actionTypeA
+- REGISTER
+- UNREGISTER
+- SET_PAGE
+- SEARCH
+
 
 ## Action List
+- register()
+    - 우선 임시로 store.user.registered = true로 설정
+- unregister()
+    - 우선 임시로 store.user.registered = false로 설정
+- setPage(pageID:number)
+- openMenu()
+- search(filter: {})
+
 
 ## Reducer Structur
 
 ## Reducer List
 - reducerA
 
-## Components
+## Containers
 
 ### App
 #### UI
@@ -83,36 +112,49 @@ Door locks to control the application
 #### Structur
 - View
     - SideMenu (
-        title = ConstStore.title,
-        menus = ConstStore.menus를 변환한 값,
-        sections = ConstStore.sections,
-        selectedMenu = ConstStore.indexMenu )
-    - Pages (currentPageId = ConstStore.menus[ConstStore.indexMenu].pageID)
-      - Page ( id = ConstStore.pages.FrontPage.id )
-          - FrontPage (
-              title = ConstStore.title,
-              registered = store.user.registered,
-              registHandler = 우선 임시로 store.user.registered = true로 설정,
-              unregistHandler = 우선 임시로 store.user.registered = false로 설정,
-              goHistoryPageHandler = go history page)
-      - Page ( id = ConstStore.pages.HistoryPage.id )
-          - HistoryPage (
-              title = ConstStore.pages.HistoryPage.title,
-              histories = store.histories,
-              goBackPageHandler = go pre page, goSearchPageHandler = go search page)
-      - Page ( id = ConstStore.pages.SearchPage.id )
-          - SearchPage (
-              title = ConstStore.pages.SearchPage.title,
-              histories = store.histories,
-              userNames = store.userNames,
-              goBackPageHandler = go pre page,
-              searchHandler = set SearchResultPage.props.histories and go search result page)
-      - Page ( id = ConstStore.pages.SearchResultPage.id )
-          - SearchResultPage (
-              title = ConstStore.pages.SearchResultPage.title,
-              histories = SearchPage.props.searchHandler 에 의해 설정됨,
-              goBackPageHandler = go pre page,
-              goSearchPageHandler = go search page)
+        title = Store.static.title,
+        menus = Store.static.menus를 변환한 값,
+        sections = Store.static.sections,
+        selectedMenu = Store.static.indexMenu )
+    - Pages (currentPageID = Store.currentPageID)
+        - Page ( id = Store.static.pages.FrontPage.id )
+            - FrontPage (
+                title = Store.static.title,
+                registered = store.user.registered,
+                registHandler = Action.register(),
+                unregistHandler = Action.unregister(),
+                goHistoryPageHandler = Action.setPage(Store.static.pages.HistoryPage.id))
+        - Page ( id = Store.static.pages.HistoryPage.id )
+            - HistoryPage (
+                title = Store.static.pages.HistoryPage.title,
+                histories = store.histories,
+                openMenuHandler = Action.openMenu(), goSearchPageHandler = Action.setPage(Store.static.pages.SearchPage.id))
+        - Page ( id = Store.static.pages.SearchPage.id )
+            - SearchPage (
+                title = Store.static.pages.SearchPage.title,
+                histories = store.histories,
+                users = store.users,
+                openMenuHandler = Action.openMenu(),
+                searchHandler = Action.search())
+        - Page ( id = Store.static.pages.SearchResultPage.id )
+            - SearchResultPage (
+                title = Store.static.pages.SearchResultPage.title,
+                histories = Store.search.result,
+                openMenuHandler = Action.openMenu(),
+                goSearchPageHandler = Action.setPage(Store.static.pages.SearchPage.id))
+        - Page ( id = Store.static.pages.SetupPage.id )
+            - SetupPage(
+
+                title = Store.static.pages.SetupPage.title,
+                 )
+        - Page ( id = Store.static.pages.MyPage.id )
+            - MyPage(
+                title = Store.static.pages.MyPage.title,
+                name = Store.user.name,
+                registDate = Store.user.registDate,
+                latestAuthDate = Store.user.latestAuthDate,
+                changeNameHandler = ,
+                unregistHandler = )
 
 #### Property
 - title:string:required
@@ -123,7 +165,9 @@ Door locks to control the application
 #### Handler
 - 없음
 
----
+
+## Components
+
 ### SideMenu
 #### UI
 ![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SideMenu.PNG)
@@ -172,7 +216,7 @@ Door locks to control the application
 - View
 
 #### Property
-- currentPageId:number:required
+- currentPageID:number:required
 
 #### State
 - 없음
@@ -259,13 +303,13 @@ Door locks to control the application
     - Picker (
         selectedValue = this.state.searchName,
         onValueChange= (searchName) => this.setState({searchName: searchName}))
-        - Picker.item (userNames를 mapping)
+        - Picker.item (users를 mapping)
   - TouchButton (value = '검색')
 
 #### Property
 - title:string:required
 - histories
-- userNames
+- users
 
 #### State
 - startTime
