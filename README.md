@@ -798,34 +798,6 @@ Property 들을 이용해서 구축
 - onPress
 
 ---
-### HeaderSideMenuLayout
-#### UI
-![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HeaderLayout.PNG)
-
-#### Structur
-- HeaderLayout
-    - DrawerLayoutAndroid
-    - View
-        - Image
-    - View
-        - Text
-    - View
-        - Image
-    - View
-        - this.props.children
-
-#### Property
-- title:string
-- rightIcon:string(img URL)
-- menus
-
-#### State
-- 없음
-
-#### Handler
-- onPressRightIcon
-
----
 ### HeaderLayout
 #### UI
 ![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HeaderLayout.PNG)
