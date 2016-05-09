@@ -27,10 +27,12 @@ Door locks to control the application
 
 ## Types
 - AuthStateType
+
     ```
     "success" | "fail": required
     ```
 - HistoryType
+
     ```
     {
         "datetime": "number": required,
@@ -39,6 +41,7 @@ Door locks to control the application
     }
     ```
 - UserInfoType
+
     ```
     {
         "registDate"     : "date": required,
@@ -48,6 +51,7 @@ Door locks to control the application
     }
     ```
 - MenuType
+
     ```
     {
         "icon"  : "string" | null : null,
@@ -56,6 +60,7 @@ Door locks to control the application
     }
     ```
 - SectionType
+
     ```
     {
         "title": "string": required,
@@ -63,6 +68,7 @@ Door locks to control the application
     }
     ```
 - PageType
+
     ```
     {
         "title": "string": required,
@@ -70,6 +76,7 @@ Door locks to control the application
     }
     ```
 - SearchFilterType
+
     ```
     {
         "startTime": "number" : -1,
@@ -151,6 +158,7 @@ Door locks to control the application
 #### Structur
 - View
     - SideMenu
+
     ```
     title = Store.static.title
     menus = Store.static.menus를 변환한 값
@@ -159,33 +167,40 @@ Door locks to control the application
     onPressMenu = Action.setPage()
     ```
     - Pages
+
     ```
     currentPageID = Store.currentPageID
     ```
         - Page
+
         ```
         id = Store.static.pages.InitPage.id
         ```
             - InitPage
+
             ```
             title = Store.static.title
             onRegister = Action.register()
             ```
         - Page
+
         ```
         id = Store.static.pages.MainPage.id
         ```
             - MainPage
+
             ```
             title = Store.static.title
             onOpenMenu = Action.openMenu()
             onUnlock = Action.unlock()
             ```
         - Page
+
         ```
         id = Store.static.pages.HistoryPage.id
         ```
             - HistoryPage
+
             ```
             title = Store.static.pages.HistoryPage.title
             histories = store.histories
@@ -193,10 +208,12 @@ Door locks to control the application
             onGoSearchPage = Action.setPage(Store.static.pages.SearchPage.id)
             ```
         - Page
+
         ```
         id = Store.static.pages.SearchPage.id
         ```
             - SearchPage
+
             ```
             title = Store.static.pages.SearchPage.title
             users = store.users
@@ -205,10 +222,12 @@ Door locks to control the application
             onSearch = Action.search()
             ```
         - Page
+
         ```
         id = Store.static.pages.SearchResultPage.id
         ```
             - SearchResultPage
+
             ```
             title = Store.static.pages.SearchResultPage.title
             histories = Store.search.result
@@ -216,10 +235,12 @@ Door locks to control the application
             onGoSearchPage = Action.setPage(Store.static.pages.SearchPage.id)
             ```
         - Page
+
         ```
         id = Store.static.pages.SetupPage.id
         ```
             - SetupPage
+
             ```
             title = Store.static.pages.SetupPage.title
             onOpenMenu = Action.openMenu()
@@ -228,10 +249,12 @@ Door locks to control the application
             setAlarmSoundHandler = Action.setAlarmSound()
             ```
          - Page
+
          ```
          id = Store.static.pages.MyPage.id
          ```
             - MyPage
+
             ```
             title = Store.static.pages.MyPage.title
             onOpenMenu = Action.openMenu()
@@ -242,10 +265,12 @@ Door locks to control the application
             onUnregister = Action.unregister()
             ```
         - Page
+
         ```
         id = Store.static.pages.UserListPag.id
         ```
             - UserListPage
+
             ```
             title = Store.static.pages.UserListPage.title
             onOpenMenu = Action.openMenu()
@@ -276,6 +301,7 @@ Door locks to control the application
             - sections.title
         - View
             - TouchableHighlight
+
             ```
             onPress = onPressMenu
             ```
@@ -340,6 +366,7 @@ Property 들을 이용해서 구축
     - Text
         - this.props.title
     - TouchButton
+
     ```
     value = '등록하기'
     onPress = this.props.onRegister
@@ -362,6 +389,7 @@ Property 들을 이용해서 구축
 - View
     - View
         - TouchButton
+
         ```
         value = 'menu.png'
         type = 'img'
@@ -371,6 +399,7 @@ Property 들을 이용해서 구축
         - this.props.title
     - View
         - TouchButton
+
         ```
         value = 'unlock.png'
         type = 'img'
@@ -393,6 +422,7 @@ Property 들을 이용해서 구축
 ![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HistoryPage.PNG)
 #### Structur
 - HeaderLayout
+
 ```
 title = this.props.title
 leftIcon = 'menu.png'
@@ -401,6 +431,7 @@ onPressLeftIcon =  this.props.onOpenMenu
 onPressRightIcon =  this.props.onGoSearchPage
 ```
     - HistoryList
+
     ```
     histories = this.props.histories
     ```
@@ -422,6 +453,7 @@ onPressRightIcon =  this.props.onGoSearchPage
 ![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SearchPage.PNG)
 #### Structur
 - HeaderLayout
+
 ```
 title = this.props.title
 onPressLeftIcon =  this.props.onOpenMenu
@@ -431,6 +463,7 @@ leftIcon = 'back.png'
         - Text
             - "기간"
         - PeriodPicker
+
         ```
         onChangeTime= this.props.onChangeSearchOptions
         startTime = this.props.searchFilter.startTime
@@ -440,6 +473,7 @@ leftIcon = 'back.png'
         - Text
             - "이름"
         - Picker
+
         ```
         selectedValue = this.props.searchFilter.user
         onValueChange= this.props.onChangeSearchOptions
@@ -449,6 +483,7 @@ leftIcon = 'back.png'
         - Text
             - "상태"
         - Picker
+
         ```
         selectedValue = this.props.searchFilter.state
         onValueChange= this.props.onChangeSearchOptions
@@ -460,6 +495,7 @@ leftIcon = 'back.png'
             - Picker.item
                 - "인증실패"
     - TouchButton
+
     ```
     value = '검색'
     onPress = this.props.onSearch
@@ -485,6 +521,7 @@ leftIcon = 'back.png'
 ![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SearchResultPage.PNG)
 #### Structur
 - HeaderLayout
+
 ```
 title = this.props.title
 rightIcon = 'search.png'
@@ -493,6 +530,7 @@ onPressRightIcon =  this.props.onGoSearchPage
 onPressLeftIcon =  this.props.onOpenMenu
 ```
     - HistoryList
+
     ```
     histories = this.props.histories
     ```
@@ -561,6 +599,7 @@ onPressLeftIcon =  this.props.onOpenMenu
 
 ##### type == "text"
 - TouchableHighlight
+
 ```
 onPress = this.props.onPress
 ```
@@ -569,10 +608,12 @@ onPress = this.props.onPress
 
 ##### type == "text"
 - TouchableHighlight
+
 ```
 onPress = this.props.onPress
 ```
     - Image
+
     ```
     source={require(this.props.value)}
     ```
