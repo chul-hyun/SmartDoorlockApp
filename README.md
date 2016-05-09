@@ -91,7 +91,7 @@ Door locks to control the application
     {
         "text" | "img"
     }
-
+    ```
 
 ## Store Structur
 ```
