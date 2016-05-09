@@ -25,59 +25,94 @@ Door locks to control the application
 - TsLinter
 - Gulp
 
+## Types
+- AuthStateType
+    ```
+    "success" | "fail": required
+    ```
+- HistoryType
+    ```
+    {
+        "datetime": "number": required,
+        "state"   : AuthStateType : required,
+        "name"    : "string": required
+    }
+    ```
+- UserInfoType
+    ```
+    {
+        "registDate"     : "date": required,
+        "latestAuthDate" : "date": required,
+        "name"           : "string": required,
+        "key"            : "number": -1, /* 인증키 */
+    }
+    ```
+- MenuType
+    ```
+    {
+        "icon"  : "string" | null : null,
+        "name"  : "string": required,
+        "pageID": "number" : -1
+    }
+    ```
+- SectionType
+    ```
+    {
+        "title": "string": required,
+        "menus": ["number", ...]: []
+    }
+    ```
+- PageType
+    ```
+    {
+        "title": "string": required,
+        "id": "number": required
+    }
+    ```
+- SearchFilterType
+    ```
+    {
+        "startTime": "number" : -1,
+        "endTime" : "number" : -1,
+        "user": "string" | null : null,
+        "state": AuthStateType
+    }
+    ```
+
+
 ## Store Structur
 ```json
 {
     "static": {
         "title": "Smart Doorlock",
-        "menus": [{
-            "icon"  : "string",
-            "name"  : "string",
-            "pageID": "number"
-        }],
-        "sections": [{
-            "title": "string",
-            "menus": ["number", ...]
-        }],
+        "menus": [MenuType, ...],
+        "sections": [SectionType, ...],
         "pages": {
-            "pageName":{
-                "title": "string",
-                "id": "number"
-            }
+            "pageName":PageType, ...
         },
         "indexMenu": "number"
     },
-    "user": {
-        "registered"     : "boolean",
-        "registDate"     : "date",
-        "latestAuthDate" : "date",
-        "name"           : "string",
-        "key"            : "number", /* 인증키 */
-    },
-    "histories" : [{
-        "datetime": "number",
-        "state"   : "boolean",
-        "name"    : "string"
-    }, ...],
-    "users": [{
-        "name": "string",
-        "registDate": "date",
-        "latestAuthDate" : "date"
-    }, ...],
+    "user": UserInfoType,
+    "registered": "boolean",
+    "histories" : [historyType, ...],
+    "users": [UserInfoType, ...],
     "search": {
-        "filter": {
-            "startTime": "number",
-            "endTime" : "number",
-            "user": "string",
-            "state": "success | fail"
-        },
-        "result" : [{
-            "datetime": "number",
-            "state"   : "boolean",
-            "name"    : "string"
-        }, ...]
+        "filter": SearchFilterType,
+        "result" : [historyType, ...]
     }
     "currentPageID": "number"
+}
+```
+
+## Reducer Structur
+```json
+{
+    "static",
+    "user",
+    "histories",
+    "users",
+    "search",
+    "currentPageID"
 }
 ```
 
@@ -85,23 +120,27 @@ Door locks to control the application
 - REGISTER
 - UNREGISTER
 - SET_PAGE
+- OPEN_MENU
 - SEARCH
+- UNLOCK
+- SET_ALARM
+- SET_ALARM_SOUND
+- SET_NAME
+
 
 
 ## Action List
 - register()
-    - 우선 임시로 store.user.registered = true로 설정
+    - 우선 임시로 store.registered = true로 설정
 - unregister()
-    - 우선 임시로 store.user.registered = false로 설정
+    - 우선 임시로 store.registered = false로 설정
 - setPage(pageID:number)
 - openMenu()
-- search(filter: {})
-
-
-## Reducer Structur
-
-## Reducer List
-- reducerA
+- search(filter:{})
+- unlock()
+- setAlarm({"success", "fail"})
+- setAlarmSound()
+- setName()
 
 ## Containers
 
@@ -120,40 +159,50 @@ Door locks to control the application
         - Page ( id = Store.static.pages.InitPage.id )
             - InitPage (
                 title = Store.static.title,
-                registHandler = Action.register())
+                onRegister = Action.register())
         - Page ( id = Store.static.pages.MainPage.id )
             - MainPage (
-                title = Store.static.title)
+                title = Store.static.title,
+                onOpenMenu = Action.openMenu(),
+                onUnlock = Action.unlock())
         - Page ( id = Store.static.pages.HistoryPage.id )
             - HistoryPage (
                 title = Store.static.pages.HistoryPage.title,
                 histories = store.histories,
-                openMenuHandler = Action.openMenu(), goSearchPageHandler = Action.setPage(Store.static.pages.SearchPage.id))
+                onOpenMenu = Action.openMenu(), onGoSearchPage = Action.setPage(Store.static.pages.SearchPage.id))
         - Page ( id = Store.static.pages.SearchPage.id )
             - SearchPage (
                 title = Store.static.pages.SearchPage.title,
-                histories = store.histories,
                 users = store.users,
-                openMenuHandler = Action.openMenu(),
-                searchHandler = Action.search())
+                onOpenMenu = Action.openMenu(),
+                onSearch = Action.search())
         - Page ( id = Store.static.pages.SearchResultPage.id )
             - SearchResultPage (
                 title = Store.static.pages.SearchResultPage.title,
                 histories = Store.search.result,
-                openMenuHandler = Action.openMenu(),
-                goSearchPageHandler = Action.setPage(Store.static.pages.SearchPage.id))
+                onOpenMenu = Action.openMenu(),
+                onGoSearchPage = Action.setPage(Store.static.pages.SearchPage.id))
         - Page ( id = Store.static.pages.SetupPage.id )
             - SetupPage(
                 title = Store.static.pages.SetupPage.title,
+                onOpenMenu = Action.openMenu(),
+                setAllAlarmHandler = Action.setAlarm(),
+                setFailAlarmHandler = Action.setAlarm(),
+                setAlarmSoundHandler = Action.setAlarmSound()
                  )
         - Page ( id = Store.static.pages.MyPage.id )
             - MyPage(
                 title = Store.static.pages.MyPage.title,
+                onOpenMenu = Action.openMenu(),
                 name = Store.user.name,
                 registDate = Store.user.registDate,
                 latestAuthDate = Store.user.latestAuthDate,
-                changeNameHandler = ,
-                unregistHandler = )
+                changeNameHandler = Action.setName(),
+                onUnregister = Action.unregister())
+        - Page ( id = Store.static.pages.UserListPage.id )
+            - UserListPage(
+                title = Store.static.pages.UserListPage.title,
+                onOpenMenu = Action.openMenu())
 
 #### Property
 - title:string:required
@@ -256,17 +305,46 @@ Door locks to control the application
 - 없음
 
 #### Handler
-- registHandler
+- onRegister
+
+---
+### MainPage
+#### UI
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/MainPage.PNG)
+#### Structur
+- View
+    - View
+        - Image
+    - Text
+        - this.props.title
+    - View
+        - TouchButton (
+            value = 'unlock.png',
+            type = 'img',
+            onPress = this.props.onUnlock )
+
+#### Property
+- title:string:required
+
+#### State
+- 없음
+
+#### Handler
+- onOpenMenu
+- onUnlock
 
 ---
 ### HistoryPage
 #### UI
 ![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HistoryPage.PNG)
 #### Structur
-- HeaderLayout (title = this.props.title,
+- HeaderLayout (
+    title = this.props.title,
     rightIcon = 'search.png',
-    leftIcon = 'menu.png', touchRightIconHandler =  this.props.goSearchPageHandler)
-  - HistoryList (histories = this.props.histories )
+    leftIcon = 'menu.png',
+    onPressLeftIcon =  this.props.onOpenMenu,
+    onPressRightIcon =  this.props.onGoSearchPage)
+    - HistoryList (histories = this.props.histories )
 
 #### Property
 - title:string:required
@@ -276,7 +354,8 @@ Door locks to control the application
 - 없음
 
 #### Handler
-- goSearchPageHandler
+- onOpenMenu
+- onGoSearchPage
 
 ---
 ### SearchPage
@@ -285,31 +364,52 @@ Door locks to control the application
 #### Structur
 - HeaderLayout (
     title = this.props.title,
+    onPressLeftIcon =  this.props.onOpenMenu,
     leftIcon = 'back.png')
-  - View
-    - Text
-    - PeriodPicker
-  - View
-    - Text
-    - Picker (
-        selectedValue = this.state.searchName,
-        onValueChange= (searchName) => this.setState({searchName: searchName}))
-        - Picker.item (users를 mapping)
-  - TouchButton (value = '검색')
+    - View
+        - Text
+            - "기간"
+        - PeriodPicker (
+            onChangeTime= this.props.onChangeSearchOptions
+            startTime = this.props.startTime,
+            endTime = this.props.endTime)
+    - View
+        - Text
+            - "이름"
+        - Picker (
+            selectedValue = this.props.searchUser,
+            onValueChange= this.props.onChangeSearchOptions)
+            - Picker.item (users를 mapping)
+    - View
+        - Text
+            - "상태"
+        - Picker (
+            selectedValue = this.props.searchState,
+            onValueChange= this.props.onChangeSearchOptions)
+            - Picker.item
+                - "모든상태"
+            - Picker.item
+                - "인증성공"
+            - Picker.item
+                - "인증실패"
+  - TouchButton (value = '검색', onPress = this.props.onSearch)
 
 #### Property
 - title:string:required
-- histories
+- startTime
+- endTime
+- searchUser
+- searchState
 - users
 
 #### State
-- startTime
-- endTime
-- searchName
+- 없음
 
 #### Handler
-- searchHandler:(result:[])
-    - 검색시 검색 결과를 매개변수로 보냄.
+- onOpenMenu
+- onChangeSearchOptions
+- onSearch
+    - 검색 옵션을 매개변수로 보냄
 
 ---
 ### SearchResultPage
@@ -319,7 +419,9 @@ Door locks to control the application
 - HeaderLayout (
     title = this.props.title,
     rightIcon = 'search.png',
-    leftIcon = 'back.png', touchRightIconHandler =  this.props.goSearchPageHandler)
+    leftIcon = 'back.png',
+    onPressRightIcon =  this.props.onGoSearchPage,
+    onPressLeftIcon =  this.props.onOpenMenu)
   - HistoryList (histories = this.props.histories )
 
 #### Property
@@ -330,7 +432,8 @@ Door locks to control the application
 - 없음
 
 #### Handler
-- goSearchPageHandler
+- onOpenMenu
+- onGoSearchPage
 
 ---
 ### HistoryList
@@ -341,7 +444,7 @@ Door locks to control the application
 - ListView ( ... )
 
 #### Property
-- histories:[{name, datetime}]:[]
+- histories:[{name, datetime, state}]:[]
 
 #### State
 - 없음
@@ -360,10 +463,13 @@ Door locks to control the application
         - name
     - Text
         - printDatetime(datetime)
+    - View
+        - Image (상태에 따라 다른 이미지)
 
 #### Property
 - name:string
 - datetime:number
+- state:AuthStateType
 
 #### State
 - 없음
@@ -376,14 +482,17 @@ Door locks to control the application
 #### UI
 ![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/TouchButton1.PNG)
 ![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/TouchButton2.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/TouchButton3.PNG)
 
 #### Structur
-  - TouchableHighlight
+  - TouchableHighlight( onPress = this.props.onPress )
     - Text
       - this.props.value
 
 #### Property
-- value:string
+- value:string:required
+- onPress
+- type:"text | img":"text"
 
 #### State
 - 없음
@@ -417,7 +526,7 @@ Door locks to control the application
 - 없음
 
 #### Handler
-- touchRightIconHandler
+- onPressRightIcon
 
 ---
 ### HeaderLayout
@@ -444,8 +553,8 @@ Door locks to control the application
 - 없음
 
 #### Handler
-- touchRightIconHandler
-- touchLeftIconHandler
+- onPressRightIcon
+- onPressLeftIcon
 
 ---
 ### PeriodPicker
@@ -462,4 +571,4 @@ Door locks to control the application
 - 없음
 
 #### Handler
-- changeTimeHandler
+- onChangeTime
