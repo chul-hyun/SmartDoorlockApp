@@ -159,122 +159,122 @@ Door locks to control the application
 - View
     - SideMenu
 
-    ```
-    title = Store.static.title
-    menus = Store.static.menus를 변환한 값
-    sections = Store.static.sections
-    selectedMenu = Store.static.indexMenu
-    onPressMenu = Action.setPage()
-    ```
+        ```
+        title = Store.static.title
+        menus = Store.static.menus를 변환한 값
+        sections = Store.static.sections
+        selectedMenu = Store.static.indexMenu
+        onPressMenu = Action.setPage()
+        ```
     - Pages
 
-    ```
-    currentPageID = Store.currentPageID
-    ```
+        ```
+        currentPageID = Store.currentPageID
+        ```
         - Page
 
-        ```
-        id = Store.static.pages.InitPage.id
-        ```
+            ```
+            id = Store.static.pages.InitPage.id
+            ```
             - InitPage
 
-            ```
-            title = Store.static.title
-            onRegister = Action.register()
-            ```
+                ```
+                title = Store.static.title
+                onRegister = Action.register()
+                ```
         - Page
 
-        ```
-        id = Store.static.pages.MainPage.id
-        ```
+            ```
+            id = Store.static.pages.MainPage.id
+            ```
             - MainPage
 
-            ```
-            title = Store.static.title
-            onOpenMenu = Action.openMenu()
-            onUnlock = Action.unlock()
-            ```
+                ```
+                title = Store.static.title
+                onOpenMenu = Action.openMenu()
+                onUnlock = Action.unlock()
+                ```
         - Page
 
-        ```
-        id = Store.static.pages.HistoryPage.id
-        ```
+            ```
+            id = Store.static.pages.HistoryPage.id
+            ```
             - HistoryPage
 
-            ```
-            title = Store.static.pages.HistoryPage.title
-            histories = store.histories
-            onOpenMenu = Action.openMenu()
-            onGoSearchPage = Action.setPage(Store.static.pages.SearchPage.id)
-            ```
+                ```
+                title = Store.static.pages.HistoryPage.title
+                histories = store.histories
+                onOpenMenu = Action.openMenu()
+                onGoSearchPage = Action.setPage(Store.static.pages.SearchPage.id)
+                ```
         - Page
 
-        ```
-        id = Store.static.pages.SearchPage.id
-        ```
+            ```
+            id = Store.static.pages.SearchPage.id
+            ```
             - SearchPage
 
-            ```
-            title = Store.static.pages.SearchPage.title
-            users = store.users
-            searchFilter = Store.search.filter
-            onOpenMenu = Action.openMenu()
-            onSearch = Action.search()
-            ```
+                ```
+                title = Store.static.pages.SearchPage.title
+                users = store.users
+                searchFilter = Store.search.filter
+                onOpenMenu = Action.openMenu()
+                onSearch = Action.search()
+                ```
         - Page
 
-        ```
-        id = Store.static.pages.SearchResultPage.id
-        ```
+            ```
+            id = Store.static.pages.SearchResultPage.id
+            ```
             - SearchResultPage
 
-            ```
-            title = Store.static.pages.SearchResultPage.title
-            histories = Store.search.result
-            onOpenMenu = Action.openMenu()
-            onGoSearchPage = Action.setPage(Store.static.pages.SearchPage.id)
-            ```
+                ```
+                title = Store.static.pages.SearchResultPage.title
+                histories = Store.search.result
+                onOpenMenu = Action.openMenu()
+                onGoSearchPage = Action.setPage(Store.static.pages.SearchPage.id)
+                ```
         - Page
 
-        ```
-        id = Store.static.pages.SetupPage.id
-        ```
+            ```
+            id = Store.static.pages.SetupPage.id
+            ```
             - SetupPage
 
-            ```
-            title = Store.static.pages.SetupPage.title
-            onOpenMenu = Action.openMenu()
-            setAllAlarmHandler = Action.setAlarm()
-            setFailAlarmHandler = Action.setAlarm()
-            setAlarmSoundHandler = Action.setAlarmSound()
-            ```
+                ```
+                title = Store.static.pages.SetupPage.title
+                onOpenMenu = Action.openMenu()
+                setAllAlarmHandler = Action.setAlarm()
+                setFailAlarmHandler = Action.setAlarm()
+                setAlarmSoundHandler = Action.setAlarmSound()
+                ```
          - Page
 
-         ```
-         id = Store.static.pages.MyPage.id
-         ```
+             ```
+             id = Store.static.pages.MyPage.id
+             ```
             - MyPage
 
-            ```
-            title = Store.static.pages.MyPage.title
-            onOpenMenu = Action.openMenu()
-            name = Store.user.name
-            registDate = Store.user.registDate
-            latestAuthDate = Store.user.latestAuthDate
-            changeNameHandler = Action.setName()
-            onUnregister = Action.unregister()
-            ```
+                ```
+                title = Store.static.pages.MyPage.title
+                onOpenMenu = Action.openMenu()
+                name = Store.user.name
+                registDate = Store.user.registDate
+                latestAuthDate = Store.user.latestAuthDate
+                changeNameHandler = Action.setName()
+                onUnregister = Action.unregister()
+                ```
         - Page
 
-        ```
-        id = Store.static.pages.UserListPag.id
-        ```
+            ```
+            id = Store.static.pages.UserListPag.id
+            ```
             - UserListPage
 
-            ```
-            title = Store.static.pages.UserListPage.title
-            onOpenMenu = Action.openMenu()
-            ```
+                ```
+                title = Store.static.pages.UserListPage.title
+                onOpenMenu = Action.openMenu()
+                ```
 
 #### Property
 - title:string:required
@@ -302,9 +302,9 @@ Door locks to control the application
         - View
             - TouchableHighlight
 
-            ```
-            onPress = onPressMenu
-            ```
+                ```
+                onPress = onPressMenu
+                ```
                 - Image
                 - Text
             - ...
@@ -367,10 +367,10 @@ Property 들을 이용해서 구축
         - this.props.title
     - TouchButton
 
-    ```
-    value = '등록하기'
-    onPress = this.props.onRegister
-    ```
+        ```
+        value = '등록하기'
+        onPress = this.props.onRegister
+        ```
 
 #### Property
 - title:string:required
@@ -390,21 +390,21 @@ Property 들을 이용해서 구축
     - View
         - TouchButton
 
-        ```
-        value = 'menu.png'
-        type = 'img'
-        onPress = this.props.onOpenMenu
-        ```
+            ```
+            value = 'menu.png'
+            type = 'img'
+            onPress = this.props.onOpenMenu
+            ```
     - Text
         - this.props.title
     - View
         - TouchButton
 
-        ```
-        value = 'unlock.png'
-        type = 'img'
-        onPress = this.props.onUnlock
-        ```
+            ```
+            value = 'unlock.png'
+            type = 'img'
+            onPress = this.props.onUnlock
+            ```
 
 #### Property
 - title:string:required
@@ -423,18 +423,18 @@ Property 들을 이용해서 구축
 #### Structur
 - HeaderLayout
 
-```
-title = this.props.title
-leftIcon = 'menu.png'
-rightIcon = 'search.png'
-onPressLeftIcon =  this.props.onOpenMenu
-onPressRightIcon =  this.props.onGoSearchPage
-```
+    ```
+    title = this.props.title
+    leftIcon = 'menu.png'
+    rightIcon = 'search.png'
+    onPressLeftIcon =  this.props.onOpenMenu
+    onPressRightIcon =  this.props.onGoSearchPage
+    ```
     - HistoryList
 
-    ```
-    histories = this.props.histories
-    ```
+        ```
+        histories = this.props.histories
+        ```
 
 #### Property
 - title:string:required
@@ -454,40 +454,40 @@ onPressRightIcon =  this.props.onGoSearchPage
 #### Structur
 - HeaderLayout
 
-```
-title = this.props.title
-onPressLeftIcon =  this.props.onOpenMenu
-leftIcon = 'back.png'
-```
+    ```
+    title = this.props.title
+    onPressLeftIcon =  this.props.onOpenMenu
+    leftIcon = 'back.png'
+    ```
     - View
         - Text
             - "기간"
         - PeriodPicker
 
-        ```
-        onChangeTime= this.props.onChangeSearchOptions
-        startTime = this.props.searchFilter.startTime
-        endTime = this.props.searchFilter.endTime
-        ```
+            ```
+            onChangeTime= this.props.onChangeSearchOptions
+            startTime = this.props.searchFilter.startTime
+            endTime = this.props.searchFilter.endTime
+            ```
     - View
         - Text
             - "이름"
         - Picker
 
-        ```
-        selectedValue = this.props.searchFilter.user
-        onValueChange= this.props.onChangeSearchOptions
-        ```
-            - Picker.item (users를 mapping)
+            ```
+            selectedValue = this.props.searchFilter.user
+            onValueChange= this.props.onChangeSearchOptions
+            ```
+            - Picker.item(users를 mapping)
     - View
         - Text
             - "상태"
         - Picker
 
-        ```
-        selectedValue = this.props.searchFilter.state
-        onValueChange= this.props.onChangeSearchOptions
-        ```
+            ```
+            selectedValue = this.props.searchFilter.state
+            onValueChange= this.props.onChangeSearchOptions
+            ```
             - Picker.item
                 - "모든상태"
             - Picker.item
@@ -496,10 +496,10 @@ leftIcon = 'back.png'
                 - "인증실패"
     - TouchButton
 
-    ```
-    value = '검색'
-    onPress = this.props.onSearch
-    ```
+        ```
+        value = '검색'
+        onPress = this.props.onSearch
+        ```
 
 #### Property
 - title:string:required
@@ -522,18 +522,18 @@ leftIcon = 'back.png'
 #### Structur
 - HeaderLayout
 
-```
-title = this.props.title
-rightIcon = 'search.png'
-leftIcon = 'back.png'
-onPressRightIcon =  this.props.onGoSearchPage
-onPressLeftIcon =  this.props.onOpenMenu
-```
+    ```
+    title = this.props.title
+    rightIcon = 'search.png'
+    leftIcon = 'back.png'
+    onPressRightIcon =  this.props.onGoSearchPage
+    onPressLeftIcon =  this.props.onOpenMenu
+    ```
     - HistoryList
 
-    ```
-    histories = this.props.histories
-    ```
+        ```
+        histories = this.props.histories
+        ```
 
 #### Property
 - title:string:required
@@ -600,23 +600,23 @@ onPressLeftIcon =  this.props.onOpenMenu
 ##### type == "text"
 - TouchableHighlight
 
-```
-onPress = this.props.onPress
-```
+	```
+	onPress = this.props.onPress
+	```
     - Text
         - this.props.value
 
 ##### type == "text"
 - TouchableHighlight
 
-```
-onPress = this.props.onPress
-```
+	```
+	onPress = this.props.onPress
+	```
     - Image
 
-    ```
-    source={require(this.props.value)}
-    ```
+        ```
+        source={require(this.props.value)}
+        ```
 
 #### Property
 - value:string:required
