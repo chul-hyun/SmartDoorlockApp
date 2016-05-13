@@ -1,13 +1,18 @@
-/// <reference path="../../main.d.ts"/>
-
-export const SET_PAGE = 'SET_PAGE';
-export type SET_PAGE_ACTION = {type: string, id: PageID}
+/// <reference path="../../definition/main.d.ts"/>
 
 import { PageID } from '../types/index';
 
-export function setPage(id: PageID): SET_PAGE_ACTION {
-    return {
-        type : SET_PAGE,
-        id   : id
-    };
-};
+export namespace users {
+    export enum TYPES {
+        SET_PAGE
+    }
+
+    export type ACTION = {type: TYPES, id: PageID}
+
+    export function setPage(id: PageID): ACTION {
+        return {
+            type : TYPES.SET_PAGE,
+            id   : id
+        };
+    }
+}

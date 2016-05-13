@@ -1,4 +1,4 @@
-/// <reference path="../../main.d.ts"/>
+/// <reference path="../../definition/main.d.ts"/>
 
 import { SET_PAGE, SET_PAGE_ACTION } from '../actions/currentPageID';
 

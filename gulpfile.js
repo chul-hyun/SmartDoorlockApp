@@ -1,85 +1,74 @@
-const gulp         = require('gulp');
-const ts           = require('gulp-typescript');
-const merge        = require('merge2');
-const clean        = require('gulp-clean');
-const through      = require('through2');
-const path         = require('path');
-const fs           = require('fs')
-const gutil        = require("gulp-util");
+const gulp    = require('gulp');
+const ts      = require('gulp-typescript');
+const merge   = require('merge2');
+const clean   = require('gulp-clean');
+const through = require('through2');
+const path    = require('path');
+const fs      = require('fs')
+const gutil   = require("gulp-util");
+const mkdirp  = require('mkdirp');
 
 var srcDir    = 'src';
 var builtDir  = 'built';
-var defineDir = 'define'
+var defineDir = 'definition'
 
 var srcFile     = [`${srcDir}/**/*.tsx`, `${srcDir}/**/*.ts`];
 var builtFile   = [`${builtDir}/**/*.tsx`, `${builtDir}/**/*.ts`];
-var dtsFile     = [`${defineDir}/**/*.d.ts`];
 var dtsMainFile = `${defineDir}/main.d.ts`;
+var dtsFile     = [`${defineDir}/**/*.d.ts`];
 
-gulp.task('source_build', ['clean_build_file', 'define_build'], ()=> {
+
+
+gulp.task('delete_build_file', [], ()=>{
+    return gulp.src(builtDir).pipe(clean({force: true}));
+});
+
+gulp.task('delete_define_file', [], ()=>{
+    return gulp.src(defineDir).pipe(clean({force: true}));
+});
+
+gulp.task('delete', ['delete_define_file', 'delete_build_file']);
+
+gulp.task('copy', ['delete'], ()=>{
+    return gulp.src(`${srcDir}/**/*`, {base: srcDir}).pipe(gulp.dest(builtDir));
+})
+
+gulp.task('add_typings', ['copy'], (cb)=>{
+    addText(dtsMainFile, '\n/// <reference path="..\\typings\\browser.d.ts"/>\n', cb);
+});
+
+gulp.task('define_create', ['add_typings'], ()=> {
+    var tsProject = ts.createProject('tsconfig.json', {declaration: true});
+    var tsResult = gulp.src(builtFile).pipe(ts(tsProject));
+
+    return tsResult.dts.pipe(gulp.dest(defineDir));
+});
+
+gulp.task('main_define_create', ['define_create'], ()=> {
+    return gulp.src(dtsFile.concat([`!${dtsMainFile}`])).pipe(createAppDts(defineDir, dtsMainFile));
+});
+
+gulp.task('source_build', ['copy'], ()=> {
     var tsProject = ts.createProject('tsconfig.json');
-    var tsResult = gulp.src(srcFile).
+    var tsResult = gulp.src(builtFile).
         pipe(ts(tsProject));
 
     return tsResult.js.pipe(gulp.dest(builtDir));
 });
 
-gulp.task('clean_build_file', ()=>{
-    return gulp.src(builtFile).
-        pipe(clean({force: true}));
+gulp.task('default', ['source_build', 'main_define_create']);
+
+gulp.task('watch', ['default'], ()=> {
+    gulp.watch(srcDir, ['default']);
 });
 
-gulp.task('add_typings', ['main_define_create'], ()=>{
-    return gulp.src(dtsMainFile).pipe(addText('\n/// <reference path="typings/browser.d.ts"/>\n'));
-});
-
-gulp.task('main_define_create', ['define_delete'], ()=> {
-    return gulp.src(builtFile).pipe(createAppDts(builtDir, dtsMainFile));
-});
-
-gulp.task('define_delete', [], ()=>{
-    return gulp.src(dtsMainFile).pipe(clean({force: true}));
-});
-
-gulp.task('define_create', ['add_typings'], ()=> {
-    var tsProject = ts.createProject('tsconfig.json', {noEmitOnError : true});
-    var tsResult = gulp.src(srcDir).
-        pipe(ts(tsProject));
-
-    return tsResult.dts.pipe(gulp.dest(builtDir));
-});
-
-gulp.task('watch', ['source_build'], ()=> {
-  gulp.watch(srcDir, ['source_build']);
-});
-
-gulp.task('default', ['source_build']);
-
-
-function createAppDts( root, filePath){
+function createAppDts(src, filePath){
     function trans(file, enc, cb){
-        console.log(`\n/// <reference path="${(path.relative(root, file.path)).replace(/\.[^\.]+$/, '.d.ts')}"/>\n`);
-        /*var stream = fs.createWriteStream(filePath, {flags: 'a'});
+        //console.log(`\n/// <reference path="${(path.relative(src, file.path)).replace(/\.[^\.]+$/, '.d.ts')}"/>\n`);
+        var stream = fs.createWriteStream(filePath, {flags: 'a'});
             stream.once('open', (fd)=> {
 
-                stream.write(`\n/// <reference path="${(path.relative(root, file.path)).replace(/\.[^\.]+$/, '.d.ts')}"/>\n`);
-                stream.end();
-*/
-                // make sure the file goes through the next gulp plugin
-                this.push(file);
-                // tell the stream engine that we are done with this file
-                cb();
-        //    });
-    }
-    return through.obj(trans);
-}
-
-function addText(text){
-    function trans(file, enc, cb){
-        var stream = fs.createWriteStream(file.path, {flags: 'a'});
-            stream.once('open', (fd)=> {
-                //console.log("/// <reference path=\"" + path.relative(root, file.path) + "\"/>\n");
-                stream.write(text);
+                stream.write(`\n/// <reference path="${path.relative(src, file.path)}"/>\n`);
                 stream.end();
 
                 // make sure the file goes through the next gulp plugin
@@ -89,4 +78,17 @@ function addText(text){
             });
     }
     return through.obj(trans);
+}
+
+function addText(filePath, text, cb){
+    mkdirp(path.dirname(filePath), (err)=> {
+        if (err) console.error(err)
+        else{
+            var stream = fs.createWriteStream(filePath, {flags: 'a'});
+            stream.once('open', (fd)=> {
+                stream.end(text);
+                cb();
+            });
+        }
+    });
 }

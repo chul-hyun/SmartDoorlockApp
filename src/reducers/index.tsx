@@ -1,4 +1,4 @@
-/// <reference path="../../main.d.ts"/>
+/// <reference path="../../definition/main.d.ts"/>
 
 import { combineReducers } from 'redux';
 

@@ -1,4 +1,4 @@
-/// <reference path="../../typings/browser.d.ts"/>
+/// <reference path="../../definition/main.d.ts"/>
 
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';

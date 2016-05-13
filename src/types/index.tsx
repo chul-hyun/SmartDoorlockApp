@@ -1,4 +1,4 @@
-/// <reference path="../../typings/browser.d.ts"/>
+/// <reference path="../../definition/main.d.ts"/>
 
 export enum AuthState {
     Success,

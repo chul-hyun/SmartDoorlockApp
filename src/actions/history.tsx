@@ -2,7 +2,7 @@
 
 import { PageID } from '../types/index';
 
-export namespace search {
+export namespace history {
     export enum TYPES {
         SET_PAGE
     }

@@ -1,10 +1,12 @@
-/// <reference path="../../main.d.ts"/>
+/// <reference path="../../definition/actions/currentPageID.d.ts"/>
 
-export default function counter(currentPageID = 0, action: SET_PAGE_ACTION) {
-  switch (action.type) {
-  case SET_PAGE:
-    return action.id;
-  default:
-    return currentPageID;
+import * as TTT from '../actions/currentPageID';
+
+export default function counter(id = 0, action: CurrentPageID.ACTION) {
+    switch (action.type) {
+        case CurrentPageID.SET_PAGE:
+        return action.id;
+    default:
+        return id;
   }
 };

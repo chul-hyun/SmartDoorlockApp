@@ -1,4 +1,4 @@
-/// <reference path="../../main.d.ts"/>
+/// <reference path="../../definition/main.d.ts"/>
 
 import * as React from 'react-native';
 import {

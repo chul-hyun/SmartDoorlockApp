@@ -1,4 +1,4 @@
-/// <reference path="../../main.d.ts"/>
+/// <reference path="../../definition/main.d.ts"/>
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -10,17 +10,17 @@ import {
   View,
   TouchableHighlight,
 } from 'react-native';
+
 import { PropTypes } from 'react';
 import { Store } from '../types/index';
 
 import * as currentPageIDActionCreators from '../actions/currentPageID';
-import * as currentPageIDActionCreatorsType from '../actions/currentPageID.d';
 
 import { Page } from '../components/Page';
 import { Pages } from '../components/Pages';
 
 interface TDispatchProps {
-    currentPageIDActions: currentPageIDActionCreatorsType
+
 }
 
 export interface AppPropType {
