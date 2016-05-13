@@ -1,8 +1,11 @@
+/// <reference path="../../main.d.ts"/>
+
 import { combineReducers } from 'redux';
-import counter from './counter';
+
+import currentPageID from './currentPageID';
 
 const rootReducer = combineReducers({
-  counter
+    currentPageID
 });
 
 export default rootReducer;

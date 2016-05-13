@@ -1,11 +1,12 @@
 {
   "name": "ReactNativeTS",
   "version": false,
-  "dependencies": {
-    "redux": "registry:npm/redux#3.0.6+20160214194820"
-  },
+  "dependencies": {},
   "ambientDependencies": {
-    "react": "registry:dt/react#0.14.0+20160412154040",
-    "react-native": "registry:dt/react-native#0.19.0+20160501140141"
+    "react": "registry:dt/react#0.14.0+20160423065914",
+    "react-native": "registry:dt/react-native#0.19.0+20160501140141",
+    "react-redux": "registry:dt/react-redux#4.4.0+20160501125835",
+    "redux": "registry:dt/redux#3.3.1+20160326112656",
+    "redux-thunk": "registry:dt/redux-thunk#2.0.1+20160317120654"
   }
 }

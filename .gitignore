@@ -28,6 +28,7 @@ project.xcworkspace
 
 #tsd
 typings
+*.d.ts
 
 # Android/IJ
 #

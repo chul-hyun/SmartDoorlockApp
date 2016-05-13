@@ -8,14 +8,14 @@ Door locks to control the application
 [view](https://appetize.io/embed/qwbfgvuq39h0bhyhdfteuqrurw?device=nexus5&scale=75&orientation=portrait&osVersion=6.0)
 
 ## TODO LIST
-- [ ] Action, Reducer 설계
-- [ ] 인증의 성공과 실패부분을 히스토리 UI에서 볼수있도록
-- [ ] 설계에 변경된 UI를 적용
-- [ ] HeaderLayout와 sideMenu의 통합고려
-- [ ] MyPage 설계
-- [ ] 핸들러는 store값을 바꾸게.. 설계 (정방향으로..;;)
-- [ ] Action을 모두 root태그에서 처리하는게 옳은가?
-- [ ] Store -> State를 모두 root태그에서 처리 및 전달하는게 옳은가?
+- [x] Action, Reducer 설계
+- [x] 인증의 성공과 실패부분을 히스토리 UI에서 볼수있도록
+- [x] 설계에 변경된 UI를 적용
+- [x] HeaderLayout와 sideMenu의 통합고려
+- [x] MyPage 설계
+- [x] 핸들러는 store값을 바꾸게.. 설계 (정방향으로..;;)
+- [x] Action을 모두 root태그에서 처리하는게 옳은가?
+- [x] Store -> State를 모두 root태그에서 처리 및 전달하는게 옳은가?
 
 
 ## Tec
@@ -96,28 +96,31 @@ Door locks to control the application
 ## Store Structur
 ```
 {
-    "static": {
-        "title": "Smart Doorlock",
-        "menus": [MenuType],
-        "sections": [SectionType],
-        "pages": {
-            "pageName":PageType, ...
-        },
-        "indexMenu": "number"
+    static: {
+        title: "Smart Doorlock",
+        pages: [PageType],
     },
-    "user": UserInfoType,
-    "registered": "boolean",
-    "histories" : [historyType],
-    "users": [UserInfoType],
-    "search": {
-        "filter": SearchFilterType,
-        "result" : [historyType]
+    user: {
+        info       : UserInfoType,
+        registered : boolean
+    },
+    histories : [HistoryType],
+    users     : [UserInfoType],
+    search    : {
+        filter : SearchFilterType,
+        result : [HistoryType]
     }
-    "currentPageID": "number",
-    "setting": {
-        "successAlram": "boolean",
-        "failAlram": "boolean",
-        "alramSound": ?
+    currentPageID : number,
+    setting       : {
+        successAlram : boolean,
+        failAlram    : boolean,
+        alramSound   : ?
+    },
+    menu: {
+        items       : [MenuType],
+        sections    : [SectionType],
+        opened      : boolean
+        currentItem : number
     }
 }
 ```
@@ -131,19 +134,37 @@ Door locks to control the application
     "users",
     "search",
     "currentPageID"
+    "setting",
+    "menu"
 }
 ```
 
 ## Action Types
-- REGISTER
-- UNREGISTER
-- SET_PAGE
-- OPEN_MENU
-- SEARCH
+- CREATE
+- SELECT
+- UPDATE
+- DELETE
+
+- user
+    - REGISTER
+    - UNREGISTER
+- histories
+- users
+- search
+    - SEARCH
+- currentPageID
+    - SET_PAGE
+- setting
+    - SET_ALARM
+    - SET_ALARM_SOUND
+    - SET_NAME
+- menu
+    - OPEN_MENU
+
 - UNLOCK
-- SET_ALARM
-- SET_ALARM_SOUND
-- SET_NAME
+
+-
+
 
 
 
@@ -160,6 +181,7 @@ Door locks to control the application
 - setAlarm({"success", "fail"})
 - setAlarmSound()
 - setName()
+- loadHistories()
 
 ## Containers
 
@@ -173,9 +195,10 @@ Door locks to control the application
 
         ```
         title        = Store.static.title
-        menus        = Store.static.menus를 변환한 값
-        sections     = Store.static.sections
-        selectedMenu = Store.static.indexMenu
+        menus        = Store.Store.menu.items
+        sections     = Store.store.menu.sections
+        selectedMenu = Store.menu.currentItem
+        opened       = Store.menu.opened
         onPressMenu  = Action.setPage()
         ```
     - Pages
@@ -186,7 +209,7 @@ Door locks to control the application
         - Page
 
             ```
-            id = Store.static.pages.InitPage.id
+            id = getPage("InitPage").idgetPage("InitPage").id
             ```
             - InitPage
 
@@ -197,7 +220,7 @@ Door locks to control the application
         - Page
 
             ```
-            id = Store.static.pages.MainPage.id
+            id = getPage("MainPage").id
             ```
             - MainPage
 
@@ -209,25 +232,26 @@ Door locks to control the application
         - Page
 
             ```
-            id = Store.static.pages.HistoryPage.id
+            id = getPage("HistoryPage").id
             ```
             - HistoryPage
 
                 ```
-                title          = Store.static.pages.HistoryPage.title
-                histories      = store.histories
-                onOpenMenu     = Action.openMenu()
-                onGoSearchPage = Action.setPage(Store.static.pages.SearchPage.id)
+                title           = getPage("HistoryPage").title
+                histories       = store.histories
+                onLoadHistories = Acton.loadHistories()
+                onOpenMenu      = Action.openMenu()
+                onGoSearchPage  = Action.setPage(getPage("SearchPage").id)
                 ```
         - Page
 
             ```
-            id = Store.static.pages.SearchPage.id
+            id = getPage("SearchPage").id
             ```
             - SearchPage
 
                 ```
-                title                = Store.static.pages.SearchPage.title
+                title                = getPage("SearchPage").title
                 users                = store.users
                 searchFilter         = Store.search.filter
                 onOpenMenu           = Action.openMenu()
@@ -237,25 +261,25 @@ Door locks to control the application
         - Page
 
             ```
-            id = Store.static.pages.SearchResultPage.id
+            id = getPage("SearchResultPage").id
             ```
-            - SearchResultPage
+            - HistoryPage
 
                 ```
-                title          = Store.static.pages.SearchResultPage.title
+                title          = getPage("SearchResultPage").title
                 histories      = Store.search.result
                 onOpenMenu     = Action.openMenu()
-                onGoSearchPage = Action.setPage(Store.static.pages.SearchPage.id)
+                onGoSearchPage = Action.setPage(getPage("SearchPage").id)
                 ```
         - Page
 
             ```
-            id = Store.static.pages.SetupPage.id
+            id = getPage("SetupPage").id
             ```
             - SetupPage
 
                 ```
-                title           = Store.static.pages.SetupPage.title
+                title           = getPage("SetupPage").title
                 setting         = Store.setting
                 onOpenMenu      = Action.openMenu()
                 onChangeSetting = Action.setSetting()
@@ -263,12 +287,12 @@ Door locks to control the application
         - Page
 
              ```
-             id = Store.static.pages.MyPage.id
+             id = getPage("MyPage").id
              ```
             - MyPage
 
                 ```
-                title        = Store.static.pages.MyPage.title
+                title        = getPage("MyPage").title
                 user         = Store.user
                 onOpenMenu   = Action.openMenu()
                 onChangeName = Action.setName()
@@ -277,12 +301,12 @@ Door locks to control the application
         - Page
 
             ```
-            id = Store.static.pages.UserListPag.id
+            id = getPage("UserListPag.id
             ```
             - UserListPage
 
                 ```
-                title      = Store.static.pages.UserListPage.title
+                title      = getPage("UserListPage").title
                 users      = Store.users
                 onOpenMenu = Action.openMenu()
                 ```
@@ -324,6 +348,7 @@ Property 들을 이용해서 구축
 
 #### Property
 - title:string
+- opened:boolean
 - menus:[MenuType]
 - sections:[SectionType]
 - selectedMenu:number
@@ -431,6 +456,7 @@ Property 들을 이용해서 구축
 ### HistoryPage
 #### UI
 ![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/HistoryPage.PNG)
+![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SearchResultPage.PNG)
 #### Structur
 - HeaderLayout
 
@@ -525,37 +551,6 @@ Property 들을 이용해서 구축
 - onChangeSearchOption
 - onSearch
     - 검색 옵션을 매개변수로 보냄
-
----
-### SearchResultPage
-#### UI
-![UI](https://raw.githubusercontent.com/qkrcjfgus33/SmartDoorlockApp/master/UI/SearchResultPage.PNG)
-#### Structur
-- HeaderLayout
-
-    ```
-    title            = this.props.title
-    rightIcon        = 'search.png'
-    leftIcon         = 'back.png'
-    onPressRightIcon = this.props.onGoSearchPage
-    onPressLeftIcon  = this.props.onOpenMenu
-    ```
-    - HistoryList
-
-        ```
-        histories = this.props.histories
-        ```
-
-#### Property
-- title:string:required
-- histories:[HistoryType]:[]
-
-#### State
-- 없음
-
-#### Handler
-- onOpenMenu
-- onGoSearchPage
 
 ---
 ### SetupPage
