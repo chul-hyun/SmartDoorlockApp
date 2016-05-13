@@ -1,5 +1,3 @@
-/// <reference path="../../definition/main.d.ts"/>
-
 import { combineReducers } from 'redux';
 
 import currentPageID from './currentPageID';

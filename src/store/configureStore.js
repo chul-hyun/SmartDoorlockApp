@@ -1,12 +1,8 @@
-/// <reference path="../../definition/main.d.ts"/>
-
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import reducer from '../reducers';
 
-import { Store } from '../types/index';
-
-export default function configureStore(initialState:Store) {
+export default function configureStore(initialState) {
   const store = createStore(
     reducer,
     initialState,

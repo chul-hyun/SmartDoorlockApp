@@ -2,8 +2,8 @@
 
 import React, { Component, AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
-import App from './built/containers/App';
-import configureStore from './built/store/configureStore';
+import App from './src/containers/App';
+import configureStore from './src/store/configureStore';
 
 const store = configureStore();
 
@@ -17,4 +17,4 @@ class ReduxCounterUniversal extends Component {
   }
 }
 
-AppRegistry.registerComponent('DoorlockApp', () => ReduxCounterUniversal);
+AppRegistry.registerComponent('DoorlockApp', () =>ReduxCounterUniversal);
