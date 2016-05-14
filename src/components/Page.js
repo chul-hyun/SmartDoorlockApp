@@ -6,7 +6,6 @@ import React, {
 
 export class Page extends Component {
     render() {
-        console.log(this.props.currentPageID);
         return (
             <View>
                 {this.props.children}

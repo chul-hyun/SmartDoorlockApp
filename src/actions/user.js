@@ -1,18 +1,16 @@
-/// <reference path="../../definition/main.d.ts"/>
+export const TYPES = {
+    REGISTER   : 'REGISTER',
+    UNREGISTER : 'UNREGISTER'
+}
 
-import { PageID } from '../types/index';
+export function register(){
+    return {
+        type : TYPES.REGISTER
+    };
+}
 
-export namespace user {
-    export enum TYPES {
-        SET_PAGE
-    }
-
-    export type ACTION = {type: TYPES, id: PageID}
-
-    export function setPage(id: PageID): ACTION {
-        return {
-            type : TYPES.SET_PAGE,
-            id   : id
-        };
-    }
+export function unregister(){
+    return {
+        type : TYPES.UNREGISTER
+    };
 }

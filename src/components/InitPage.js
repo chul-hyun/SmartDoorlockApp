@@ -5,20 +5,23 @@ import React, {
     Text
 } from 'react-native';
 
+import { TouchButton } from '../components';
+
 export class InitPage extends Component {
     render() {
-        console.log(this.props.currentPageID);
+        let { title, onRegister } = this.props;
         return (
             <View>
-                <Text></Text>
-                <TouchButton></TouchButton>
+                <Text>{title}</Text>
+                <TouchButton value={"등록하기"} onPress={onRegister}></TouchButton>
             </View>
         );
     }
 }
 
 InitPage.propTypes = {
-    id: PropTypes.number.isRequired
+    title: PropTypes.string.isRequired,
+    onRegister: PropTypes.func
 }
 
 InitPage.defaultProps = {

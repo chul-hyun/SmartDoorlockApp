@@ -1,5 +1,5 @@
-export var TYPES = {
-    SET_PAGE : 1
+export const TYPES = {
+    SET_PAGE : 'SET_PAGE'
 }
 
 export function setPage(id){

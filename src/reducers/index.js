@@ -1,9 +1,11 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutablejs';
 
-import currentPageID from './currentPageID';
+import page from './page';
+import user from './user';
 
 const rootReducer = combineReducers({
-    currentPageID
+    page,
+    user
 });
 
 export default rootReducer;

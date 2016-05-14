@@ -4,8 +4,9 @@ import React, { Component, AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
 import App from './src/containers/App';
 import configureStore from './src/store/configureStore';
+import Immutable from 'immutable';
 
-const store = configureStore();
+const store = configureStore(Immutable.fromJS({}));
 
 class ReduxCounterUniversal extends Component {
   render() {
@@ -17,4 +18,4 @@ class ReduxCounterUniversal extends Component {
   }
 }
 
-AppRegistry.registerComponent('DoorlockApp', () =>ReduxCounterUniversal);
+AppRegistry.registerComponent('DoorlockApp', ()=> ReduxCounterUniversal);

@@ -1,12 +1,16 @@
-/// <reference path="../../definition/main.d.ts"/>
+import { createReducer } from 'redux-immutablejs'
+import Immutable from 'immutable';
 
-import { SET_PAGE, SET_PAGE_ACTION } from '../actions/currentPageID';
+import { TYPES } from '../actions/user';
 
-export default function counter(currentPageID = 0, action: SET_PAGE_ACTION) {
-  switch (action.type) {
-  case SET_PAGE:
-    return action.id;
-  default:
-    return currentPageID;
-  }
-};
+const initialState = Immutable.Map()
+
+export default createReducer(initialState, {
+    [TYPES.REGISTER]: (user) => user.merge({
+        registered: true
+    }),
+
+    [TYPES.UNREGISTER]: (user) => user.merge({
+        registered: false
+    })
+});
