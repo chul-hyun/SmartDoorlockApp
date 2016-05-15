@@ -1,7 +1,6 @@
-export const TYPES = {
-    REGISTER   : 'REGISTER',
-    UNREGISTER : 'UNREGISTER'
-}
+'use strict';
+
+import TYPES from './types';
 
 export function register(){
     return {

@@ -1,6 +1,8 @@
-export const TYPES = {
-    SET_PAGE : 'SET_PAGE'
-}
+'use strict';
+
+import TYPES from './types';
+import store from '../store';
+import { pages } from '../static';
 
 export function setPage(id){
     return {

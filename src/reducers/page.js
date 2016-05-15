@@ -1,14 +1,33 @@
 import { createReducer } from 'redux-immutablejs'
 import Immutable from 'immutable';
 
-import { TYPES } from '../actions/page';
+import store from '../store';
+import { pages } from '../static';
 
-const initialState = Immutable.Map()
+import TYPES from '../actions/types';
+
+const initialState = Immutable.Map({
+    currentPageID: 1
+})
 
 export default createReducer(initialState, {
-    [TYPES.SET_PAGE](page, id){
+    [TYPES.SET_PAGE]: (page, action)=> {
+        var state = store.getState().toJS();
+
+        if(state.user.registered && action.id == pages.initPage.id){
+            return page.merge({
+                currentPageID: pages.mainPage.id
+            });
+        }
+
+        if(!state.user.registered &&  action.id == pages.mainPage.id){
+            return page.merge({
+                currentPageID: pages.initPage.id
+            });
+        }
+
         return page.merge({
-            currentPageID: id
-        })
+            currentPageID: action.id
+        });
     }
 })

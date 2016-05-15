@@ -3,10 +3,7 @@
 import React, { Component, AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
 import App from './src/containers/App';
-import configureStore from './src/store/configureStore';
-import Immutable from 'immutable';
-
-const store = configureStore(Immutable.fromJS({}));
+import store from './src/store';
 
 class ReduxCounterUniversal extends Component {
   render() {

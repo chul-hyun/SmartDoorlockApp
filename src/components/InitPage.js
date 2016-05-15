@@ -13,15 +13,15 @@ export class InitPage extends Component {
         return (
             <View>
                 <Text>{title}</Text>
-                <TouchButton value={"등록하기"} onPress={onRegister}></TouchButton>
+                <TouchButton value={'등록하기'} onPress={onRegister}></TouchButton>
             </View>
         );
     }
 }
 
 InitPage.propTypes = {
-    title: PropTypes.string.isRequired,
-    onRegister: PropTypes.func
+    title      : PropTypes.string.isRequired,
+    onRegister : PropTypes.func
 }
 
 InitPage.defaultProps = {
