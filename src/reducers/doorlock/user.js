@@ -15,5 +15,7 @@ export default createReducer(initialState, {
 
     [TYPES.UNREGISTER]: (user) => user.mergeDeep({
         registered: false
-    })
+    }),
+
+    [TYPES.INIT]: (user, action) => user.mergeDeep(action.user)
 });

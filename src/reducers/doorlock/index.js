@@ -1,17 +1,19 @@
+
 'use strict';
 
 import { combineReducers } from 'redux-immutablejs';
-
-import page from './page';
-import user from './user';
 
 import doorlock from './doorlock';
 
 import initialState from './initialState';
 
+import menu from './menu'
+import page from './page'
+import user from './user'
+
+
 const childReducer = combineReducers({
-    page,
-    user
+    menu,page,user
 });
 
 export default function(state = initialState, action){

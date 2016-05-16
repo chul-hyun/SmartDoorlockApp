@@ -16,9 +16,12 @@ import {
     MainPage
 } from '../components';
 
-import * as menuActionCreators from '../actions/menu';
-import * as pageActionCreators from '../actions/page';
-import * as userActionCreators from '../actions/user';
+import {
+    doorlockActionCreators,
+    menuActionCreators,
+    pageActionCreators,
+    userActionCreators
+} from '../actions/doorlock';
 
 import * as staticStore from '../static';
 
@@ -55,9 +58,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        menuActions: bindActionCreators(menuActionCreators, dispatch),
-        pageActions: bindActionCreators(pageActionCreators, dispatch),
-        userActions: bindActionCreators(userActionCreators, dispatch),
+        doorloackActions : bindActionCreators(doorlockActionCreators, dispatch),
+        menuActions      : bindActionCreators(menuActionCreators, dispatch),
+        pageActions      : bindActionCreators(pageActionCreators, dispatch),
+        userActions      : bindActionCreators(userActionCreators, dispatch)
     }
 }
 
