@@ -2,6 +2,9 @@
 import { InitPage as _InitPage } from './InitPage';
 export const InitPage = _InitPage;
 
+import { LoadingPage as _LoadingPage } from './LoadingPage';
+export const LoadingPage = _LoadingPage;
+
 import { MainPage as _MainPage } from './MainPage';
 export const MainPage = _MainPage;
 

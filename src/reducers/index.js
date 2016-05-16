@@ -1,11 +1,9 @@
 import { combineReducers } from 'redux-immutablejs';
 
-import page from './page';
-import user from './user';
+import doorlock from './doorlock';
 
 const rootReducer = combineReducers({
-    page,
-    user
+    doorlock
 });
 
 export default rootReducer;

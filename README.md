@@ -8,16 +8,12 @@ Door locks to control the application
 [view](https://appetize.io/embed/qwbfgvuq39h0bhyhdfteuqrurw?device=nexus5&scale=75&orientation=portrait&osVersion=6.0)
 
 ## TODO LIST
-- [x] Action, Reducer 설계
-- [x] 인증의 성공과 실패부분을 히스토리 UI에서 볼수있도록
-- [x] 설계에 변경된 UI를 적용
-- [x] HeaderLayout와 sideMenu의 통합고려
-- [x] MyPage 설계
-- [x] 핸들러는 store값을 바꾸게.. 설계 (정방향으로..;;)
-- [x] Action을 모두 root태그에서 처리하는게 옳은가?
-- [x] Store -> State를 모두 root태그에서 처리 및 전달하는게 옳은가?
-
-
+- [ ] LoadingPage 제작
+- [ ] action에 비동기 구문을 넣고 컨트롤
+- [ ] README.md 파일 수정
+- [ ] SideMenu 제작
+- [ ] immutable 데이터를 react에서 직접 사용되도록 수정 (delete toJS())
+- [ ] 고정 데이터와 정적데이터의 설계를 다시하자. ( action과의 의존성 줄이기 )
 ## Tec
 - React Native
 - Redux

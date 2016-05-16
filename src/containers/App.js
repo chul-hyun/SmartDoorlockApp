@@ -16,58 +16,30 @@ import {
     MainPage
 } from '../components';
 
+import * as menuActionCreators from '../actions/menu';
 import * as pageActionCreators from '../actions/page';
 import * as userActionCreators from '../actions/user';
 
 import * as staticStore from '../static';
 
 class App extends Component {
-    regist(){
-        let {
-            pageActions,
-            userActions
-        } = this.props
+    componentWillMount(){
 
-        userActions.register();
-        pageActions.setPage(staticStore.pages.mainPage.id);
     }
-
-    unlock(){
-        let {
-            pageActions,
-            userActions
-        } = this.props
-
-        userActions.unregister();
-        pageActions.setPage(staticStore.pages.initPage.id);
-    }
-
-    openMenu(){
-        let {
-            pageActions,
-            userActions
-        } = this.props
-
-        userActions.unregister();
-        pageActions.setPage(staticStore.pages.initPage.id);
-    }
-
     render() {
-        let {
-            page,
-            user,
-            pageActions,
-            userActions
-        } = this.props
+        let { doorlock } = this.props
 
         return (
             <View>
-                <Pages currentPageID = {page.currentPageID}>
+                <Pages currentPageID = {doorlock.getIn(['page', 'currentPageID'])}>
+                    <Page id={staticStore.pages.loadingPage.id}>
+                        <LoadingPage title={staticStore.title} />
+                    </Page>
                     <Page id={staticStore.pages.initPage.id}>
-                        <InitPage title={staticStore.title} onRegister={()=>this.regist()} />
+                        <InitPage title={staticStore.title} onRegister={userActions.register} />
                     </Page>
                     <Page id={staticStore.pages.mainPage.id}>
-                        <MainPage title={staticStore.title} onUnlock={()=>this.unlock()} onOpenMenu={()=>this.openMenu()} />
+                        <MainPage title={staticStore.title} onUnlock={userActions.unregister} onOpenMenu={userActions.unregister} />
                     </Page>
                 </Pages>
             </View>
@@ -75,18 +47,15 @@ class App extends Component {
     }
 }
 
-
-
 function mapStateToProps(state) {
-    return state.toJS();
-}
-
-function checkRegisted(state){
-    return state.user.registered && state.page.currentPageID == staticStore.pages.initPage.id;
+    return {
+        doorlock: state.get('doorlock')
+    }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
+        menuActions: bindActionCreators(menuActionCreators, dispatch),
         pageActions: bindActionCreators(pageActionCreators, dispatch),
         userActions: bindActionCreators(userActionCreators, dispatch),
     }

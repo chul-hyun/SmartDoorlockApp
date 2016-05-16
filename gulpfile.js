@@ -9,12 +9,33 @@ const fs      = require('fs')
 
 const srcDir = 'src';
 const componentDir = path.join(srcDir, 'components');
+const actionDir = path.join(srcDir, 'actions');
 
 gulp.task('delete_component_index', [], ()=>{
     return gulp.src(`${componentDir}/index.js`).pipe(clean({force: true}));
 })
 
 gulp.task('create_component_index', ['delete_component_index'], ()=>{
+    return gulp.src(`${componentDir}/**/*.js`).pipe(through.obj(function(file, enc, done){
+        let stream = fs.createWriteStream(`${componentDir}/index.js`, {flags: 'a'});
+        stream.once('open', (fd)=> {
+            let name = path.basename(file.path, '.js');
+            let importPart = `import { ${name} as _${name} } from './${name}';`
+            let exportPart = `export const ${name} = _${name};`
+            stream.write(`\n${importPart}\n${exportPart}\n`);
+            stream.end();
+
+            this.push(file);
+            done();
+        });
+    }));
+})
+
+gulp.task('delete_actions_index', [], ()=>{
+    return gulp.src(`${actionDir}/*/index.js`).pipe(clean({force: true}));
+})
+
+gulp.task('create_actions_index', ['delete_component_index'], ()=>{
     return gulp.src(`${componentDir}/**/*.js`).pipe(through.obj(function(file, enc, done){
         let stream = fs.createWriteStream(`${componentDir}/index.js`, {flags: 'a'});
         stream.once('open', (fd)=> {
