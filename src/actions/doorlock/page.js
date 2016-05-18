@@ -2,9 +2,9 @@
 
 import TYPES from './types';
 
-export function setPage(id){
+export function setPage(currentPageID){
     return {
         type : TYPES.SET_PAGE,
-        id
+        currentPageID
     }
 }

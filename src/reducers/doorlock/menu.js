@@ -24,5 +24,11 @@ export default createReducer(initialState, {
         return menu.mergeDeep({
             opened: !menu.get('opened', false)
         });
+    },
+
+    [TYPES.SET_PAGE]: (menu, action)=> {
+        return menu.mergeDeep({
+            opened: false
+        });
     }
 })

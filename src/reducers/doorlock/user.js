@@ -9,8 +9,11 @@ const initialState = Immutable.Map({
 });
 
 export default createReducer(initialState, {
-    [TYPES.REGISTER]: (user) => user.mergeDeep({
-        registered: true
+    [TYPES.REGISTER]: (user, {userInfo}) => user.mergeDeep({
+        registered: true,
+        user:{
+            info: userInfo
+        }
     }),
 
     [TYPES.UNREGISTER]: (user) => user.mergeDeep({

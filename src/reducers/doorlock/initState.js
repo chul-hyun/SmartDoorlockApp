@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import { pages, sounds } from '../../static';
+import { pages, sounds } from '../../static/app';
 
 export default Immutable.Map({
     user: {

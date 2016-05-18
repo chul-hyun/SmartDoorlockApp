@@ -23,11 +23,12 @@ import {
     userActionCreators
 } from '../actions/doorlock';
 
-import * as staticStore from '../static';
+import * as staticStore from '../static/app';
 
 class App extends Component {
     componentWillMount(){
-
+        let { mainActions } = this.props.doorlock;
+        mainActions.init();
     }
     render() {
         let { doorlock } = this.props
@@ -58,10 +59,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        doorloackActions : bindActionCreators(doorlockActionCreators, dispatch),
-        menuActions      : bindActionCreators(menuActionCreators, dispatch),
-        pageActions      : bindActionCreators(pageActionCreators, dispatch),
-        userActions      : bindActionCreators(userActionCreators, dispatch)
+        doorlock: {
+            mainActions: bindActionCreators(doorlockActionCreators, dispatch),
+            menuActions: bindActionCreators(menuActionCreators, dispatch),
+            pageActions: bindActionCreators(pageActionCreators, dispatch),
+            userActions: bindActionCreators(userActionCreators, dispatch)
+        }
     }
 }
 

@@ -2,13 +2,6 @@
 
 import TYPES from './types';
 
-export function setMenu(id){
-    return {
-        type : TYPES.SET_MENU,
-        id
-    }
-}
-
 export function open(){
     return {
         type : TYPES.OPEN_MENU
