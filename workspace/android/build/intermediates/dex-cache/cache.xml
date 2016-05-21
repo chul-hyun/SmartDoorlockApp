@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fresco\0.8.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="9178570a3a28c95fabd3bc746cd68efe99ad2b47">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\classes-9f9fc5aa7f8bc1209ad22290997d8869503cacfc.jar" />
+    </item>
+    <item
+        jar="C:\Users\ch\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp\2.5.0\4de2b4ed3445c37ec1720a7d214712e845a24636\okhttp-2.5.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="4de2b4ed3445c37ec1720a7d214712e845a24636">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\okhttp-2.5.0-804e36c1e9c8d4247fd002a1462b360f0724dd96.jar" />
+    </item>
+    <item
+        jar="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline\0.8.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3836ecca4e31e18ea8fbae8e822d49777b0db4f7">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\classes-3362f5adb78ffc676e8fd5ff2b062bdf4ddf4441.jar" />
+    </item>
+    <item
+        jar="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1-2e9394cecbd3393186b8b361552a766fe9ba6ff4.jar" />
+    </item>
+    <item
+        jar="C:\Users\ch\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\library-2.4.0-20a5999de738d7b9be89c921a71cff0154ef81ed.jar" />
+    </item>
+    <item
+        jar="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-okhttp\0.8.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="0d5d69b03cb7d68b81543f6483ed04ccb0e2235b">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\classes-5dea609d9438e7425263d63af1900f5667e0020e.jar" />
+    </item>
+    <item
+        jar="C:\Users\ch\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-android\1.1.4\129874135e6081269ace2312092031558865de12\bolts-android-1.1.4.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="129874135e6081269ace2312092031558865de12">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\bolts-android-1.1.4-f7af935ff55844b5162d43cc544baa34784cbe04.jar" />
+    </item>
+    <item
+        jar="C:\Users\ch\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp-ws\2.5.0\e9753b7dcae5deca92e871c5c759067070b07bc\okhttp-ws-2.5.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="0e9753b7dcae5deca92e871c5c759067070b07bc">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\okhttp-ws-2.5.0-977a84bbd9f28734e9cc75cc25f1be6a03fb6e1a.jar" />
+    </item>
+    <item
+        jar="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\exploded-aar\com.facebook.fresco\drawee\0.8.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="845a5b3a624946b2068963ba656c117fc453701c">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\classes-118e7ba5ffbb104c717f4e646652a61b7b42fde0.jar" />
+    </item>
+    <item
+        jar="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\classes-d2461673178b8a5f0393ab87f8000452bb80e012.jar" />
+    </item>
+    <item
+        jar="C:\Users\ch\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.6.0\98476622f10715998eacf9240d6b479f12c66143\okio-1.6.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="98476622f10715998eacf9240d6b479f12c66143">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\okio-1.6.0-61c0fcca78c564afa2930ce50d3c525006e27bfe.jar" />
+    </item>
+    <item
+        jar="C:\Users\ch\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\3.0.0\5871fb60dc68d67da54a663c3fd636a10a532948\jsr305-3.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\jsr305-3.0.0-34023093c9ed367c550af27f34670d25623a46a4.jar" />
+    </item>
+    <item
+        jar="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\0.8.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="4af24c040b21980e0a80a505816c648e36705bd9">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\classes-33f727f633fd59d5f36571bd2eface6e0d6d3de9.jar" />
+    </item>
+    <item
+        jar="C:\Users\ch\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-core\2.2.3\1a0113da2cab5f4c216b4e5e7c1dbfaa67087e14\jackson-core-2.2.3.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1a0113da2cab5f4c216b4e5e7c1dbfaa67087e14">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\jackson-core-2.2.3-69e4c7b36534299b53f150bfdf93a15c3643384e.jar" />
+    </item>
+    <item
+        jar="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="4356e230a981d1bbf047d848b91bc0d9b7c5bacc">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\classes-3e93ef05f41b2c8fd5292a3030f0e09bab2fc890.jar" />
+    </item>
+    <item
+        jar="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\classes-5c0351bd68ff848d67f238823e654387a1c5b2d5.jar" />
+    </item>
+    <item
+        jar="G:\Users\ch\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-16edb20c2c094ab3054c2d2d508c57ea1cbb5582.jar" />
+    </item>
+    <item
+        jar="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.24.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d12931c7b260dda5ba99b8c89cd6ec2a104abed3">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\classes-2ca4bfceb41e1d2cbd7879a48643bd20108328a5.jar" />
+    </item>
+    <item
+        jar="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.24.1\jars\libs\infer-annotations-1.5.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="50bae83a0680cb90776a4d36bb6aa4911a84fd8b">
+        <dex dex="D:\profile\2016\0504doorlock\worksapce\android\app\build\intermediates\pre-dexed\debug\infer-annotations-1.5-b61a881155e63f96200be5d03af50bbd81536957.jar" />
+    </item>
+
+</items>

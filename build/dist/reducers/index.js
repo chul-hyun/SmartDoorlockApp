@@ -1,0 +1,1 @@
+"use strict";function _interopRequireDefault(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(exports,"__esModule",{value:!0});var _extendRedux=require("../util/extend-redux"),_doorlock=require("./doorlock"),_doorlock2=_interopRequireDefault(_doorlock),rootReducer=(0,_extendRedux.combineReducers)({doorlock:_doorlock2["default"]});exports["default"]=rootReducer;

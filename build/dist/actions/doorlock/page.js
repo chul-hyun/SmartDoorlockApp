@@ -1,0 +1,1 @@
+"use strict";function _interopRequireDefault(e){return e&&e.__esModule?e:{"default":e}}function setPage(e){return{type:_types2["default"].SET_PAGE,currentPageID:e}}Object.defineProperty(exports,"__esModule",{value:!0}),exports.setPage=setPage;var _types=require("./types"),_types2=_interopRequireDefault(_types);
