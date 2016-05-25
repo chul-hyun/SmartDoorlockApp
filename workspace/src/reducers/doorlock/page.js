@@ -10,10 +10,10 @@ import { pages } from '../../static/app';
 const initialState = Immutable.Map()
 
 export default createReducer(initialState, {
-    [TYPES.APP_INIT]: (page, {user})=> {
-        let currentPageID = pages.initPage.id;
-        if(user.registered){
-            currentPageID = pages.mainPage.id;
+    [TYPES.APP_INIT]: (page, {userInfo})=> {
+        let currentPageID = pages.mainPage.id;
+        if(userInfo == null){
+            currentPageID = pages.initPage.id;
         }
 
         return page.mergeDeep({

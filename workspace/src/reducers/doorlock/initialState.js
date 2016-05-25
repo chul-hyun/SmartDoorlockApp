@@ -32,5 +32,6 @@ export default Immutable.Map({
     },
     menu: {
         show: false
-    }
+    },
+    id: 0
 });

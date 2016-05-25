@@ -16,7 +16,7 @@ export class HistoryPage extends Component {
                     <Text>{title}</Text>
                 </View>
                 <View>
-                    <TouchButton value={'menu.png'} onPress={onShowMenu}></TouchButton>
+                    <TouchButton value={'menu.png'} onPress={onShowMenu} />
                 </View>
             </View>
         );

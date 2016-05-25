@@ -1,26 +1,21 @@
 import { middleServerURL } from '../static/app';
+import { incodeJSON } from './rsa';
 
-export async function RSAConnecterCreat(){
-    //@TODO 유저 password가 설정 안됬을시 사용
-}
+let rsaInfo = {
+    N: 0,
+    e: 0
+};
 
-export async function SHA256ConnecterCreat(){
-    //@TODO 유저 password가 설정 됬을시 사용
-}
-
-export async function regist(name, doorlockID, doorlockKey){
+async function post(url, send){
     try {
-        let response = await fetch(`${middleServerURL}/regist`, {
+        console.log(url);
+        let response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                name,
-                doorlockID,
-                doorlockKey
-            }
+            body: JSON.stringify(send)
         });
         let responseJson = await response.json();
         return responseJson;
@@ -28,4 +23,34 @@ export async function regist(name, doorlockID, doorlockKey){
         // Handle error
         console.error(error);
     }
+}
+
+async function rsaPost(op, message){
+    let send = {
+        rsaInfo,
+        screetData: incodeJSON(message, rsaInfo.e, rsaInfo.N)
+    };
+
+    console.log(send);
+
+    return await _rsaPost();
+
+    async function _rsaPost(){
+        let data = await post(`${middleServerURL}/rsa/${op}`, send);
+        if(data.state == 'rsa changed'){
+            rsaInfo = data.rsaInfo;
+            send = {
+                rsaInfo,
+                screetData: incodeJSON(message, rsaInfo.e, rsaInfo.N)
+            };
+
+            return _rsaPost();
+        }else{
+            return data;
+        }
+    }
+}
+
+export default {
+    rsaPost
 }

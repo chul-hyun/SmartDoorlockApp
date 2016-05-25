@@ -12,5 +12,5 @@ import user from './user'
                         menu,page,user
                     });
                     export default function(state = initialState, action){
-                        return childReducer(filter(state, action), action);
+                        return filter(childReducer(state, action), action);
                     }

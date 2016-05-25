@@ -114,7 +114,7 @@ gulp.task('create_reducer_index', ['delete_reducer_index'], function(cb){
                         ${reducers.join(',')}
                     });
                     export default function(state = initialState, action){
-                        return childReducer(filter(state, action), action);
+                        return filter(childReducer(state, action), action);
                     }`
 
                 let stream = fs.createWriteStream(`${reducerDir}/${key}/index.js`, {flags: 'a'});

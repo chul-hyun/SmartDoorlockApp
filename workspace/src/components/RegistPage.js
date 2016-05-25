@@ -27,9 +27,9 @@ export class RegistPage extends Component {
                     <View>
                         <Text>{'이름'}</Text>
                         <TextInput value={name} onChangeText={(name) => this.setState({name})} />
-                        <Text>{'등록 ID'}</Text>
+                        <Text>{'도어락 ID'}</Text>
                         <TextInput value={doorlockID} onChangeText={(doorlockID) => this.setState({doorlockID})} />
-                        <Text>{'등록 Key'}</Text>
+                        <Text>{'도어락 Key'}</Text>
                         <TextInput value={doorlockKey} onChangeText={(doorlockKey) => this.setState({doorlockKey})} />
                     </View>
                 </View>

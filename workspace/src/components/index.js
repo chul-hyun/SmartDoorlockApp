@@ -1,3 +1,5 @@
+import { HeaderLayout as _HeaderLayout } from './HeaderLayout';
+export const HeaderLayout = _HeaderLayout;
 import { HistoryPage as _HistoryPage } from './HistoryPage';
 export const HistoryPage = _HistoryPage;
 import { InitPage as _InitPage } from './InitPage';

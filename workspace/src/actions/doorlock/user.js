@@ -3,6 +3,10 @@
 import TYPES from './types';
 
 import Immutable from 'immutable';
+import Q from 'q';
+
+import middleServerAPI from '../../util/middle-server-api';
+import localStorage from '../../util/localStorage';
 
 const userSample = Immutable.Map({
     info: {
@@ -18,80 +22,101 @@ const doorlockKeySample = '123abc';
 
 export function init(){
     return (dispatch) =>{
-        _init().
-            then((user)=>{
+        (async function(){
+            try{
+                let { userInfo, doorlockID } = await _init()
                 console.log(TYPES.APP_INIT);
                 dispatch({
                     type : TYPES.APP_INIT,
-                    user : user
-                })
-            }, (message)=>{
+                    userInfo,
+                    doorlockID
+                });
+
+            }catch({message}){
                 dispatch({
                     type : TYPES.ALERT,
                     message
-                })
-            });
+                });
+            }
+        })();
     }
 }
 
-export function regist(name, doorlockKey){
+export function regist(name, doorlockID, doorlockKey){
     return (dispatch)=>{
-        _regist(name, doorlockKey).
-            then((info)=>{
+        (async function(){
+            try{
+                let { userInfo } = await _regist(name, doorlockID, doorlockKey)
+                console.log(data);
                 dispatch({
                     type : TYPES.REGISTER,
-                    info
+                    userInfo,
+                    doorlockID
                 })
-            }, (message)=>{
+            }catch({message}){
                 dispatch({
                     type : TYPES.ALERT,
                     message
                 })
-            });
+            }
+        })();
     }
 }
 
 export function unregist(){
     return (dispatch) =>{
-        _unregist().
-            then(()=>{
+        (async function(){
+            try{
+                await _unregist()
                 dispatch({
                     type : TYPES.UNREGISTER
                 })
-            }, (message)=>{
+            }catch({message}){
                 dispatch({
                     type : TYPES.ALERT,
                     message
                 })
-            });
+            }
+        })();
     }
 }
 
 function _init(){
-    return new Promise((resolve, reject) => {
-        setTimeout(()=>{
-            resolve(userSample.toJS());
-        }, 1000);
-    });
+    let def = Q.defer();
+
+    (async function(){
+        let userInfo = await localStorage.getItem('userInfo');
+        let doorlockID = await localStorage.getItem('doorlockID');
+        def.resolve({ userInfo, doorlockID });
+    })();
+
+    return def.promise;
 }
 
-function _regist(name, doorlockKey){
-    return new Promise((resolve, reject) => {
-        setTimeout(()=>{
-            if(doorlockKey == doorlockKeySample){
-                console.log(name);
-                resolve(userSample.mergeDeep({info:{ name }}).toJS().info);
-            }else{
-                reject('error message');
-            }
-        }, 1000);
-    });
+function _regist(name, doorlockID, doorlockKey){
+    console.log('_regist');
+    let def = Q.defer();
+
+    (async function(){
+        console.log('middleServerAPI.rsaPost');
+        let data = await middleServerAPI.rsaPost('regist', {name, doorlockID, doorlockKey});
+        if(data.result == 'success'){
+            await localStorage.setItem('userInfo', data.userInfo);
+            await localStorage.setItem('doorlockID', doorlockID);
+            def.resolve(data);
+        }else{
+            def.reject({nessage:'message'});
+        }
+    })();
+
+    return def.promise;
 }
 
 function _unregist(){
-    return new Promise((resolve, reject) => {
-        setTimeout(()=>{
-            resolve();
-        }, 1000);
-    });
+    let def = Q.defer();
+    setTimeout(()=>{
+        def.resolve();
+    }, 1000);
+
+    return def.promise;
 }
