@@ -8,12 +8,11 @@ Door locks to control the application
 [view](https://appetize.io/embed/qwbfgvuq39h0bhyhdfteuqrurw?device=nexus5&scale=75&orientation=portrait&osVersion=6.0)
 
 ## TODO LIST
-- [ ] LoadingPage 제작
-- [ ] action에 비동기 구문을 넣고 컨트롤
 - [ ] README.md 파일 수정
-- [ ] SideMenu 제작
 - [ ] immutable 데이터를 react에서 직접 사용되도록 수정 (delete toJS())
 - [ ] 고정 데이터와 정적데이터의 설계를 다시하자. ( action과의 의존성 줄이기 )
+- [ ] init 과정에 휴대폰에 이미 유저정보가 있을시 서버에 정말 있는지 확인하는 절차도 추가하기.
+
 ## Tec
 - React Native
 - Redux

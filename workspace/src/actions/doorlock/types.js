@@ -1,7 +1,7 @@
 'use strict';
 
 export default {
-    APP_INIT    : 'APP_INIT',
+    LOGIN       : 'LOGIN',
     SET_PAGE    : 'SET_PAGE',
     REGISTER    : 'REGISTER',
     UNREGISTER  : 'UNREGISTER',

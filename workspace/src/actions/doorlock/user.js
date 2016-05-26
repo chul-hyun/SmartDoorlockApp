@@ -8,50 +8,37 @@ import Q from 'q';
 import middleServerAPI from '../../util/middle-server-api';
 import localStorage from '../../util/localStorage';
 
-const userSample = Immutable.Map({
-    info: {
-        registDate     : new Date(1463310111059),
-        latestAuthDate : new Date(1463407268450),
-        name           : "undefined",
-        key            : 1
-    },
-    registered: false
-});
-
-const doorlockKeySample = '123abc';
-
-export function init(){
+export function login(){
     return (dispatch) =>{
         (async function(){
             try{
-                let { userInfo, doorlockID } = await _init()
-                console.log(TYPES.APP_INIT);
+                let user = await _login()
                 dispatch({
-                    type : TYPES.APP_INIT,
-                    userInfo,
-                    doorlockID
+                    type  : TYPES.LOGIN,
+                    login : true,
+                    user
                 });
-
-            }catch({message}){
+            }catch(error){
                 dispatch({
-                    type : TYPES.ALERT,
-                    message
+                    type : TYPES.LOGIN,
+                    login : false,
+                    user
                 });
             }
         })();
     }
 }
 
-export function regist(name, doorlockID, doorlockKey){
+export function regist({ name, doorlockId, doorlockKey }){
     return (dispatch)=>{
         (async function(){
             try{
-                let { userInfo } = await _regist(name, doorlockID, doorlockKey)
-                console.log(data);
+                let user = await _regist({ name, doorlockId, doorlockKey })
+                console.log('regist dispatch');
+                console.log(user);
                 dispatch({
                     type : TYPES.REGISTER,
-                    userInfo,
-                    doorlockID
+                    user
                 })
             }catch({message}){
                 dispatch({
@@ -81,29 +68,33 @@ export function unregist(){
     }
 }
 
-function _init(){
+function _login(){
     let def = Q.defer();
 
     (async function(){
-        let userInfo = await localStorage.getItem('userInfo');
-        let doorlockID = await localStorage.getItem('doorlockID');
-        def.resolve({ userInfo, doorlockID });
+        let loginInfo = await localStorage.getItem('loginInfo');
+        //@TODO 에러가 어디로 방출될려나..?
+        let user = await middleServerAPI.rsaPost('login', loginInfo);
+        console.log(user)
+        def.resolve(user);
     })();
 
     return def.promise;
 }
 
-function _regist(name, doorlockID, doorlockKey){
+function _regist({ name, doorlockId, doorlockKey }){
     console.log('_regist');
     let def = Q.defer();
 
     (async function(){
-        console.log('middleServerAPI.rsaPost');
-        let data = await middleServerAPI.rsaPost('regist', {name, doorlockID, doorlockKey});
+        let data = await middleServerAPI.rsaPost('regist', { name, doorlockId, doorlockKey });
+        console.log(data);
         if(data.result == 'success'){
-            await localStorage.setItem('userInfo', data.userInfo);
-            await localStorage.setItem('doorlockID', doorlockID);
-            def.resolve(data);
+            await localStorage.setItem('loginInfo', {
+                id: data.user.id,
+                password: data.user.password
+            });
+            def.resolve(data.user);
         }else{
             def.reject({nessage:'message'});
         }
@@ -114,9 +105,12 @@ function _regist(name, doorlockID, doorlockKey){
 
 function _unregist(){
     let def = Q.defer();
-    setTimeout(()=>{
+
+    (async function(){
+        console.log('removeItem');
+        await localStorage.removeItem('loginInfo');
         def.resolve();
-    }, 1000);
+    })();
 
     return def.promise;
 }

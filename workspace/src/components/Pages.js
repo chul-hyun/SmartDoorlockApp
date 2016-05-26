@@ -17,16 +17,16 @@ export class Pages extends Component {
 }
 
 Pages.propTypes = {
-    currentPageID: PropTypes.number.isRequired
+    currentPageId: PropTypes.number.isRequired
 }
 
 Pages.defaultProps = {
 
 }
 
-function renderChildren({children, currentPageID}) {
+function renderChildren({ children, currentPageId }) {
     return React.Children.toArray(children).filter(({type, props}) => {
-        if (type === Page && props.id == currentPageID ){
+        if (type === Page && props.id == currentPageId ){
             return true;
         }
         return false;

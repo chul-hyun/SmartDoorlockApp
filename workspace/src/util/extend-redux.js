@@ -1,29 +1,16 @@
-import {
+export {
     createStore,
     bindActionCreators,
     applyMiddleware,
     compose
 } from 'redux';
 
-import {
+export {
     createReducer,
     combineReducers
 } from 'redux-immutablejs';
 
-import {
+export {
     Provider,
     connect
 } from 'react-redux';
-
-import Immutable from 'immutable';
-
-export {
-    createStore,
-    combineReducers,
-    createReducer,
-    bindActionCreators,
-    applyMiddleware,
-    compose,
-    Provider,
-    connect
-}

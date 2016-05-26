@@ -78,7 +78,7 @@ export class SideMenu extends Component {
                 drawerPosition       = {DrawerLayoutAndroid.positions.Left}
                 renderNavigationView = {() => sideTag}
                 onDrawerClose        = {onDrawerClose}
-                onDrawerOpen         = {onDrawerOpen} 
+                onDrawerOpen         = {onDrawerOpen}
                 ref                  = {(ref) => {
                     if(!!ref){
                         this.drawerLayoutAndroid = ref;

@@ -8,23 +8,26 @@ import TYPES from '../../actions/doorlock/types';
 const initialState = Immutable.Map()
 
 let reducer = createReducer(initialState, {
-    [TYPES.SHOW_MENU]: (menu, action)=> {
-        return menu.mergeDeep({
-            show: true
-        });
-    },
+    [TYPES.SHOW_MENU]:
+        (menu, action)=> {
+            return menu.mergeDeep({
+                show: true
+            });
+        },
 
-    [TYPES.HIDE_MENU]: (menu, action)=> {
-        return menu.mergeDeep({
-            show: false
-        });
-    },
+    [TYPES.HIDE_MENU]:
+        (menu, action)=> {
+            return menu.mergeDeep({
+                show: false
+            });
+        },
 
-    [TYPES.TOGGLE_MENU]: (menu, action)=> {
-        return menu.mergeDeep({
-            show: !menu.get('show', false)
-        });
-    }
+    [TYPES.TOGGLE_MENU]:
+        (menu, action)=> {
+            return menu.mergeDeep({
+                show: !menu.get('show', false)
+            });
+        }
 })
 
 export default function(menu, action){

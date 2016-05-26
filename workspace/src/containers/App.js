@@ -37,7 +37,7 @@ import * as staticStore from '../static/app';
 class App extends Component {
     componentWillMount(){
         let { userActions } = this.props.actions;
-        userActions.init();
+        userActions.login();
     }
     componentWillReceiveProps(){
         console.log('componentWillReceiveProps');
@@ -47,10 +47,10 @@ class App extends Component {
         let { store } = this.props
         let { userActions, menuActions, pageActions } = this.props.actions;
 
-        let currentPageID = store.getIn(['page', 'currentPageID']);
+        let currentPageId = store.getIn(['page', 'currentPageId']);
         let currentPageTitle = '';
         for( let title in staticStore.pages ){
-            if(staticStore.pages[title].id === currentPageID){
+            if(staticStore.pages[title].id === currentPageId){
                 currentPageTitle = title;
             }
         }
@@ -66,7 +66,7 @@ class App extends Component {
                     show          = {store.getIn(['menu', 'show'])}
                     onDrawerClose = {menuActions.hide}
                     onDrawerOpen  = {menuActions.show}>
-                    <Pages currentPageID = {store.getIn(['page', 'currentPageID'])}>
+                    <Pages currentPageId = {store.getIn(['page', 'currentPageId'])}>
                         <Page id={staticStore.pages.loadingPage.id}>
                             <LoadingPage title={staticStore.pages.loadingPage.title} />
                         </Page>

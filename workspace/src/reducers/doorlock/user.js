@@ -4,34 +4,15 @@ import { createReducer } from '../../util/extend-redux'
 import Immutable from 'immutable';
 import TYPES from '../../actions/doorlock/types';
 
-const initialState = Immutable.Map({
-    registered: false
-});
+import initialState from './initialState';
 
-export default createReducer(initialState, {
-    [TYPES.REGISTER]: (user, {userInfo}) => {
-        console.log(userInfo);
-        return user.mergeDeep({
-            registered: true,
-            info: userInfo
-        }).mergeDeep({
-            info: {
-                latestAuthDate: userInfo.registDate
-            }
-        });
-    },
+export default createReducer(Immutable.Map(), {
+    [TYPES.REGISTER]:
+        (user, {user}) => user.mergeDeep(user),
 
-    [TYPES.UNREGISTER]: (user) => user.mergeDeep({
-        registered: false
-    }),
+    [TYPES.UNREGISTER]:
+        (user) => initialState.get('user'),
 
-    [TYPES.APP_INIT]: (user, {userInfo}) => {
-        if(userInfo == null){
-            return user
-        }
-        return user.mergeDeep({
-            info: userInfo,
-            registered: true
-        })
-    }
+    [TYPES.LOGIN]:
+        (user, {user, login}) => (login) ? user.mergeDeep(user) : user
 });

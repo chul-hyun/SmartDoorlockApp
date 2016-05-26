@@ -3,13 +3,12 @@ import { pages, sounds } from '../../static/app';
 
 export default Immutable.Map({
     user: {
-        info: {
-            registDate : new Date(),
-            latestAuthDate : new Date(),
-            name : "name",
-            key : -1
-        },
-        registered: false
+        name : null,
+        id: null,
+        password : null,
+        registDate : 0,
+        latestAuthDate : 0,
+        doorlockId: null
     },
     history: [],
     users: [],
@@ -23,7 +22,7 @@ export default Immutable.Map({
         result: []
     },
     page: {
-        currentPageID: pages.loadingPage.id
+        currentPageId: pages.loadingPage.id
     },
     setting: {
         successAlram: true,
@@ -32,6 +31,5 @@ export default Immutable.Map({
     },
     menu: {
         show: false
-    },
-    id: 0
+    }
 });

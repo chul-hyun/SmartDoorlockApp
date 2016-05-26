@@ -33,10 +33,13 @@ async function rsaPost(op, message){
 
     console.log(send);
 
-    return await _rsaPost();
+    return _rsaPost();
 
     async function _rsaPost(){
+        console.log(`rsa url: /rsa/${op}`);
         let data = await post(`${middleServerURL}/rsa/${op}`, send);
+        console.log(`rsa /rsa/${op} data:`);
+        console.log(data);
         if(data.state == 'rsa changed'){
             rsaInfo = data.rsaInfo;
             send = {
