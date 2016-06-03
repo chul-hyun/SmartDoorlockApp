@@ -8,43 +8,76 @@ import Q from 'q';
 import middleServerAPI from '../../util/middle-server-api';
 import localStorage from '../../util/localStorage';
 
+import Notification from 'react-native-system-notification';
+import GcmAndroid from 'react-native-gcm-android';
+
 export function login(){
     return (dispatch) =>{
         (async function(){
             try{
-                let user = await _login()
-                dispatch({
-                    type  : TYPES.LOGIN,
-                    login : true,
-                    user
-                });
+                let data = await _login();
+                console.log('data:', data);
+                if(data.result){
+                    dispatch({
+                        type   : TYPES.LOGIN,
+                        user   : data.user
+                    });
+                }else{
+                    dispatch({
+                        type : TYPES.LOGOUT
+                    })
+                }
             }catch(error){
+                console.log('error catch');
                 dispatch({
-                    type : TYPES.LOGIN,
-                    login : false,
-                    user
-                });
+                    type : TYPES.ALERT
+                })
             }
         })();
     }
 }
 
-export function regist({ name, doorlockId, doorlockKey }){
+export function setGCMID(GCMRegistrationId){
+    (async function(){
+        try{
+            let _GCMRegistrationId = await localStorage.getItem('GCMRegistrationId');
+            if(_GCMRegistrationId === null || GCMRegistrationId != _GCMRegistrationId){
+                await setGCMRegistrationId(GCMRegistrationId);
+                dispatch({
+                    type : TYPES.SET_GCM_REGISTRATION_ID,
+                    GCMRegistrationId
+                });
+            }
+        }catch(error){
+            console.log('error catch');
+        }
+    })();
+}
+
+export function regist(registInfo){
     return (dispatch)=>{
         (async function(){
             try{
-                let user = await _regist({ name, doorlockId, doorlockKey })
-                console.log('regist dispatch');
-                console.log(user);
-                dispatch({
-                    type : TYPES.REGISTER,
-                    user
-                })
-            }catch({message}){
-                dispatch({
-                    type : TYPES.ALERT,
-                    message
-                })
+                let { result, user } = await _regist(registInfo)
+
+                if(result){
+                    dispatch({
+                        type : TYPES.LOGIN,
+                        user
+                    });
+
+                    let GCMRegistrationId = await localStorage.getItem('GCMRegistrationId');
+                    if(GCMRegistrationId !== null){
+                        await setGCMRegistrationId(GCMRegistrationId);
+                    }
+                }else{
+                    dispatch({
+                        type : TYPES.ALERT,
+                        message
+                    })
+                }
+            }catch(error){
+                console.log('error catch');
             }
         })();
     }
@@ -56,7 +89,7 @@ export function unregist(){
             try{
                 await _unregist()
                 dispatch({
-                    type : TYPES.UNREGISTER
+                    type : TYPES.LOGOUT
                 })
             }catch({message}){
                 dispatch({
@@ -68,49 +101,47 @@ export function unregist(){
     }
 }
 
-function _login(){
-    let def = Q.defer();
+async function setGCMRegistrationId(GCMRegistrationId){
+    let loginInfo = await localStorage.getItem('loginInfo');
+    if( loginInfo === null ){
+        return false;
+    }
 
-    (async function(){
-        let loginInfo = await localStorage.getItem('loginInfo');
-        //@TODO 에러가 어디로 방출될려나..?
-        let user = await middleServerAPI.rsaPost('login', loginInfo);
-        console.log(user)
-        def.resolve(user);
-    })();
-
-    return def.promise;
+    await middleServerAPI.rsaPost('setGCMRegistrationId', {loginInfo, GCMRegistrationId});
+    await localStorage.setItem('GCMRegistrationId', GCMRegistrationId);
+    return true;
 }
 
-function _regist({ name, doorlockId, doorlockKey }){
-    console.log('_regist');
-    let def = Q.defer();
+async function _login(){
+    console.log('get loginInfo')
+    let loginInfo = await localStorage.getItem('loginInfo');
+    console.log(loginInfo)
 
-    (async function(){
-        let data = await middleServerAPI.rsaPost('regist', { name, doorlockId, doorlockKey });
-        console.log(data);
-        if(data.result == 'success'){
-            await localStorage.setItem('loginInfo', {
-                id: data.user.id,
-                password: data.user.password
-            });
-            def.resolve(data.user);
-        }else{
-            def.reject({nessage:'message'});
-        }
-    })();
+    if( loginInfo === null ){
+        return {result: false};
+    }
 
-    return def.promise;
+    let data = await middleServerAPI.rsaPost('login', loginInfo);
+
+    return data;
 }
 
-function _unregist(){
-    let def = Q.defer();
+async function _regist(registInfo){
+    let { result, user } = await middleServerAPI.rsaPost('regist', registInfo);
 
-    (async function(){
-        console.log('removeItem');
-        await localStorage.removeItem('loginInfo');
-        def.resolve();
-    })();
+    if(!result){
+        return {result};
+    }
 
-    return def.promise;
+    await localStorage.setItem('loginInfo', {
+        id: user.id,
+        password: user.password
+    });
+
+    return { result, user };
+}
+
+async function _unregist(){
+    console.log('removeItem');
+    await localStorage.removeItem('loginInfo');
 }

@@ -9,45 +9,45 @@ const initialState = Immutable.Map()
 
 let reducer = createReducer(initialState, {
     [TYPES.SHOW_MENU]:
-        (menu, action)=> {
-            return menu.mergeDeep({
+        (_menu, action)=> {
+            return _menu.mergeDeep({
                 show: true
             });
         },
 
     [TYPES.HIDE_MENU]:
-        (menu, action)=> {
-            return menu.mergeDeep({
+        (_menu, action)=> {
+            return _menu.mergeDeep({
                 show: false
             });
         },
 
     [TYPES.TOGGLE_MENU]:
-        (menu, action)=> {
-            return menu.mergeDeep({
-                show: !menu.get('show', false)
+        (_menu, action)=> {
+            return _menu.mergeDeep({
+                show: !_menu.get('show', false)
             });
         }
 })
 
-export default function(menu, action){
-    return autoCloseMenu(reducer(menu, action), action);
+export default function(_menu, action){
+    return autoCloseMenu(reducer(_menu, action), action);
 }
 
 
-function autoCloseMenu(menu, action){
+function autoCloseMenu(_menu, action){
     if(!action){
-        return menu;
+        return _menu;
     }
 
     switch(action.type){
         case TYPES.SHOW_MENU :
         case TYPES.HIDE_MENU :
         case TYPES.TOGGLE_MENU :
-            return menu;
+            return _menu;
     }
 
-    return menu.mergeDeep({
+    return _menu.mergeDeep({
         show: false
     })
 }

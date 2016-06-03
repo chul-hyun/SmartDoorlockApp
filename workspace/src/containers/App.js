@@ -7,6 +7,7 @@ import React, {
     Text,
     View,
     PropTypes,
+    DeviceEventEmitter
 } from 'react-native';
 
 import {
@@ -34,6 +35,9 @@ import {
 
 import * as staticStore from '../static/app';
 
+//import Notification from 'react-native-system-notification';
+//import GcmAndroid from 'react-native-gcm-android';
+
 class App extends Component {
     componentWillMount(){
         let { userActions } = this.props.actions;
@@ -42,10 +46,32 @@ class App extends Component {
     componentWillReceiveProps(){
         console.log('componentWillReceiveProps');
     }
+    componentDidMount(){
+        let { userActions, doorlockActions } = this.props.actions;
+/*
+        GcmAndroid.addEventListener('register', (GCMRegistrationId)=>{
+            console.log('send gcm GCMRegistrationId to server', GCMRegistrationId);
+            userActions.setGCMID(GCMRegistrationId);
+        });
+        GcmAndroid.addEventListener('notification', (notification)=>{
+            let info = JSON.parse(notification.data.info);
+            //if (!GcmAndroid.isInForeground) {
+                Notification.create({
+                    message: info.message
+                });
+            //}
+        });
+
+        DeviceEventEmitter.addListener('sysNotificationClick', (e)=> {
+            console.log('sysNotificationClick', e);
+        });
+
+        GcmAndroid.requestPermissions();*/
+    }
     render() {
         console.log('render');
         let { store } = this.props
-        let { userActions, menuActions, pageActions } = this.props.actions;
+        let { userActions, menuActions, pageActions, doorlockActions } = this.props.actions;
 
         let currentPageId = store.getIn(['page', 'currentPageId']);
         let currentPageTitle = '';
@@ -71,7 +97,7 @@ class App extends Component {
                             <LoadingPage title={staticStore.pages.loadingPage.title} />
                         </Page>
                         <Page id={staticStore.pages.mainPage.id}>
-                            <MainPage title={staticStore.pages.mainPage.title} onUnlock={userActions.unregist} onShowMenu={menuActions.show} />
+                            <MainPage title={staticStore.pages.mainPage.title} onUnlock={doorlockActions.unlock} onShowMenu={menuActions.show} />
                         </Page>
                         <Page id={staticStore.pages.initPage.id}>
                             <InitPage title={staticStore.pages.initPage.title} onStart={()=>pageActions.setPage(staticStore.pages.registPage.id)} />
@@ -121,7 +147,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            mainActions: bindActionCreators(doorlockActionCreators, dispatch),
+            doorlockActions: bindActionCreators(doorlockActionCreators, dispatch),
             menuActions: bindActionCreators(menuActionCreators, dispatch),
             pageActions: bindActionCreators(pageActionCreators, dispatch),
             userActions: bindActionCreators(userActionCreators, dispatch)

@@ -2,9 +2,12 @@ import { middleServerURL } from '../static/app';
 import { incodeJSON } from './rsa';
 
 let rsaInfo = {
-    N: 0,
-    e: 0
+    N        : 0,
+    e        : 0,
+    interval : 0
 };
+
+let rsaInfoSetTime = 0;
 
 async function post(url, send){
     try {
@@ -26,27 +29,24 @@ async function post(url, send){
 }
 
 async function rsaPost(op, message){
-    let send = {
-        rsaInfo,
-        screetData: incodeJSON(message, rsaInfo.e, rsaInfo.N)
-    };
-
-    console.log(send);
-
     return _rsaPost();
 
     async function _rsaPost(){
-        console.log(`rsa url: /rsa/${op}`);
-        let data = await post(`${middleServerURL}/rsa/${op}`, send);
-        console.log(`rsa /rsa/${op} data:`);
-        console.log(data);
-        if(data.state == 'rsa changed'){
-            rsaInfo = data.rsaInfo;
-            send = {
+        let data;
+        if(+new Date() - rsaInfoSetTime >= rsaInfo.interval){
+            console.log(`rsa url: /rsa/get`);
+            data = await post(`${middleServerURL}/rsa/get`);
+        }else{
+            console.log(`rsa url: /rsa/${op}`);
+            data = await post(`${middleServerURL}/rsa/${op}`, {
                 rsaInfo,
                 screetData: incodeJSON(message, rsaInfo.e, rsaInfo.N)
-            };
-
+            });
+        }
+        console.log(data);
+        if(data.state == 'rsaInfo'){
+            rsaInfoSetTime = +new Date();
+            rsaInfo = data.rsaInfo;
             return _rsaPost();
         }else{
             return data;

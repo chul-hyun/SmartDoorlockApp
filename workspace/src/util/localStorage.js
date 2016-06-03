@@ -8,10 +8,10 @@ function getItem(key){
         try{
             let jsonStr = await AsyncStorage.getItem(key);
             if (jsonStr === null){
-                def.reject();
-                return;
+                def.resolve(null);
+            }else{
+                def.resolve((JSON.parse(jsonStr)).value);
             }
-            def.resolve((JSON.parse(jsonStr)).value);
         }catch(error){
             def.reject(error);
         }

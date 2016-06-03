@@ -13,13 +13,13 @@ export class RegistPage extends Component {
         super(props);
         this.state = {
             name: '',
-            doorlockID : '',
+            doorlockId : '',
             doorlockKey: ''
         };
     }
     render() {
         let { title, onRegist } = this.props;
-        let { name, doorlockKey, doorlockID } = this.state;
+        let { name, doorlockKey, doorlockId } = this.state;
         return (
             <View>
                 <Text>{title}</Text>
@@ -28,12 +28,12 @@ export class RegistPage extends Component {
                         <Text>{'이름'}</Text>
                         <TextInput value={name} onChangeText={(name) => this.setState({name})} />
                         <Text>{'도어락 ID'}</Text>
-                        <TextInput value={doorlockID} onChangeText={(doorlockID) => this.setState({doorlockID})} />
+                        <TextInput value={doorlockId} onChangeText={(doorlockId) => this.setState({doorlockId})} />
                         <Text>{'도어락 Key'}</Text>
                         <TextInput value={doorlockKey} onChangeText={(doorlockKey) => this.setState({doorlockKey})} />
                     </View>
                 </View>
-                <TouchButton value={'등록'} onPress={()=>onRegist(name, doorlockID, doorlockKey)}></TouchButton>
+                <TouchButton value={'등록'} onPress={()=>onRegist({ name, doorlockId, doorlockKey })}></TouchButton>
             </View>
         );
     }
