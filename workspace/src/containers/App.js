@@ -35,8 +35,8 @@ import {
 
 import * as staticStore from '../static/app';
 
-//import Notification from 'react-native-system-notification';
-//import GcmAndroid from 'react-native-gcm-android';
+import Notification from 'react-native-system-notification';
+import GcmAndroid from 'react-native-gcm-android';
 
 class App extends Component {
     componentWillMount(){
@@ -48,7 +48,7 @@ class App extends Component {
     }
     componentDidMount(){
         let { userActions, doorlockActions } = this.props.actions;
-/*
+
         GcmAndroid.addEventListener('register', (GCMRegistrationId)=>{
             console.log('send gcm GCMRegistrationId to server', GCMRegistrationId);
             userActions.setGCMID(GCMRegistrationId);
