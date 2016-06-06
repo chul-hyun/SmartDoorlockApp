@@ -37,8 +37,8 @@ export function incodeString(message, e, N){
     return screet;
 }
 
-export function incodeJSON(obj, e, N){
-   return incodeString(JSON.stringify(obj), e, N);
+export function incodeJSON(data, e, N){
+   return incodeString(JSON.stringify({data}), e, N);
 }
 
 // 문자를 유니코드로 변경.

@@ -17,8 +17,9 @@ export default createReducer(initialState, {
 });
 
 function checkRegisted(state, action){
-    let registered    = state.getIn(['user', 'id']) !== null;
-    let currentPageId = state.getIn(['page', 'currentPageId']);
+    let registered        = state.getIn(['user', 'id']) !== null;
+    let GCMRegistrationId = state.getIn(['user', 'GCMRegistrationId']);
+    let currentPageId     = state.getIn(['page', 'currentPageId']);
 
     if(registered && currentPageId == pages.initPage.id){
         state = state.setIn(['page', 'currentPageId'], pages.mainPage.id);
@@ -26,6 +27,10 @@ function checkRegisted(state, action){
 
     if(!registered && (currentPageId != pages.initPage.id && currentPageId != pages.registPage.id)){
         state = state.setIn(['page', 'currentPageId'], pages.initPage.id);
+    }
+
+    if(GCMRegistrationId == null){
+        state = state.setIn(['page', 'currentPageId'], pages.loadingPage.id);
     }
 
     return state;

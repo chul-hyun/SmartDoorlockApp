@@ -11,5 +11,11 @@ export default createReducer(Immutable.Map(), {
         (_user, {user}) => _user.mergeDeep(user),
 
     [TYPES.LOGOUT]:
-        (_user) => initialState.get('user')
+        (_user) => initialState.get('user'),
+
+    [TYPES.SET_GCM_REGISTRATION_ID]:
+        (_user, {GCMRegistrationId}) => {
+            console.log(_user.mergeDeep({ GCMRegistrationId }).toJS())
+            return _user.mergeDeep({ GCMRegistrationId })
+        }
 });

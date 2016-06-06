@@ -1,5 +1,10 @@
-import { bindActionCreators } from '../util/extend-redux'
-import { connect } from 'react-redux'
+import {
+    bindActionCreators
+} from '../util/extend-redux'
+
+import {
+    connect
+} from 'react-redux'
 
 import React, {
     Component,
@@ -35,8 +40,8 @@ import {
 
 import * as staticStore from '../static/app';
 
-import Notification from 'react-native-system-notification';
-import GcmAndroid from 'react-native-gcm-android';
+import pushNotification from './src/util/pushNotification';
+import reactGcmAndroid from 'react-native-gcm-android';
 
 class App extends Component {
     componentWillMount(){
@@ -49,24 +54,23 @@ class App extends Component {
     componentDidMount(){
         let { userActions, doorlockActions } = this.props.actions;
 
-        GcmAndroid.addEventListener('register', (GCMRegistrationId)=>{
+        reactGcmAndroid.addEventListener('register', (GCMRegistrationId)=>{
             console.log('send gcm GCMRegistrationId to server', GCMRegistrationId);
             userActions.setGCMID(GCMRegistrationId);
         });
-        GcmAndroid.addEventListener('notification', (notification)=>{
-            let info = JSON.parse(notification.data.info);
-            //if (!GcmAndroid.isInForeground) {
-                Notification.create({
-                    message: info.message
-                });
-            //}
+        reactGcmAndroid.addEventListener('notification', (notificationData)=>{
+            console.log('notificationData', notificationData);
+            notificationData = JSON.parse(notificationData.data.info);
+            if (!reactGcmAndroid.isInForeground) { // 백그라운드에서 실행 중 일때
+                pushNotification(notificationData);
+            }
         });
 
         DeviceEventEmitter.addListener('sysNotificationClick', (e)=> {
             console.log('sysNotificationClick', e);
         });
 
-        GcmAndroid.requestPermissions();*/
+        reactGcmAndroid.requestPermissions();
     }
     render() {
         console.log('render');

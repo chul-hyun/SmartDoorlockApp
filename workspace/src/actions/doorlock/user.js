@@ -38,20 +38,25 @@ export function login(){
 }
 
 export function setGCMID(GCMRegistrationId){
-    (async function(){
-        try{
-            let _GCMRegistrationId = await localStorage.getItem('GCMRegistrationId');
-            if(_GCMRegistrationId === null || GCMRegistrationId != _GCMRegistrationId){
-                await setGCMRegistrationId(GCMRegistrationId);
+    return (dispatch)=>{
+        (async function(){
+            try{
+                let _GCMRegistrationId = await localStorage.getItem('GCMRegistrationId');
+
+                if(_GCMRegistrationId === null || GCMRegistrationId != _GCMRegistrationId){
+                    await localStorage.setItem('GCMRegistrationId', GCMRegistrationId);
+                    await setGCMRegistrationId(GCMRegistrationId);
+                }
+                
                 dispatch({
                     type : TYPES.SET_GCM_REGISTRATION_ID,
                     GCMRegistrationId
                 });
+            }catch(error){
+                console.log('error catch');
             }
-        }catch(error){
-            console.log('error catch');
-        }
-    })();
+        })();
+    }
 }
 
 export function regist(registInfo){
@@ -108,7 +113,6 @@ async function setGCMRegistrationId(GCMRegistrationId){
     }
 
     await middleServerAPI.rsaPost('setGCMRegistrationId', {loginInfo, GCMRegistrationId});
-    await localStorage.setItem('GCMRegistrationId', GCMRegistrationId);
     return true;
 }
 

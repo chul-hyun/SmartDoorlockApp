@@ -54,6 +54,10 @@ async function rsaPost(op, message){
     }
 }
 
+async function userPost(op, loginInfo, data = {}){
+    return await rsaPost(`user/${op}`, {loginInfo, data})
+}
+
 export default {
     rsaPost
 }
