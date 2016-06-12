@@ -52,7 +52,7 @@ class App extends Component {
         console.log('componentWillReceiveProps');
     }
     componentDidMount(){
-        let { userActions, doorlockActions } = this.props.actions;
+        let { userActions } = this.props.actions;
 
         reactGcmAndroid.addEventListener('register', (GCMRegistrationId)=>{
             console.log('send gcm GCMRegistrationId to server', GCMRegistrationId);
@@ -77,55 +77,68 @@ class App extends Component {
         let { store } = this.props
         let { userActions, menuActions, pageActions, doorlockActions } = this.props.actions;
 
+        let { regist }     = userActions;
+        let { hide, show } = menuActions;
+        let { setPage }    = pageActions;
+        let { unlock }     = doorlockActions;
+
+        let { title, pages, sections } = staticStore;
+
+        let {
+            loadingPage,
+            initPage,
+            registPag,
+            mainPage,
+            historyPage,
+            searchPage,
+            searchResultPage,
+            setupPage,
+            myPage,
+            userListPage } = pages;
+
         let currentPageId = store.getIn(['page', 'currentPageId']);
-        let currentPageTitle = '';
-        for( let title in staticStore.pages ){
-            if(staticStore.pages[title].id === currentPageId){
-                currentPageTitle = title;
-            }
-        }
 
         return (
             <View style={{flex: 1, alignItems: 'stretch'}}>
                 <SideMenu
-                    title         = {staticStore.title}
-                    menus         = {staticStore.pages}
-                    sections      = {staticStore.sections}
-                    selectedMenu  = {currentPageTitle}
-                    onPressMenu   = {pageActions.setPage}
+                    title         = {title}
+                    menus         = {pages}
+                    sections      = {sections}
+                    selectedMenu  = {getCurrentPageTitle(currentPageId)}
+                    onPressMenu   = {setPage}
                     show          = {store.getIn(['menu', 'show'])}
-                    onDrawerClose = {menuActions.hide}
-                    onDrawerOpen  = {menuActions.show}>
+                    onDrawerClose = {hide}
+                    onDrawerOpen  = {show}>
                     <Pages currentPageId = {store.getIn(['page', 'currentPageId'])}>
-                        <Page id={staticStore.pages.loadingPage.id}>
-                            <LoadingPage title={staticStore.pages.loadingPage.title} />
+                        <Page id={loadingPage.id}>
+                            <LoadingPage title={loadingPage.title} />
                         </Page>
-                        <Page id={staticStore.pages.mainPage.id}>
-                            <MainPage title={staticStore.pages.mainPage.title} onUnlock={doorlockActions.unlock} onShowMenu={menuActions.show} />
+                        <Page id={mainPage.id}>
+                            <MainPage title={mainPage.title} onUnlock={unlock} onShowMenu={show} />
                         </Page>
-                        <Page id={staticStore.pages.initPage.id}>
-                            <InitPage title={staticStore.pages.initPage.title} onStart={()=>pageActions.setPage(staticStore.pages.registPage.id)} />
+                        <Page id={initPage.id}>
+                            <InitPage title={initPage.title} onStart={()=>setPage(registPage.id)} />
                         </Page>
-                        <Page id={staticStore.pages.registPage.id}>
-                            <RegistPage title={staticStore.pages.registPage.title} onRegist={userActions.regist} />
+                        <Page id={registPage.id}>
+                            <RegistPage title={registPage.title} onRegist={regist} />
                         </Page>
-                        <Page id={staticStore.pages.historyPage.id}>
-                            <HistoryPage title={staticStore.pages.historyPage.title} onShowMenu={menuActions.show} />
+                        <Page id={historyPage.id}>
+                            <HistoryPage title={historyPage.title} onShowMenu={show} />
                         </Page>
-                        <Page id={staticStore.pages.searchPage.id}>
-                            <SearchPage title={staticStore.pages.searchPage.title} onShowMenu={menuActions.show} />
+                        <Page id={searchPage.id}>
+                            <SearchPage title={searchPage.title} onShowMenu={show} />
                         </Page>
-                        <Page id={staticStore.pages.searchResultPage.id}>
-                            <SearchResultPage title={staticStore.pages.searchResultPage.title} onShowMenu={menuActions.show} />
+                        <Page id={searchResultPage.id}>
+                            <SearchResultPage title={searchResultPage.title} onShowMenu={show} />
                         </Page>
-                        <Page id={staticStore.pages.setupPage.id}>
-                            <SetupPage title={staticStore.pages.setupPage.title} onShowMenu={menuActions.show} />
+                        <Page id={setupPage.id}>
+                            <SetupPage title={setupPage.title} onShowMenu={show} />
                         </Page>
-                        <Page id={staticStore.pages.myPage.id}>
-                            <MyPage title={staticStore.pages.myPage.title} onShowMenu={menuActions.show} />
+                        <Page id={myPage.id}>
+                            <MyPage title={myPage.title} onShowMenu={show} />
                         </Page>
-                        <Page id={staticStore.pages.userListPage.id}>
-                            <UserListPage title={staticStore.pages.userListPage.title} onShowMenu={menuActions.show} />
+                        <Page id={userListPage.id}>
+                            <UserListPage title={userListPage.title} onShowMenu={show} />
                         </Page>
                     </Pages>
                 </SideMenu>
@@ -151,10 +164,18 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            doorlockActions: bindActionCreators(doorlockActionCreators, dispatch),
-            menuActions: bindActionCreators(menuActionCreators, dispatch),
-            pageActions: bindActionCreators(pageActionCreators, dispatch),
-            userActions: bindActionCreators(userActionCreators, dispatch)
+            doorlockActions : bindActionCreators(doorlockActionCreators, dispatch),
+            menuActions     : bindActionCreators(menuActionCreators, dispatch),
+            pageActions     : bindActionCreators(pageActionCreators, dispatch),
+            userActions     : bindActionCreators(userActionCreators, dispatch)
+        }
+    }
+}
+
+function getCurrentPageTitle(currentPageId){
+    for(let title in staticStore.pages){
+        if(staticStore.pages[title].id === currentPageId){
+            return title;
         }
     }
 }

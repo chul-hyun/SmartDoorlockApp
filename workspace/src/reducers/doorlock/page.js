@@ -11,17 +11,17 @@ const initialState = Immutable.Map()
 
 export default createReducer(initialState, {
     [TYPES.LOGIN]:
-        (_page, {user})=> _page.mergeDeep({
+        (_page) => _page.mergeDeep({
             currentPageId : pages.mainPage.id
         }),
 
     [TYPES.LOGOUT]:
-        (_page, action)=> _page.mergeDeep({
+        (_page) => _page.mergeDeep({
             currentPageId: pages.initPage.id
         }),
 
     [TYPES.SET_PAGE]:
-        (_page, {currentPageId})=> _page.mergeDeep({
+        (_page, {currentPageId}) => _page.mergeDeep({
             currentPageId
         })
 })

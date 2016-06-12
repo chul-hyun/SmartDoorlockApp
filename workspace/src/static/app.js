@@ -1,3 +1,9 @@
+/*
+상수 값 목록
+*/
+
+'use strict';
+
 export const middleServerURL = 'http://ec2-52-79-160-28.ap-northeast-2.compute.amazonaws.com:3000';
 
 export const title = "Smart Doorlock";
@@ -52,8 +58,6 @@ export const pages = {
         id   : i++
     }
 };
-
-
 
 export const sections = [
     {

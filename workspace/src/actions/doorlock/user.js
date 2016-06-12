@@ -2,107 +2,71 @@
 
 import TYPES from './types';
 
-import Immutable from 'immutable';
-import Q from 'q';
-
 import middleServerAPI from '../../util/middle-server-api';
 import localStorage from '../../util/localStorage';
 
-import Notification from 'react-native-system-notification';
-import GcmAndroid from 'react-native-gcm-android';
-
 export function login(){
-    return (dispatch) =>{
-        (async function(){
-            try{
-                let data = await _login();
-                console.log('data:', data);
-                if(data.result){
-                    dispatch({
-                        type   : TYPES.LOGIN,
-                        user   : data.user
-                    });
-                }else{
-                    dispatch({
-                        type : TYPES.LOGOUT
-                    })
-                }
-            }catch(error){
-                console.log('error catch');
-                dispatch({
-                    type : TYPES.ALERT
-                })
-            }
-        })();
+    return async function(dispatch){
+        let data = await _login();
+        console.log('data:', data);
+        if(data.result){
+            dispatch({
+                type   : TYPES.LOGIN,
+                user   : data.user
+            });
+        }else{
+            dispatch({
+                type : TYPES.LOGOUT
+            })
+        }
     }
 }
 
 export function setGCMID(GCMRegistrationId){
-    return (dispatch)=>{
-        (async function(){
-            try{
-                let _GCMRegistrationId = await localStorage.getItem('GCMRegistrationId');
+    return async function(dispatch){
+        let _GCMRegistrationId = await localStorage.getItem('GCMRegistrationId');
 
-                if(_GCMRegistrationId === null || GCMRegistrationId != _GCMRegistrationId){
-                    await localStorage.setItem('GCMRegistrationId', GCMRegistrationId);
-                    await setGCMRegistrationId(GCMRegistrationId);
-                }
-                
-                dispatch({
-                    type : TYPES.SET_GCM_REGISTRATION_ID,
-                    GCMRegistrationId
-                });
-            }catch(error){
-                console.log('error catch');
-            }
-        })();
+        if(_GCMRegistrationId === null || GCMRegistrationId != _GCMRegistrationId){
+            await localStorage.setItem('GCMRegistrationId', GCMRegistrationId);
+            await setGCMRegistrationId(GCMRegistrationId);
+        }
+
+        dispatch({
+            type : TYPES.SET_GCM_REGISTRATION_ID,
+            GCMRegistrationId
+        });
     }
 }
 
 export function regist(registInfo){
-    return (dispatch)=>{
-        (async function(){
-            try{
-                let { result, user } = await _regist(registInfo)
+    return async function(dispatch){
+        let { result, user } = await _regist(registInfo)
 
-                if(result){
-                    dispatch({
-                        type : TYPES.LOGIN,
-                        user
-                    });
+        if(result){
+            dispatch({
+                type : TYPES.LOGIN,
+                user
+            });
 
-                    let GCMRegistrationId = await localStorage.getItem('GCMRegistrationId');
-                    if(GCMRegistrationId !== null){
-                        await setGCMRegistrationId(GCMRegistrationId);
-                    }
-                }else{
-                    dispatch({
-                        type : TYPES.ALERT,
-                        message
-                    })
-                }
-            }catch(error){
-                console.log('error catch');
+            let GCMRegistrationId = await localStorage.getItem('GCMRegistrationId');
+            if(GCMRegistrationId !== null){
+                await setGCMRegistrationId(GCMRegistrationId);
             }
-        })();
+        }else{
+            dispatch({
+                type : TYPES.ALERT,
+                message
+            })
+        }
     }
 }
 
 export function unregist(){
-    return (dispatch) =>{
-        (async function(){
-            try{
-                await _unregist()
-                dispatch({
-                    type : TYPES.LOGOUT
-                })
-            }catch({message}){
-                dispatch({
-                    type : TYPES.ALERT,
-                    message
-                })
-            }
-        })();
+    return async function(dispatch){
+        await _unregist()
+        dispatch({
+            type : TYPES.LOGOUT
+        })
     }
 }
 
@@ -112,7 +76,7 @@ async function setGCMRegistrationId(GCMRegistrationId){
         return false;
     }
 
-    await middleServerAPI.rsaPost('setGCMRegistrationId', {loginInfo, GCMRegistrationId});
+    await middleServerAPI.userPost('setGCMRegistrationId', loginInfo, GCMRegistrationId);
     return true;
 }
 

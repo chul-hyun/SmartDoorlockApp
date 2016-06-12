@@ -1,37 +1,46 @@
 'use strict';
 
-import { createReducer } from '../../util/extend-redux';
-import Immutable from 'immutable';
-
-import TYPES from '../../actions/doorlock/types';
-
 import { pages } from '../../static/app';
 
-const initialState = Immutable.Map()
+export default function(state, action){
+    state = setPageFilter(state, action);
 
-export default createReducer(initialState, {
-    [TYPES.SET_PAGE]:
-        (state, action)=> {
-            return checkRegisted(state, action);
-        }
-});
+    return state;
+}
 
-function checkRegisted(state, action){
-    let registered        = state.getIn(['user', 'id']) !== null;
-    let GCMRegistrationId = state.getIn(['user', 'GCMRegistrationId']);
+function setPageFilter(state, action){
     let currentPageId     = state.getIn(['page', 'currentPageId']);
+    let GCMRegistrationId = state.getIn(['user', 'GCMRegistrationId']);
+    let userId            = state.getIn(['user', 'id']);
 
-    if(registered && currentPageId == pages.initPage.id){
+    let logged               = userId !== null;
+    let hasGCMRegistrationId = GCMRegistrationId !== null;
+
+    if(logged && onlyAccessOfNonUser(currentPageId)){
         state = state.setIn(['page', 'currentPageId'], pages.mainPage.id);
     }
 
-    if(!registered && (currentPageId != pages.initPage.id && currentPageId != pages.registPage.id)){
+    if(!logged && onlyAccessOfUser(currentPageId)){
         state = state.setIn(['page', 'currentPageId'], pages.initPage.id);
     }
 
-    if(GCMRegistrationId == null){
+    if(!hasGCMRegistrationId){
         state = state.setIn(['page', 'currentPageId'], pages.loadingPage.id);
     }
 
     return state;
+}
+
+function onlyAccessOfNonUser(currentPageId){
+    return (
+        currentPageId == pages.registPage.id ||
+        currentPageId == pages.initPage.id
+    );
+}
+
+function onlyAccessOfUser(currentPageId){
+    return (
+        !onlyAccessOfNonUser(currentPageId) &&
+        currentPageId != pages.loadingPage.id
+    );
 }

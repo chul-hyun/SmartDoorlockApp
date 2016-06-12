@@ -1,5 +1,9 @@
+'use strict';
+
+import Q from 'q';
+
 function mod(x, m){
-    return x%m;
+    return x % m;
 }
 
 function powMod(x, p, m){
@@ -21,24 +25,26 @@ function getPowModBinaryList(max, num, m){
 }
 
 function IncodeRSA(num, e, N){
-    return powMod(0+num, e, N);
+    return new Promise((resolve)=>{
+        resolve(powMod(0+num, e, N));
+    })
 }
 
 export function incodeString(message, e, N){
-    let screet = [];
+    let promiseList = [];
 
     (message+'').split('').forEach((str) => {
         let codes = zeroFill(str.charCodeAt(0) + 3, 6);
         codes.split('');
         codes = [codes[0]+codes[1]+codes[2], codes[3]+codes[4]+codes[5]];
-        codes.forEach((code) => screet.push(IncodeRSA(code, e, N)) );
-    })
+        codes.forEach((code) => promiseList.push(IncodeRSA(code, e, N)) );
+    });
 
-    return screet;
+    return Promise.all(promiseList);
 }
 
-export function incodeJSON(data, e, N){
-   return incodeString(JSON.stringify({data}), e, N);
+export async function incodeJSON(data, e, N){
+   return await incodeString(JSON.stringify({data}), e, N);
 }
 
 // 문자를 유니코드로 변경.

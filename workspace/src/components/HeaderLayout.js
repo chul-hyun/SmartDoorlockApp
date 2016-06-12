@@ -15,7 +15,8 @@ export class HeaderLayout extends Component {
             rightIcon,
             leftIcon,
             onPressRightIcon,
-            onPressLeftIcon
+            onPressLeftIcon,
+            children
         } = this.props;
 
         return (
@@ -32,7 +33,7 @@ export class HeaderLayout extends Component {
                     </View>
                 </View>
                 <View>
-                    {this.props.children}
+                    {children}
                 </View>
             </View>
         );
