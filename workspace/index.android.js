@@ -2,8 +2,9 @@
 
 console.log('start app');
 
-import React, {
-    Component,
+import React, { Component } from 'react';
+
+import {
     AppRegistry
 } from 'react-native';
 

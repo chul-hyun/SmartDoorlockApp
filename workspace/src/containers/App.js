@@ -8,10 +8,13 @@ import {
 
 import React, {
     Component,
+    PropTypes
+} from 'react';
+
+import {
     StyleSheet,
     Text,
     View,
-    PropTypes,
     DeviceEventEmitter
 } from 'react-native';
 
@@ -40,7 +43,7 @@ import {
 
 import * as staticStore from '../static/app';
 
-import pushNotification from './src/util/pushNotification';
+import pushNotification from '../util/pushNotification';
 import reactGcmAndroid from 'react-native-gcm-android';
 
 class App extends Component {
@@ -87,14 +90,15 @@ class App extends Component {
         let {
             loadingPage,
             initPage,
-            registPag,
+            registPage,
             mainPage,
             historyPage,
             searchPage,
             searchResultPage,
             setupPage,
             myPage,
-            userListPage } = pages;
+            userListPage
+        } = pages;
 
         let currentPageId = store.getIn(['page', 'currentPageId']);
 

@@ -1,9 +1,12 @@
 import React, {
     Component,
+    PropTypes
+} from 'react';
+
+import {
     View,
     Image,
-    Text,
-    PropTypes
+    Text
 } from 'react-native';
 
 import { TouchButton } from '../components';
