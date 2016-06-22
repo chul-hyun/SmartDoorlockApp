@@ -1,3 +1,5 @@
+'use strict';
+
 import Immutable from 'immutable';
 import { pages, sounds } from '../../static/app';
 
@@ -26,9 +28,12 @@ export default Immutable.fromJS({
         currentPageId : pages.loadingPage.id
     },
     setting: {
-        successAlram : true,
-        failAlram    : true,
-        alarmSound   : sounds.alram1.id
+        alarm:{
+            onAuthSuccess : true,
+            onAuthFail    : true,
+            onTempWarning : true,
+            sound         : sounds.alram1.id
+        }
     },
     menu: {
         show : false

@@ -9,11 +9,15 @@ Door locks to control the application
 
 ## TODO LIST
 - [ ] README.md 파일 수정
-- [ ] immutable 데이터를 react에서 직접 사용되도록 수정 (delete toJS())
-- [ ] 고정 데이터와 정적데이터의 설계를 다시하자. ( action과의 의존성 줄이기 )
-- [ ] init 과정에 휴대폰에 이미 유저정보가 있을시 서버에 정말 있는지 확인하는 절차도 추가하기.
+- [x] immutable 데이터를 react에서 직접 사용되도록 수정 (delete toJS())
+- [x] 고정 데이터와 정적데이터의 설계를 다시하자. ( action과의 의존성 줄이기 )
+- [x] init 과정에 휴대폰에 이미 유저정보가 있을시 서버에 정말 있는지 확인하는 절차도 추가하기.
 - [ ] realm 적용해보기
 - [ ] flow 적용해보기
+- [ ] 모든 에러를 한곳에서 잡아서 alert 하도록 코딩 참고: https://dobbit.github.io/redux/docs_kr/advanced/Middleware.html
+= [ ] package.json 의 scripts 설정
+- [ ] TODO LIST를 //@TODO 주석을 찾아서 readme.md 파일에 추가할수 있는 gulp 작성
+- [ ] git push 하는 gulp 작성
 
 ## Tec
 - React Native

@@ -1,41 +1,28 @@
 'use strict';
 
-import { createReducer } from '../../util/extend-redux'
-import Immutable from 'immutable';
+import { createMapReducer } from '../../util/extend-redux'
 
 import TYPES from '../../actions/doorlock/types';
 
-const initialState = Immutable.Map()
-
-let reducer = createReducer(initialState, {
+let reducer = createMapReducer({
     [TYPES.SHOW_MENU]:
-        (_menu, action)=> {
-            return _menu.mergeDeep({
-                show: true
-            });
-        },
+        (_menu, action)=> _menu.mergeDeep({
+            show: true
+        }),
 
     [TYPES.HIDE_MENU]:
-        (_menu, action)=> {
-            return _menu.mergeDeep({
-                show: false
-            });
-        },
+        (_menu, action)=> _menu.mergeDeep({
+            show: false
+        }),
 
     [TYPES.TOGGLE_MENU]:
-        (_menu, action)=> {
-            return _menu.mergeDeep({
-                show: !_menu.get('show', false)
-            });
-        }
+        (_menu, action)=> _menu.mergeDeep({
+            show: !_menu.get('show', false)
+        })
 })
 
-export default function(_menu, action){
-    return autoCloseMenu(reducer(_menu, action), action);
-}
-
-
-function autoCloseMenu(_menu, action){
+// 메뉴 클릭 및 다른 행동시 메뉴가 hide되게 함.
+function autoHideMenu(_menu, action){
     if(!action){
         return _menu;
     }
@@ -50,4 +37,8 @@ function autoCloseMenu(_menu, action){
     return _menu.mergeDeep({
         show: false
     })
+}
+
+export default function(_menu, action){
+    return autoHideMenu(reducer(_menu, action), action);
 }

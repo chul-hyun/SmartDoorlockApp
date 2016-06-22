@@ -1,9 +1,12 @@
 import React, {
     Component,
+    PropTypes
+} from 'react';
+
+import {
     View,
     Image,
-    Text,
-    PropTypes
+    Text
 } from 'react-native';
 
 import { TouchButton } from '../components';
@@ -15,7 +18,8 @@ export class HeaderLayout extends Component {
             rightIcon,
             leftIcon,
             onPressRightIcon,
-            onPressLeftIcon
+            onPressLeftIcon,
+            children
         } = this.props;
 
         return (
@@ -32,7 +36,7 @@ export class HeaderLayout extends Component {
                     </View>
                 </View>
                 <View>
-                    {this.props.children}
+                    {children}
                 </View>
             </View>
         );

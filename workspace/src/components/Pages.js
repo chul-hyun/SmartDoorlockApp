@@ -1,7 +1,10 @@
 import React, {
     Component,
-    View,
     PropTypes
+} from 'react';
+
+import {
+    View
 } from 'react-native';
 
 import { Page } from '../components/Page';
