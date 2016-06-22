@@ -24,12 +24,12 @@ export function login(){
 
 export function setGCMID(GCMRegistrationId){
     return async function(dispatch){
-        let _GCMRegistrationId = await localStorage.getItem('GCMRegistrationId');
+        //let _GCMRegistrationId = await localStorage.getItem('GCMRegistrationId');
 
-        if(_GCMRegistrationId === null || GCMRegistrationId != _GCMRegistrationId){
+        //if(_GCMRegistrationId === null || GCMRegistrationId != _GCMRegistrationId){
             await localStorage.setItem('GCMRegistrationId', GCMRegistrationId);
             await setGCMRegistrationId(GCMRegistrationId);
-        }
+        //}
 
         dispatch({
             type : TYPES.SET_GCM_REGISTRATION_ID,

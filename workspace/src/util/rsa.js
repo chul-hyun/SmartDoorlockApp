@@ -2,26 +2,29 @@
 
 import Q from 'q';
 
-function mod(x, m){
-    return x % m;
-}
+/**
+ * 고속 누승 알고리즘 구현.
+ * x^p mod(m) 계산
+ * 참고: http://a.nex.kr.pe/wordpress/2015/10/21/제-6강-고속-누승-알고리즘과-모듈러/
+ * @method powMod
+ * @param  {int}    x   피제수
+ * @param  {int}    p   지수
+ * @param  {int}    m   제수
+ * @return {int}        x^p mod(m) 계산 결과값
+ */
+function powMod(a, b, n){
+    let result = 1;
 
-function powMod(x, p, m){
-    let binary = (p).toString(2).split('').reverse().map((v, i) => (v == '1') ? i : -1);
-    let binaryModList = getPowModBinaryList(binary.length, x, m);
-    binary = binary.filter(v => v >= 0).map(v => binaryModList[v]);
-    return binary.reduce((result, val) => mod(result * val, m), 1);
-}
-
-function getPowModBinaryList(max, num, m){
-    let binary = new Array(max - 1).fill(true);
-    let result = [num];
-    binary.reduce(pre => {
-      let val = mod(Math.pow(pre, 2), m);
-      result.push(val);
-      return val;
-    }, num)
-    return result;
+    while(b)
+   {
+      if(b & 1)
+      {
+         result = (result * a) % n ;
+      }
+       b = parseInt(b / 2);
+       a  = (a * a) % n ;
+   }
+   return result;
 }
 
 function IncodeRSA(num, e, N){
@@ -30,20 +33,20 @@ function IncodeRSA(num, e, N){
     })
 }
 
-export function incodeString(message, e, N){
+function incodeString(message, e, N){
     let promiseList = [];
 
     (message+'').split('').forEach((str) => {
         let codes = zeroFill(str.charCodeAt(0) + 3, 6);
         codes.split('');
         codes = [codes[0]+codes[1]+codes[2], codes[3]+codes[4]+codes[5]];
-        codes.forEach((code) => promiseList.push(IncodeRSA(code, e, N)) );
+        codes.forEach((code) => promiseList.push(IncodeRSA(code, e, N)));
     });
 
     return Promise.all(promiseList);
 }
 
-export async function incodeJSON(data, e, N){
+async function incodeJSON(data, e, N){
    return await incodeString(JSON.stringify({data}), e, N);
 }
 
@@ -59,4 +62,8 @@ function zeroFill(number, n){
         return new Array( n + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
     }
     return number + ""; // always return a string
+}
+
+export default {
+    incodeString, incodeJSON
 }

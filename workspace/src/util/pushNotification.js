@@ -5,7 +5,17 @@ import localStorage from './localStorage';
 
 export default async function pushNotification(notificationData){
     let { message, type } = notificationData;
-    let { alram }         = await localStorage.getItem('setting');
+    let setting           = await localStorage.getItem('setting');
+
+    let alram             = {
+        onAuthSuccess : true,
+        onAuthFail    : true,
+        onTempWarning : true
+    }
+
+    if( setting !== null ){
+        alram = setting.alram;
+    }
 
     if(type == 'auth success' && alram.onAuthSuccess){
         reactNotification.create({

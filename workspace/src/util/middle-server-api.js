@@ -1,7 +1,7 @@
 'use strict';
 
 import { middleServerURL } from '../static/app';
-import { incodeJSON } from './rsa';
+import rsa from './rsa';
 
 // 서버에서 받은 공개키와 공개키 갱신주기 값
 let rsaInfo = {
@@ -27,7 +27,7 @@ async function post(url, send){
         let responseJson = await response.json();
         return responseJson;
     } catch(error) {
-        // Handle error
+        // @TODO Handle error
         console.error(error);
     }
 }
@@ -37,6 +37,7 @@ async function rsaPost(op, message){
 
     async function _rsaPost(){
         let data;
+        console.log('message', message);
         if(+new Date() - publicKeySetTime >= rsaInfo.interval){
             // 키 재설정 시간(interval)이 지났을시 공개키를 받는다.
             console.log(`rsa url: /rsa/get`);
@@ -45,10 +46,10 @@ async function rsaPost(op, message){
             console.log(`rsa url: /rsa/${op}`);
             data = await post(`${middleServerURL}/rsa/${op}`, {
                 rsaInfo,
-                screetData: await incodeJSON(message, rsaInfo.e, rsaInfo.N) //암호화
+                screetData: await rsa.incodeJSON(message, rsaInfo.e, rsaInfo.N) //암호화
             });
         }
-        console.log(data);
+        console.log('data', data);
         if(data.state == 'rsaInfo'){
             // 공개키 재설정후 서버에 재요청
             publicKeySetTime = +new Date();

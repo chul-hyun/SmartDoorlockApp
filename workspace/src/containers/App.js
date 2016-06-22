@@ -64,9 +64,9 @@ class App extends Component {
         reactGcmAndroid.addEventListener('notification', (notificationData)=>{
             console.log('notificationData', notificationData);
             notificationData = JSON.parse(notificationData.data.info);
-            if (!reactGcmAndroid.isInForeground) { // 백그라운드에서 실행 중 일때
+            //if (!reactGcmAndroid.isInForeground) { // 백그라운드에서 실행 중 일때
                 pushNotification(notificationData);
-            }
+            //}
         });
 
         DeviceEventEmitter.addListener('sysNotificationClick', (e)=> {
