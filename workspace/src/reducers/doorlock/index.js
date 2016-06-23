@@ -16,5 +16,6 @@ import user from './user'
                         menu,page,user
                     });
                     export default function(state = initialState, action){
+                        console.log(action, state.toJS());
                         return filter(root(childReducer(state, action), action), action);
                     }

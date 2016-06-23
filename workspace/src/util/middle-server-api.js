@@ -2,6 +2,9 @@
 
 import { middleServerURL } from '../static/app';
 import rsa from './rsa';
+import createLoger from './createLoger';
+
+let loger = createLoger('#a68bff');
 
 // 서버에서 받은 공개키와 공개키 갱신주기 값
 let rsaInfo = {
@@ -15,7 +18,6 @@ let publicKeySetTime = 0;
 
 async function post(url, send){
     try {
-        console.log(url);
         let response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -37,19 +39,19 @@ async function rsaPost(op, message){
 
     async function _rsaPost(){
         let data;
-        console.log('message', message);
+        loger('send Data', message);
         if(+new Date() - publicKeySetTime >= rsaInfo.interval){
             // 키 재설정 시간(interval)이 지났을시 공개키를 받는다.
-            console.log(`rsa url: /rsa/get`);
+            loger('url', '/rsa/get');
             data = await post(`${middleServerURL}/rsa/get`);
         }else{
-            console.log(`rsa url: /rsa/${op}`);
+            loger('url', `/rsa/${op}`);
             data = await post(`${middleServerURL}/rsa/${op}`, {
                 rsaInfo,
                 screetData: await rsa.incodeJSON(message, rsaInfo.e, rsaInfo.N) //암호화
             });
         }
-        console.log('data', data);
+        loger('get data', data);
         if(data.state == 'rsaInfo'){
             // 공개키 재설정후 서버에 재요청
             publicKeySetTime = +new Date();

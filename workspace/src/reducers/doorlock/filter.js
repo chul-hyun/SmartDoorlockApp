@@ -14,7 +14,6 @@ function setPageFilter(state, action){
     let userId            = state.getIn(['user', 'id']);
 
     let logged               = userId !== null;
-    let hasGCMRegistrationId = GCMRegistrationId !== null;
 
     if(logged && onlyAccessOfNonUser(currentPageId)){
         state = state.setIn(['page', 'currentPageId'], pages.mainPage.id);
@@ -22,10 +21,6 @@ function setPageFilter(state, action){
 
     if(!logged && onlyAccessOfUser(currentPageId)){
         state = state.setIn(['page', 'currentPageId'], pages.initPage.id);
-    }
-
-    if(!hasGCMRegistrationId){
-        state = state.setIn(['page', 'currentPageId'], pages.loadingPage.id);
     }
 
     return state;

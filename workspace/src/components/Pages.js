@@ -8,11 +8,12 @@ import {
 } from 'react-native';
 
 import { Page } from '../components/Page';
+import { commonStyles } from '../static/styles';
 
 export class Pages extends Component {
     render() {
         return (
-            <View>
+            <View style={[commonStyles.base]}>
                 {renderChildren(this.props)}
             </View>
         );

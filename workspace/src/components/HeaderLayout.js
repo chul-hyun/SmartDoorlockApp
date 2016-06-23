@@ -22,17 +22,19 @@ export class HeaderLayout extends Component {
             children
         } = this.props;
 
+        console.log('rightIcon', rightIcon);
+
         return (
             <View>
                 <View>
                     <View>
-                        <TouchButton value={leftIcon} onPress={onPressLeftIcon} />
+                        {(leftIcon) ? <TouchButton value={leftIcon} onPress={onPressLeftIcon} /> : null}
                     </View>
                     <View>
                         <Text>{title}</Text>
                     </View>
                     <View>
-                        <TouchButton value={rightIcon} onPress={onPressRightIcon} />
+                        {(rightIcon) ? <TouchButton value={rightIcon} onPress={onPressRightIcon} /> : null}
                     </View>
                 </View>
                 <View>

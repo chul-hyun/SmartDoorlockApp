@@ -10,6 +10,9 @@ export default createReducer(Immutable.Map(), {
     [TYPES.LOGIN]:
         (_user, { user }) => _user.mergeDeep(user),
 
+    [TYPES.LOGGED]:
+        (_user, { user }) => _user.mergeDeep(user),
+
     [TYPES.LOGOUT]:
         (_user) => _user.mergeDeep({
             name              : null,

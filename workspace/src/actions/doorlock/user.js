@@ -5,10 +5,13 @@ import TYPES from './types';
 import middleServerAPI from '../../util/middle-server-api';
 import localStorage from '../../util/localStorage';
 
+import { pages } from '../../static/app';
+
 export function login(){
     return async function(dispatch){
+
         let data = await _login();
-        console.log('data:', data);
+        console.log('data', data);
         if(data.result){
             dispatch({
                 type   : TYPES.LOGIN,
@@ -18,6 +21,22 @@ export function login(){
             dispatch({
                 type : TYPES.LOGOUT
             })
+        }
+    }
+}
+
+export function checkUserInfo(){
+    return async function(dispatch){
+        let check = await existLoginInfo();
+        if(check.result){
+            dispatch({
+                type : TYPES.LOGGED,
+                user : check.loginInfo
+            });
+        }else{
+            dispatch({
+                type : TYPES.NON_LOGGED
+            });
         }
     }
 }
@@ -78,6 +97,15 @@ async function setGCMRegistrationId(GCMRegistrationId){
 
     await middleServerAPI.userPost('setGCMRegistrationId', loginInfo, GCMRegistrationId);
     return true;
+}
+
+async function existLoginInfo(){
+    let loginInfo = await localStorage.getItem('loginInfo');
+
+    if( loginInfo === null ){
+        return {result: false};
+    }
+    return {result: true, loginInfo};
 }
 
 async function _login(){

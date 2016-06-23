@@ -10,5 +10,7 @@ export default {
     ALERT                   : 'ALERT',
     TOAST                   : 'TOAST',
     UNLOCK                  : 'UNLOCK',
-    SET_GCM_REGISTRATION_ID : 'SET_GCM_REGISTRATION_ID'
+    SET_GCM_REGISTRATION_ID : 'SET_GCM_REGISTRATION_ID',
+    LOGGED                  : 'LOGGED',
+    NON_LOGGED              : 'NON_LOGGED',
 }
