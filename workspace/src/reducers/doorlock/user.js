@@ -23,8 +23,16 @@ export default createReducer(Immutable.Map(), {
             doorlockId        : null
         }),
 
+    [TYPES.UNLOCK]:
+        (_user, { authtime }) => _user.mergeDeep({latestAuthDate : authtime}),
+
     [TYPES.SET_GCM_REGISTRATION_ID]:
         (_user, {GCMRegistrationId}) => _user.mergeDeep({
             GCMRegistrationId
+        }),
+
+    [TYPES.CHANGE_NAME]:
+        (_user, {name}) => _user.mergeDeep({
+            name
         })
 });

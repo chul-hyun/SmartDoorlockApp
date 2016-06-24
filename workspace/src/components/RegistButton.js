@@ -15,23 +15,21 @@ import {
 
 import {
     commonStyles,
-    doneColor
+    colors
  } from '../static/styles';
 import * as staticStore from '../static/app';
 
 class RegistButton extends Component {
     render() {
-        let { registInfo }  = this.props;
+        let { getRegistInfo }  = this.props;
         let { userActions } = this.props.actions;
         let { regist }    = userActions;
 
         return (
             <TextButton
-                onPress={()=>regist(registInfo)}
+                onPress={()=> regist(getRegistInfo())}
                 style={[styles.warp, styles.text]}
-            >
-                등록
-            </TextButton>
+            >등록</TextButton>
         );
     }
 }
@@ -41,7 +39,7 @@ const styles = StyleSheet.create({
         width: 150,
         height: 30,
         borderRadius: 10,
-        backgroundColor: doneColor
+        backgroundColor: colors.doneColor
     },
     text: {
         fontSize: 15,

@@ -32,7 +32,6 @@ export default Immutable.fromJS({
             onAuthSuccess : true,
             onAuthFail    : true,
             onTempWarning : true,
-            sound         : sounds.alram1.id
         }
     },
     menu: {

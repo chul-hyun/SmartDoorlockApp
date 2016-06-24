@@ -16,7 +16,7 @@ import {
 
 import { commonStyles } from '../static/styles';
 
-export class MainPage extends Component {
+class MainPage extends Component {
     render() {
         return (
             <View style={[commonStyles.center, commonStyles.base]}>
@@ -56,3 +56,5 @@ MainPage.propTypes = {
 MainPage.defaultProps = {
 
 }
+
+export default MainPage;

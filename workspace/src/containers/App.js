@@ -127,7 +127,7 @@ class App extends Component {
                             <SetupPage title={setupPage.title} onShowMenu={show} />
                         </Page>
                         <Page id={myPage.id}>
-                            <MyPage title={myPage.title} onShowMenu={show} />
+                            <MyPage />
                         </Page>
                         <Page id={userListPage.id}>
                             <UserListPage title={userListPage.title} onShowMenu={show} />

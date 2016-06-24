@@ -5,31 +5,31 @@ import localStorage from './localStorage';
 
 export default async function pushNotification(notificationData){
     let { message, type } = notificationData;
-    let setting           = await localStorage.getItem('setting');
+    let setting     = await localStorage.getItem('setting');
 
-    let alram             = {
+    let alramSetting = {
         onAuthSuccess : true,
         onAuthFail    : true,
         onTempWarning : true
     }
 
-    if( setting !== null ){
-        alram = setting.alram;
+    if( setting.alram !== null ){
+        alramSetting = setting.alram;
     }
 
-    if(type == 'auth success' && alram.onAuthSuccess){
+    if(type == 'auth success' && alramSetting.onAuthSuccess){
         reactNotification.create({
             message
         });
     }
 
-    if(type == 'auth fail' && alram.onAuthFail){
+    if(type == 'auth fail' && alramSetting.onAuthFail){
         reactNotification.create({
             message
         });
     }
 
-    if(type == 'temp warning' && alram.onTempWarning){
+    if(type == 'temp warning' && alramSetting.onTempWarning){
         reactNotification.create({
             message
         });

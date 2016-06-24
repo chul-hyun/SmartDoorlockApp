@@ -20,7 +20,7 @@ class UnlockButton extends Component {
 
         return (
             <TouchableHighlight onPress={unlock} style={[commonStyles.cycle, styles.wrap]} underlayColor={'#e6e6e6'} >
-                <Image source={require(`../icons/unlock.png`)} style={styles.img} />
+                <Image source={require('../icons/unlock.png')} style={styles.img} />
             </TouchableHighlight>
         );
     }

@@ -2,8 +2,11 @@ import {
     StyleSheet
 } from 'react-native';
 
-export const backgroundColor = '#fff';
-export const doneColor = '#d2ffc4';
+export const colors = {
+    backgroundColor : '#fff',
+    doneColor       : '#d2ffc4',
+    gary            : '#d1d1d1'
+}
 
 export const commonStyles = StyleSheet.create({
     base: {
@@ -17,7 +20,7 @@ export const commonStyles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 100,
-        backgroundColor: doneColor,
+        backgroundColor: colors.doneColor,
     },
     center: {
         flex: 1,
@@ -30,5 +33,20 @@ export const commonStyles = StyleSheet.create({
     icon: {
         width: 30,
         height: 30,
+    },
+    modalContainer: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        flex: 1,
+        justifyContent: 'center',
+        padding: 20,
+    },
+    modalInnerContainer: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    modalTitle: {
+        fontSize: 20
     }
 });

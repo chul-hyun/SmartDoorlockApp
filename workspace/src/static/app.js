@@ -24,18 +24,18 @@ export const pages = {
         id   : i++
     },
     mainPage: {
-        title: title,
-        icon : 'mainPage.png',
+        title: '홈으로',
+        icon : require('../icons/home.png'),
         id   : i++
     },
     historyPage: {
         title: '인증기록',
-        icon : 'historyPage.png',
+        icon : require('../icons/list.png'),
         id   : i++
     },
     searchPage: {
         title: '검색',
-        icon : 'searchPage.png',
+        icon : require('../icons/search.png'),
         id   : i++
     },
     searchResultPage: {
@@ -44,17 +44,17 @@ export const pages = {
     },
     setupPage: {
         title: '설정',
-        icon : 'setupPage.png',
+        icon : require('../icons/setting.png'),
         id   : i++
     },
     myPage: {
         title: '내 정보',
-        icon : 'myPage.png',
+        icon : require('../icons/user.png'),
         id   : i++
     },
     userListPage: {
         title: '사용자 목록',
-        icon : 'userListPage.png',
+        icon : require('../icons/users.png'),
         id   : i++
     }
 };

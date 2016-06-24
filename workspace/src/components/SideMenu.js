@@ -8,6 +8,7 @@ import {
     DrawerLayoutAndroid,
     TouchableHighlight,
     Text,
+    Image,
     StyleSheet
 } from 'react-native';
 
@@ -15,7 +16,10 @@ import {
     Logo
  } from '../components';
 
-import { commonStyles } from '../static/styles';
+import {
+    commonStyles,
+    colors
+ } from '../static/styles';
 
 export class SideMenu extends Component {
     render() {
@@ -36,7 +40,7 @@ export class SideMenu extends Component {
             let titleTag = null
 
             if(section.title){
-                titleTag = <Text>{section.title}</Text>
+                titleTag = <Text style={[styles.sectionTitle]}>{section.title}</Text>
             }
 
             let menuTags = section.menus.reduce((menuTags, key)=>{
@@ -47,14 +51,12 @@ export class SideMenu extends Component {
                 }
 
                 menuTags.push(
-                    <View style={[styles.itemBox]} key={menu.id}>
-                        <TouchableHighlight onPress={()=>onPressMenu(menu.id)}>
-                            <View>
-                                <Text>{menu.icon}</Text>
-                                <Text>{menu.title}</Text>
-                            </View>
-                        </TouchableHighlight>
-                    </View>
+                    <TouchableHighlight onPress={()=>onPressMenu(menu.id)} style={[styles.itemBox]} key={menu.id}>
+                        <View style={[styles.item]}>
+                            <Image source={menu.icon} style={styles.icon} />
+                            <Text>{menu.title}</Text>
+                        </View>
+                    </TouchableHighlight>
                 )
 
                 return menuTags;
@@ -108,21 +110,37 @@ export class SideMenu extends Component {
 
 const styles = StyleSheet.create({
     sideBarBox:{
-
-    },
-    title: {
-        fontSize: 20
+        paddingTop  : 25,
     },
     titleBox: {
-        padding: 10,
+        padding : 25,
+    },
+    title: {
+        fontSize   : 20,
+        fontWeight : 'bold',
     },
     sectionBox: {
-        borderTopWidth: 1,
-        padding: 10
+        borderTopWidth : 1,
+        borderTopColor : colors.gary,
+    },
+    sectionTitle: {
+        marginTop    : 15,
+        marginBottom : 15,
+        marginLeft   : 15,
+        fontWeight   : 'bold',
     },
     itemBox: {
-        paddingLeft : 5,
-        paddingTop  : 5
+        paddingLeft   : 20,
+        paddingTop    : 10,
+        paddingBottom : 10,
+    },
+    item: {
+        flexDirection: 'row',
+    },
+    icon: {
+        width: 25,
+        height: 25,
+        marginRight: 10,
     }
 });
 

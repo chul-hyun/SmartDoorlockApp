@@ -26,6 +26,10 @@ class TextButton extends Component {
             fontSize,
             flex,
             elevation,
+            marginLeft,
+            marginRight,
+            marginTop,
+            marginBottom,
         } = style;
 
         let wrapStyle = {
@@ -36,6 +40,10 @@ class TextButton extends Component {
             backgroundColor,
             flex,
             elevation,
+            marginLeft,
+            marginRight,
+            marginTop,
+            marginBottom,
             justifyContent : 'center',
             alignItems     : 'center',
         };

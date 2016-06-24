@@ -7,6 +7,8 @@ import localStorage from '../../util/localStorage';
 
 import { pages } from '../../static/app';
 
+import store from '../../store';
+
 export function login(){
     return async function(dispatch){
 
@@ -89,6 +91,17 @@ export function unregist(){
     }
 }
 
+export function changeName(name){
+    return async function(dispatch){
+        if(await _changeName(name)){
+            dispatch({
+                type : TYPES.CHANGE_NAME,
+                name
+            })
+        }
+    }
+}
+
 async function setGCMRegistrationId(GCMRegistrationId){
     let loginInfo = await localStorage.getItem('loginInfo');
     if( loginInfo === null ){
@@ -140,4 +153,14 @@ async function _regist(registInfo){
 async function _unregist(){
     console.log('removeItem');
     await localStorage.removeItem('loginInfo');
+}
+
+async function _changeName(name){
+    let id        = store.getState().getIn(['doorlock', 'user', 'id'])
+    let password  = store.getState().getIn(['doorlock', 'user', 'password'])
+    let loginInfo = {id, password};
+    console.log(loginInfo);
+    let { result } = await middleServerAPI.userPost('changeName', loginInfo, name);
+
+    return result;
 }

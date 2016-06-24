@@ -19,7 +19,7 @@ import {
 
 import {
     commonStyles,
-    doneColor
+    colors
  } from '../static/styles';
 
 export class RegistPage extends Component {
@@ -56,7 +56,7 @@ export class RegistPage extends Component {
                     </TextInputLabel>
                 </View>
                 <View style={[commonStyles.center, styles.submitBox]}>
-                    <RegistButton registInfo={{ name, doorlockId, doorlockKey }} />
+                    <RegistButton getRegistInfo={()=> ({ name, doorlockId, doorlockKey })} />
                 </View>
             </View>
         );
@@ -94,7 +94,7 @@ export const styles = StyleSheet.create({
         height: 30,
         borderRadius: 10,
         fontSize: 15,
-        backgroundColor: doneColor,
+        backgroundColor: colors.doneColor,
     }
 });
 

@@ -11,9 +11,12 @@
                     import menu from './menu'
 import page from './page'
 import user from './user'
+import users from './users'
+import history from './history'
+import setting from './setting'
 
                     const childReducer = combineReducers({
-                        menu,page,user
+                        menu, page, user, users, history, setting
                     });
                     export default function(state = initialState, action){
                         console.log(action, state.toJS());

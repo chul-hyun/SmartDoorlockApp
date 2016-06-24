@@ -6,7 +6,10 @@ import {
     doorlockActionCreators,
     menuActionCreators,
     pageActionCreators,
-    userActionCreators
+    userActionCreators,
+    usersActionCreators,
+    historyActionCreators,
+    settingActionCreators,
 } from '../actions/doorlock';
 
 function mapStateToProps(state) {
@@ -21,7 +24,10 @@ function mapDispatchToProps(dispatch) {
             doorlockActions : bindActionCreators(doorlockActionCreators, dispatch),
             menuActions     : bindActionCreators(menuActionCreators, dispatch),
             pageActions     : bindActionCreators(pageActionCreators, dispatch),
-            userActions     : bindActionCreators(userActionCreators, dispatch)
+            userActions     : bindActionCreators(userActionCreators, dispatch),
+            usersActions    : bindActionCreators(usersActionCreators, dispatch),
+            historyActions    : bindActionCreators(historyActionCreators, dispatch),
+            settingActions    : bindActionCreators(settingActionCreators, dispatch),
         }
     }
 }

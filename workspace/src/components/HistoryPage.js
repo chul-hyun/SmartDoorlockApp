@@ -5,32 +5,161 @@ import React, {
 
 import {
     View,
-    Text
+    Text,
+    StyleSheet,
+    ListView,
+    ScrollView,
+    Image
 } from 'react-native';
 
-import { TouchButton } from '../components';
+import {
+    HeaderLayout,
+} from '../components';
 
-export class HistoryPage extends Component {
+import {
+    commonStyles,
+    colors
+} from '../static/styles';
+
+import icons from '../icons';
+
+import { pages } from '../static/app';
+
+//@TODO ScrollView를 ListView로 변경.
+
+    class HistoryPage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        };
+    }
+    componentWillMount(){
+        let { historyActions } = this.props.actions;
+        historyActions.getHistory();
+    }
     render() {
-        let { title, onShowMenu } = this.props;
-        return (
-            <View>
-                <View>
-                    <Text>{title}</Text>
-                </View>
-                <View>
-                    <TouchButton value={'menu.png'} onPress={onShowMenu} />
+        let { menuActions }  = this.props.actions;
+        let { show }         = menuActions;
+        let { historyPage } = pages;
+        let { store }        = this.props
+        let history            = store.getIn(['history']).toJS();
+        //let { }              = this.state;
+
+        let historyTags = history.map(({name, state, authtime})=>(
+            <View style={[styles.item]}>
+                <Text style={[styles.name, styles.itemText]}>{name}</Text>
+                <Text style={[styles.authtime, styles.itemText]}>{dateToString(new Date(authtime * 1000 ))}</Text>
+                <View style={styles.state}>
+                    {(() => {
+                    if(state === 'success') {
+                        return <Image source={icons.unlock} style={styles.stateIcon} />
+                    }else{
+                        return <Image source={icons.error} style={styles.stateIcon} />
+                    }
+                    })()}
                 </View>
             </View>
+        ))
+
+        history.forEach((history)=>{
+            console.log('history', history);
+        });
+
+        return (
+            <HeaderLayout
+                title={historyPage.title}
+                leftIcon={icons.menu}
+                onPressLeftIcon={show}
+                rightIcon={icons.search}
+                onPressRightIcon={show}
+                style={[styles.layout]}
+                >
+                <ScrollView style={[styles.list]}>
+                    <View style={[styles.header]}>
+                        <Text style={[styles.name, styles.headerText]}>이름</Text>
+                        <Text style={[styles.authtime, styles.headerText]}>날짜</Text>
+                        <Text style={[styles.state, styles.headerText]}>상태</Text>
+                    </View>
+                    {historyTags}
+                </ScrollView>
+
+            </HeaderLayout>
         );
     }
 }
 
+const styles = StyleSheet.create({
+    layout: {
+        flex            : 1,
+        justifyContent  : 'center',
+    },
+    list: {
+
+    },
+    header: {
+        flexDirection   : 'row',
+        justifyContent  : 'center',
+        paddingTop      : 10,
+        paddingBottom   : 10,
+        backgroundColor : '#fbfdff',
+    },
+    headerText: {
+        fontWeight : 'bold',
+        textAlign  :'center'
+    },
+    item: {
+        flexDirection     : 'row',
+        justifyContent    : 'center',
+        borderBottomWidth : 1,
+        paddingTop        : 10,
+        paddingBottom     : 10,
+        borderColor       : colors.gary,
+    },
+    itemText:{
+
+    },
+    name: {
+        flex : 2,
+        textAlign :'center',
+    },
+    state: {
+        flex : 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    stateIcon: {
+        width: 20,
+        height: 20,
+    },
+    authtime: {
+        flex : 2,
+        textAlign :'center',
+    }
+});
+
 HistoryPage.propTypes = {
-    title      : PropTypes.string.isRequired,
-    onShowMenu : PropTypes.func
+
 }
 
 HistoryPage.defaultProps = {
 
 }
+
+function dateToString(date){
+    return `${date.getFullYear()}.${zeroFill(date.getMonth() + 1, 2)}.\
+${zeroFill(date.getDate(), 2)} - ${zeroFill(date.getHours(), 2)}\
+:${zeroFill(date.getMinutes(), 2)}`
+}
+
+function zeroFill(number, n){
+    n -= number.toString().length;
+    if ( n > 0 )
+    {
+        return new Array( n + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+    }
+    return number + ""; // always return a string
+}
+
+import createReduxComponent from '../containers/createReduxComponent';
+    export default createReduxComponent(HistoryPage);
