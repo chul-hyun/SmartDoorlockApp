@@ -46,8 +46,8 @@ import { pages } from '../static/app';
         let history            = store.getIn(['history']).toJS();
         //let { }              = this.state;
 
-        let historyTags = history.map(({name, state, authtime})=>(
-            <View style={[styles.item]}>
+        let historyTags = history.map(({name, state, authtime, id})=>(
+            <View style={[styles.item]} key={id}>
                 <Text style={[styles.name, styles.itemText]}>{name}</Text>
                 <Text style={[styles.authtime, styles.itemText]}>{dateToString(new Date(authtime * 1000 ))}</Text>
                 <View style={styles.state}>
@@ -71,19 +71,16 @@ import { pages } from '../static/app';
                 title={historyPage.title}
                 leftIcon={icons.menu}
                 onPressLeftIcon={show}
-                rightIcon={icons.search}
-                onPressRightIcon={show}
                 style={[styles.layout]}
                 >
+                <View style={[styles.header]}>
+                    <Text style={[styles.name, styles.headerText]}>이름</Text>
+                    <Text style={[styles.authtime, styles.headerText]}>날짜</Text>
+                    <Text style={[styles.state, styles.headerText]}>상태</Text>
+                </View>
                 <ScrollView style={[styles.list]}>
-                    <View style={[styles.header]}>
-                        <Text style={[styles.name, styles.headerText]}>이름</Text>
-                        <Text style={[styles.authtime, styles.headerText]}>날짜</Text>
-                        <Text style={[styles.state, styles.headerText]}>상태</Text>
-                    </View>
                     {historyTags}
                 </ScrollView>
-
             </HeaderLayout>
         );
     }
