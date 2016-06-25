@@ -7,13 +7,23 @@ import {
     View,
     DrawerLayoutAndroid,
     TouchableHighlight,
-    Text
+    Text,
+    Image,
+    StyleSheet
 } from 'react-native';
+
+import {
+    Logo
+ } from '../components';
+
+import {
+    commonStyles,
+    colors
+ } from '../static/styles';
 
 export class SideMenu extends Component {
     render() {
         let {
-            title,
             menus,
             sections,
             selectedMenu,
@@ -30,7 +40,7 @@ export class SideMenu extends Component {
             let titleTag = null
 
             if(section.title){
-                titleTag = <View><Text>{section.title}</Text></View>
+                titleTag = <Text style={[styles.sectionTitle]}>{section.title}</Text>
             }
 
             let menuTags = section.menus.reduce((menuTags, key)=>{
@@ -41,21 +51,19 @@ export class SideMenu extends Component {
                 }
 
                 menuTags.push(
-                    <View key={menu.id}>
-                        <TouchableHighlight onPress={()=>onPressMenu(menu.id)}>
-                            <View>
-                                <Text>{menu.icon}</Text>
-                                <Text>{menu.title}</Text>
-                            </View>
-                        </TouchableHighlight>
-                    </View>
+                    <TouchableHighlight onPress={()=>onPressMenu(menu.id)} style={[styles.itemBox]} key={menu.id}>
+                        <View style={[styles.item]}>
+                            <Image source={menu.icon} style={styles.icon} />
+                            <Text>{menu.title}</Text>
+                        </View>
+                    </TouchableHighlight>
                 )
 
                 return menuTags;
             }, [])
 
             setctionTags.push(
-                <View key={i++}>
+                <View style={[styles.sectionBox]} key={i++}>
                     {titleTag}
                     {menuTags}
                 </View>
@@ -65,9 +73,9 @@ export class SideMenu extends Component {
         }, []);
 
         var sideTag = (
-            <View>
-                <View>
-                    <Text>{title}</Text>
+            <View style={[styles.sideBarBox]}>
+                <View style={[commonStyles.center, styles.titleBox]}>
+                    <Logo style={styles.title} />
                 </View>
                 <View>
                     {setctionTags}
@@ -92,14 +100,51 @@ export class SideMenu extends Component {
                         }
                     }
                 }}>
-                <View>{children}</View>
+                <View style={[commonStyles.base]} >
+                    {children}
+                </View>
             </DrawerLayoutAndroid>
         );
     }
 }
 
+const styles = StyleSheet.create({
+    sideBarBox:{
+        paddingTop  : 25,
+    },
+    titleBox: {
+        padding : 25,
+    },
+    title: {
+        fontSize   : 20,
+        fontWeight : 'bold',
+    },
+    sectionBox: {
+        borderTopWidth : 1,
+        borderTopColor : colors.gary,
+    },
+    sectionTitle: {
+        marginTop    : 15,
+        marginBottom : 15,
+        marginLeft   : 15,
+        fontWeight   : 'bold',
+    },
+    itemBox: {
+        paddingLeft   : 20,
+        paddingTop    : 10,
+        paddingBottom : 10,
+    },
+    item: {
+        flexDirection: 'row',
+    },
+    icon: {
+        width: 25,
+        height: 25,
+        marginRight: 10,
+    }
+});
+
 SideMenu.propTypes = {
-    title         : PropTypes.string.isRequired,
     menus         : PropTypes.object,
     sections      : PropTypes.array,
     selectedMenu  : PropTypes.string.isRequired,

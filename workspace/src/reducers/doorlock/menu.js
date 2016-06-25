@@ -31,6 +31,7 @@ function autoHideMenu(_menu, action){
         case TYPES.SHOW_MENU :
         case TYPES.HIDE_MENU :
         case TYPES.TOGGLE_MENU :
+        case TYPES.LOGIN :
             return _menu;
     }
 

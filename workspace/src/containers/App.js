@@ -1,11 +1,3 @@
-import {
-    bindActionCreators
-} from '../util/extend-redux'
-
-import {
-    connect
-} from 'react-redux'
-
 import React, {
     Component,
     PropTypes
@@ -34,25 +26,22 @@ import {
     UserListPage
 } from '../components';
 
-import {
-    doorlockActionCreators,
-    menuActionCreators,
-    pageActionCreators,
-    userActionCreators
-} from '../actions/doorlock';
-
 import * as staticStore from '../static/app';
+
+import { commonStyles } from '../static/styles';
 
 import pushNotification from '../util/pushNotification';
 import reactGcmAndroid from 'react-native-gcm-android';
 
+import createReduxComponent from './createReduxComponent';
+
 class App extends Component {
     componentWillMount(){
         let { userActions } = this.props.actions;
+        userActions.checkUserInfo();
         userActions.login();
     }
     componentWillReceiveProps(){
-        console.log('componentWillReceiveProps');
     }
     componentDidMount(){
         let { userActions } = this.props.actions;
@@ -70,13 +59,12 @@ class App extends Component {
         });
 
         DeviceEventEmitter.addListener('sysNotificationClick', (e)=> {
-            console.log('sysNotificationClick', e);
+            //console.log('sysNotificationClick', e);
         });
 
         reactGcmAndroid.requestPermissions();
     }
     render() {
-        console.log('render');
         let { store } = this.props
         let { userActions, menuActions, pageActions, doorlockActions } = this.props.actions;
 
@@ -103,7 +91,7 @@ class App extends Component {
         let currentPageId = store.getIn(['page', 'currentPageId']);
 
         return (
-            <View style={{flex: 1, alignItems: 'stretch'}}>
+            <View style={[commonStyles.base]}>
                 <SideMenu
                     title         = {title}
                     menus         = {pages}
@@ -115,16 +103,16 @@ class App extends Component {
                     onDrawerOpen  = {show}>
                     <Pages currentPageId = {store.getIn(['page', 'currentPageId'])}>
                         <Page id={loadingPage.id}>
-                            <LoadingPage title={loadingPage.title} />
+                            <LoadingPage />
                         </Page>
                         <Page id={mainPage.id}>
-                            <MainPage title={mainPage.title} onUnlock={unlock} onShowMenu={show} />
+                            <MainPage />
                         </Page>
                         <Page id={initPage.id}>
-                            <InitPage title={initPage.title} onStart={()=>setPage(registPage.id)} />
+                            <InitPage />
                         </Page>
                         <Page id={registPage.id}>
-                            <RegistPage title={registPage.title} onRegist={regist} />
+                            <RegistPage />
                         </Page>
                         <Page id={historyPage.id}>
                             <HistoryPage title={historyPage.title} onShowMenu={show} />
@@ -139,7 +127,7 @@ class App extends Component {
                             <SetupPage title={setupPage.title} onShowMenu={show} />
                         </Page>
                         <Page id={myPage.id}>
-                            <MyPage title={myPage.title} onShowMenu={show} />
+                            <MyPage />
                         </Page>
                         <Page id={userListPage.id}>
                             <UserListPage title={userListPage.title} onShowMenu={show} />
@@ -159,23 +147,6 @@ App.defaultProps = {
 
 }
 
-function mapStateToProps(state) {
-    return {
-        store: state.get('doorlock')
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: {
-            doorlockActions : bindActionCreators(doorlockActionCreators, dispatch),
-            menuActions     : bindActionCreators(menuActionCreators, dispatch),
-            pageActions     : bindActionCreators(pageActionCreators, dispatch),
-            userActions     : bindActionCreators(userActionCreators, dispatch)
-        }
-    }
-}
-
 function getCurrentPageTitle(currentPageId){
     for(let title in staticStore.pages){
         if(staticStore.pages[title].id === currentPageId){
@@ -184,4 +155,4 @@ function getCurrentPageTitle(currentPageId){
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default createReduxComponent(App);

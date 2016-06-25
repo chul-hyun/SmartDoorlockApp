@@ -9,5 +9,9 @@ import * as page from './page';
 export const pageActionCreators = page;
 import * as user from './user';
 export const userActionCreators = user;
-
-                        
+import * as users from './users';
+export const usersActionCreators = users;
+import * as history from './history';
+export const historyActionCreators = history;
+import * as setting from './setting';
+export const settingActionCreators = setting;

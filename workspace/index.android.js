@@ -12,6 +12,8 @@ import {
     Provider
 } from './src/util/extend-redux';
 
+import { commonStyles } from './src/static/styles';
+
 import reactGcmAndroid from 'react-native-gcm-android';
 
 import pushNotification from './src/util/pushNotification';

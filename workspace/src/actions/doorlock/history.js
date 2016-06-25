@@ -5,25 +5,26 @@ import store from '../../store';
 
 import middleServerAPI from '../../util/middle-server-api';
 
-export function unlock(){
+export function getHistory(){
     return async function(dispatch){
-        let { result, authtime } = await _unlock()
+        let { result, history } = await _getHistory()
 
         if(result){
             dispatch({
-                type   : TYPES.UNLOCK,
-                authtime
+                type   : TYPES.HISTORY,
+                history
             });
         }
     }
 }
 
-async function _unlock(){
+async function _getHistory(){
+    console.log('_getHistory');
     let id        = store.getState().getIn(['doorlock', 'user', 'id'])
     let password  = store.getState().getIn(['doorlock', 'user', 'password'])
     let loginInfo = {id, password};
     console.log(loginInfo);
-    let { result, authtime } = await middleServerAPI.userPost('unlock', loginInfo);
-    console.log('authtime', authtime);
-    return { result, authtime };
+    let { result, history } = await middleServerAPI.userPost('getHistory', loginInfo);
+    console.log('history', history);
+    return { result, history };
 }
