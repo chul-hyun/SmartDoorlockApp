@@ -4,4 +4,5 @@ export default {
     search : require('./search.png'),
     unlock : require('./unlock.png'),
     error  : require('./error.png'),
+    date   : require('./date.png'),
 }

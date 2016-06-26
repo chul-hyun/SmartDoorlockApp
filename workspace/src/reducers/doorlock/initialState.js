@@ -17,12 +17,12 @@ export default Immutable.fromJS({
     users: [],
     search: {
         filter: {
-            startTime : -1,
-            endTime   : -1,
-            user      : null,
-            state     : null
+            startDate   : null,
+            endDate     : null,
+            userID      : -1,
+            searchState : false
         },
-        result: []
+        history: []
     },
     page: {
         currentPageId : pages.loadingPage.id

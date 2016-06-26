@@ -28,10 +28,13 @@ function autoHideMenu(_menu, action){
     }
 
     switch(action.type){
-        case TYPES.SHOW_MENU :
-        case TYPES.HIDE_MENU :
-        case TYPES.TOGGLE_MENU :
-        case TYPES.LOGIN :
+        case TYPES.SHOW_MENU               :
+        case TYPES.HIDE_MENU               :
+        case TYPES.TOGGLE_MENU             :
+        case TYPES.LOGIN                   :
+        case TYPES.CHANGE_SETTING          :
+        case TYPES.SET_GCM_REGISTRATION_ID :
+        case TYPES.LOGGED                  :
             return _menu;
     }
 

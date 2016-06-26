@@ -69,15 +69,15 @@ export const sections = [
     },
     {
         title: '기능',
-        menus: ['historyPage']
+        menus: ['historyPage', 'searchPage', 'setupPage']
     }
 ];
 
 export const sounds = {
-    alram1: {
+    alarm1: {
         id: getKey(),
     },
-    alram2: {
+    alarm2: {
         id: getKey(),
     }
 }

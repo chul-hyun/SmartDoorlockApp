@@ -14,9 +14,10 @@ import user from './user'
 import users from './users'
 import history from './history'
 import setting from './setting'
+import search from './search'
 
                     const childReducer = combineReducers({
-                        menu, page, user, users, history, setting
+                        menu, page, user, users, history, setting, search
                     });
                     export default function(state = initialState, action){
                         console.log(action, state.toJS());

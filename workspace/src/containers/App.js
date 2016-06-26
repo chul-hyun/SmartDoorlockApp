@@ -37,9 +37,10 @@ import createReduxComponent from './createReduxComponent';
 
 class App extends Component {
     componentWillMount(){
-        let { userActions } = this.props.actions;
+        let { userActions, settingActions } = this.props.actions;
         userActions.checkUserInfo();
         userActions.login();
+        settingActions.init();
     }
     componentWillReceiveProps(){
     }

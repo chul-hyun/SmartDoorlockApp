@@ -7,13 +7,12 @@ import {
     View,
     Text,
     StyleSheet,
-    ListView,
-    ScrollView,
     Image
 } from 'react-native';
 
 import {
     HeaderLayout,
+    HistoryList
 } from '../components';
 
 import {
@@ -25,9 +24,7 @@ import icons from '../icons';
 
 import { pages } from '../static/app';
 
-//@TODO ScrollView를 ListView로 변경.
-
-    class HistoryPage extends Component {
+class HistoryPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -39,48 +36,23 @@ import { pages } from '../static/app';
         historyActions.getHistory();
     }
     render() {
-        let { menuActions }  = this.props.actions;
-        let { show }         = menuActions;
-        let { historyPage } = pages;
-        let { store }        = this.props
-        let history            = store.getIn(['history']).toJS();
-        //let { }              = this.state;
-
-        let historyTags = history.map(({name, state, authtime, id})=>(
-            <View style={[styles.item]} key={id}>
-                <Text style={[styles.name, styles.itemText]}>{name}</Text>
-                <Text style={[styles.authtime, styles.itemText]}>{dateToString(new Date(authtime * 1000 ))}</Text>
-                <View style={styles.state}>
-                    {(() => {
-                    if(state === 'success') {
-                        return <Image source={icons.unlock} style={styles.stateIcon} />
-                    }else{
-                        return <Image source={icons.error} style={styles.stateIcon} />
-                    }
-                    })()}
-                </View>
-            </View>
-        ))
-
-        history.forEach((history)=>{
-            console.log('history', history);
-        });
+        let { menuActions, pageActions } = this.props.actions;
+        let { historyPage, searchPage }  = pages;
+        let { show }    = menuActions;
+        let { setPage } = pageActions;
+        let { store }   = this.props
+        let history     = store.getIn(['history']).toJS();
 
         return (
             <HeaderLayout
                 title={historyPage.title}
                 leftIcon={icons.menu}
                 onPressLeftIcon={show}
+                rightIcon={icons.search}
+                onPressRightIcon={()=>setPage(searchPage.id)}
                 style={[styles.layout]}
                 >
-                <View style={[styles.header]}>
-                    <Text style={[styles.name, styles.headerText]}>이름</Text>
-                    <Text style={[styles.authtime, styles.headerText]}>날짜</Text>
-                    <Text style={[styles.state, styles.headerText]}>상태</Text>
-                </View>
-                <ScrollView style={[styles.list]}>
-                    {historyTags}
-                </ScrollView>
+                <HistoryList history={history} />
             </HeaderLayout>
         );
     }
@@ -143,20 +115,5 @@ HistoryPage.defaultProps = {
 
 }
 
-function dateToString(date){
-    return `${date.getFullYear()}.${zeroFill(date.getMonth() + 1, 2)}.\
-${zeroFill(date.getDate(), 2)} - ${zeroFill(date.getHours(), 2)}\
-:${zeroFill(date.getMinutes(), 2)}`
-}
-
-function zeroFill(number, n){
-    n -= number.toString().length;
-    if ( n > 0 )
-    {
-        return new Array( n + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
-    }
-    return number + ""; // always return a string
-}
-
 import createReduxComponent from '../containers/createReduxComponent';
-    export default createReduxComponent(HistoryPage);
+export default createReduxComponent(HistoryPage);

@@ -28,6 +28,7 @@ import { pages } from '../static/app';
 
 class SetupPage extends Component {
     constructor(props) {
+        console.log('SetupPage constructor');
         super(props);
         let { store } = this.props
         this.state = {
@@ -39,7 +40,7 @@ class SetupPage extends Component {
     render() {
         let { menuActions, settingActions } = this.props.actions;
         let { show }                        = menuActions;
-        let { setAlramSetting }             = settingActions;
+        let { setAlarmSetting }             = settingActions;
         let { setupPage }                   = pages;
         let { store }                       = this.props
         let {
@@ -59,7 +60,10 @@ class SetupPage extends Component {
                     <Text style={[styles.desc]}>인증 성공시 알림</Text>
                     <View style={[styles.optionBox]}>
                         <Switch
-                            onValueChange={(onAuthSuccess) => setAlramSetting({onAuthSuccess})}
+                            onValueChange={(onAuthSuccess) => {
+                                this.setState({onAuthSuccess});
+                                setAlarmSetting({onAuthSuccess})
+                            }}
                             style={[styles.option]}
                             value={onAuthSuccess} />
                     </View>
@@ -68,7 +72,10 @@ class SetupPage extends Component {
                     <Text style={[styles.desc]}>인증 실패시 알림</Text>
                     <View style={[styles.optionBox]}>
                         <Switch
-                            onValueChange={(onAuthFail) => setAlramSetting({onAuthFail})}
+                            onValueChange={(onAuthFail) => {
+                                this.setState({onAuthFail});
+                                setAlarmSetting({onAuthFail});
+                            }}
                             style={[styles.option]}
                             value={onAuthFail} />
                     </View>
@@ -77,7 +84,10 @@ class SetupPage extends Component {
                     <Text style={[styles.desc]}>고온 알림</Text>
                     <View style={[styles.optionBox]}>
                         <Switch
-                            onValueChange={(onTempWarning) => setAlramSetting({onTempWarning})}
+                            onValueChange={(onTempWarning) => {
+                                this.setState({onTempWarning});
+                                setAlarmSetting({onTempWarning});
+                            }}
                             style={[styles.option]}
                             value={onTempWarning} />
                     </View>

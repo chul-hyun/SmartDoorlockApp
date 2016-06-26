@@ -15,3 +15,5 @@ import * as history from './history';
 export const historyActionCreators = history;
 import * as setting from './setting';
 export const settingActionCreators = setting;
+import * as search from './search';
+export const searchActionCreators = search;

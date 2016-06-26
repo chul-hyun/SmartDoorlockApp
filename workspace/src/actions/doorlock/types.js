@@ -17,4 +17,5 @@ export default {
     USERS                   : 'USERS',
     HISTORY                 : 'HISTORY',
     CHANGE_SETTING          : 'CHANGE_SETTING',
+    SEARCH                  : 'SEARCH',
 }
