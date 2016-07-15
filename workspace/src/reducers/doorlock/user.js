@@ -7,12 +7,32 @@ import TYPES from '../../actions/doorlock/types';
 import initialState from './initialState';
 
 export default createReducer(Immutable.Map(), {
-    [TYPES.REGISTER]:
-        (user, {user}) => user.mergeDeep(user),
-
-    [TYPES.UNREGISTER]:
-        (user) => initialState.get('user'),
-
     [TYPES.LOGIN]:
-        (user, {user, login}) => (login) ? user.mergeDeep(user) : user
+        (_user, { user }) => _user.mergeDeep(user),
+
+    [TYPES.LOGGED]:
+        (_user, { user }) => _user.mergeDeep(user),
+
+    [TYPES.LOGOUT]:
+        (_user) => _user.mergeDeep({
+            name              : null,
+            id                : null,
+            password          : null,
+            registDate        : 0,
+            latestAuthDate    : 0,
+            doorlockId        : null
+        }),
+
+    [TYPES.UNLOCK]:
+        (_user, { authtime }) => _user.mergeDeep({latestAuthDate : authtime}),
+
+    [TYPES.SET_GCM_REGISTRATION_ID]:
+        (_user, {GCMRegistrationId}) => _user.mergeDeep({
+            GCMRegistrationId
+        }),
+
+    [TYPES.CHANGE_NAME]:
+        (_user, {name}) => _user.mergeDeep({
+            name
+        })
 });

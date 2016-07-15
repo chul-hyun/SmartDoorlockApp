@@ -1,27 +1,54 @@
 import React, {
     Component,
-    PropTypes,
+    PropTypes
+} from 'react';
+
+import {
+    StyleSheet,
     View,
     Text
 } from 'react-native';
 
-import { TouchButton } from '../components';
+import {
+    StartButton,
+    Logo
+ } from '../components';
+
+import { commonStyles } from '../static/styles';
+
+import createReduxComponent from '../containers/createReduxComponent';
 
 export class InitPage extends Component {
     render() {
-        let { title, onStart } = this.props;
+        console.log('render');
         return (
-            <View>
-                <Text>{title}</Text>
-                <TouchButton value={'시작하기'} onPress={onStart}></TouchButton>
+            <View style={[commonStyles.center, commonStyles.base]}>
+                <View style={[commonStyles.center, styles.titleBox]}>
+                    <Logo />
+                </View>
+                <View style={[commonStyles.center, styles.main]}>
+                    <StartButton />
+                </View>
             </View>
         );
     }
 }
 
+export const styles = StyleSheet.create({
+    titleBox: {
+        flex : 1,
+    },
+    main: {
+        flex : 1,
+    },
+    button: {
+        fontSize : 20,
+    }
+});
+
+
 InitPage.propTypes = {
-    title   : PropTypes.string.isRequired,
-    onStart : PropTypes.func
+    
 }
 
 InitPage.defaultProps = {

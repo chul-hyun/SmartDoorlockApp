@@ -1,47 +1,105 @@
 import React, {
     Component,
-    PropTypes,
+    PropTypes
+} from 'react';
+
+import {
     View,
     Text,
-    TextInput
+    TextInput,
+    StyleSheet
 } from 'react-native';
 
-import { TouchButton } from '../components';
+import {
+    TextButton,
+    Logo,
+    TextInputLabel,
+    RegistButton
+ } from '../components';
+
+import {
+    commonStyles,
+    colors
+ } from '../static/styles';
 
 export class RegistPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             name: '',
-            doorlockID : '',
+            doorlockId : '',
             doorlockKey: ''
         };
     }
     render() {
-        let { title, onRegist } = this.props;
-        let { name, doorlockKey, doorlockID } = this.state;
+        let { name, doorlockKey, doorlockId } = this.state;
         return (
-            <View>
-                <Text>{title}</Text>
-                <View>
-                    <View>
-                        <Text>{'이름'}</Text>
-                        <TextInput value={name} onChangeText={(name) => this.setState({name})} />
-                        <Text>{'도어락 ID'}</Text>
-                        <TextInput value={doorlockID} onChangeText={(doorlockID) => this.setState({doorlockID})} />
-                        <Text>{'도어락 Key'}</Text>
-                        <TextInput value={doorlockKey} onChangeText={(doorlockKey) => this.setState({doorlockKey})} />
-                    </View>
+            <View style={[commonStyles.base, styles.main]}>
+                <View style={[commonStyles.center, styles.titleBox]}>
+                    <Logo />
                 </View>
-                <TouchButton value={'등록'} onPress={()=>onRegist(name, doorlockID, doorlockKey)}></TouchButton>
+                <View style={[commonStyles.center, styles.inputBoxList]}>
+                    <TextInputLabel
+                        style={[commonStyles.center, styles.inputBox]}
+                        onChangeText={(name) => this.setState({name})}>
+                        {'이름'}
+                    </TextInputLabel>
+                    <TextInputLabel
+                        style={[commonStyles.center, styles.inputBox]}
+                        onChangeText={(doorlockId) => this.setState({doorlockId})}>
+                        {'도어락 ID'}
+                    </TextInputLabel>
+                    <TextInputLabel
+                        style={[commonStyles.center, styles.inputBox]}
+                        onChangeText={(doorlockKey) => this.setState({doorlockKey})}>
+                        {'도어락 Key'}
+                    </TextInputLabel>
+                </View>
+                <View style={[commonStyles.center, styles.submitBox]}>
+                    <RegistButton getRegistInfo={()=> ({ name, doorlockId, doorlockKey })} />
+                </View>
             </View>
         );
     }
 }
 
+export const styles = StyleSheet.create({
+    main: {
+        flex : 1,
+        flexDirection : 'column',
+    },
+    titleBox: {
+        flex : 2,
+    },
+    inputBoxList: {
+        flex : 3,
+        flexDirection : 'column',
+    },
+    submitBox: {
+        flex : 1,
+    },
+    inputBox:{
+        flex : 1,
+        width: 250,
+        flexDirection : 'row',
+    },
+    label: {
+        flex : 2,
+    },
+    inputBorder:{
+        flex : 5,
+    },
+    submit: {
+        width: 150,
+        height: 30,
+        borderRadius: 10,
+        fontSize: 15,
+        backgroundColor: colors.doneColor,
+    }
+});
+
 RegistPage.propTypes = {
-    title    : PropTypes.string.isRequired,
-    onRegist : PropTypes.func
+
 }
 
 RegistPage.defaultProps = {

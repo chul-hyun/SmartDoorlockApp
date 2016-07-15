@@ -10,36 +10,23 @@ import { pages } from '../../static/app';
 const initialState = Immutable.Map()
 
 export default createReducer(initialState, {
-    [TYPES.LOGIN]:
-        (page, {user, login})=> {
-            let currentPageId = pages.initPage.id;
-            if(login){
-                currentPageId = pages.mainPage.id;
-            }
+    [TYPES.LOGGED]:
+        (_page) => _page.mergeDeep({
+            currentPageId : pages.mainPage.id
+        }),
 
-            return page.mergeDeep({
-                currentPageId
-            });
-        },
+    [TYPES.NON_LOGGED]:
+        (_page) => _page.mergeDeep({
+            currentPageId: pages.initPage.id
+        }),
+
+    [TYPES.LOGOUT]:
+        (_page) => _page.mergeDeep({
+            currentPageId: pages.initPage.id
+        }),
 
     [TYPES.SET_PAGE]:
-        (page, {currentPageId})=> {
-            return page.mergeDeep({
-                currentPageId
-            });
-        },
-
-    [TYPES.REGISTER]:
-        (page, action)=> {
-            return page.mergeDeep({
-                currentPageId: pages.mainPage.id
-            });
-        },
-
-    [TYPES.UNREGISTER]:
-        (page, action)=> {
-            return page.mergeDeep({
-                currentPageId: pages.initPage.id
-            });
-        },
+        (_page, {currentPageId}) => _page.mergeDeep({
+            currentPageId
+        })
 })

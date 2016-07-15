@@ -12,6 +12,8 @@ Door locks to control the application
 - [ ] immutable 데이터를 react에서 직접 사용되도록 수정 (delete toJS())
 - [ ] 고정 데이터와 정적데이터의 설계를 다시하자. ( action과의 의존성 줄이기 )
 - [ ] init 과정에 휴대폰에 이미 유저정보가 있을시 서버에 정말 있는지 확인하는 절차도 추가하기.
+- [ ] realm 적용해보기
+- [ ] flow 적용해보기
 
 ## Tec
 - React Native

@@ -1,16 +1,28 @@
 
+                    // gulp 로 자동생성된 파일.
+                    // combine reducers
+
                     'use strict';
                     import { combineReducers } from '../../util/extend-redux';
                     import filter from './filter';
+                    import root from './root';
                     import initialState from './initialState';
                     import Immutable from 'immutable';
                     import menu from './menu'
 import page from './page'
 import user from './user'
+import users from './users'
+import history from './history'
+import setting from './setting'
+import search from './search'
+import alram from './alram'
 
                     const childReducer = combineReducers({
-                        menu,page,user
+                        menu, page, user, users, history, setting, search
                     });
                     export default function(state = initialState, action){
-                        return filter(childReducer(state, action), action);
+                        console.log(action, state.toJS());
+                        alram(state, action);
+
+                        return filter(root(childReducer(state, action), action), action);
                     }

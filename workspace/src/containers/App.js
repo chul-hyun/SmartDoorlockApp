@@ -1,12 +1,15 @@
-import { bindActionCreators } from '../util/extend-redux'
-import { connect } from 'react-redux'
+console.log('App');
 
 import React, {
     Component,
+    PropTypes
+} from 'react';
+
+import {
     StyleSheet,
     Text,
     View,
-    PropTypes,
+    DeviceEventEmitter
 } from 'react-native';
 
 import {
@@ -25,77 +28,119 @@ import {
     UserListPage
 } from '../components';
 
-import {
-    doorlockActionCreators,
-    menuActionCreators,
-    pageActionCreators,
-    userActionCreators
-} from '../actions/doorlock';
-
 import * as staticStore from '../static/app';
+
+import { commonStyles } from '../static/styles';
+
+import pushNotification from '../util/pushNotification';
+import reactGcmAndroid from 'react-native-gcm-android';
+
+import createReduxComponent from './createReduxComponent';
 
 class App extends Component {
     componentWillMount(){
-        let { userActions } = this.props.actions;
+        console.log('App componentWillMount');
+
+        let { userActions, settingActions } = this.props.actions;
+        userActions.checkUserInfo();
         userActions.login();
+        settingActions.init();
     }
     componentWillReceiveProps(){
-        console.log('componentWillReceiveProps');
+    }
+    componentDidMount(){
+        console.log('App componentDidMount');
+
+        let { userActions } = this.props.actions;
+
+        reactGcmAndroid.addEventListener('register', (GCMRegistrationId)=>{
+            console.log('send gcm GCMRegistrationId to server', GCMRegistrationId);
+            userActions.setGCMID(GCMRegistrationId);
+        });
+        reactGcmAndroid.addEventListener('notification', (notificationData)=>{
+            console.log('notificationData', notificationData);
+            notificationData = JSON.parse(notificationData.data.info);
+            //if (!reactGcmAndroid.isInForeground) { // 백그라운드에서 실행 중 일때
+                pushNotification(notificationData);
+            //}
+        });
+
+        DeviceEventEmitter.addListener('sysNotificationClick', (e)=> {
+            //console.log('sysNotificationClick', e);
+        });
+
+        reactGcmAndroid.requestPermissions();
+
     }
     render() {
-        console.log('render');
+        console.log('App render');
+
         let { store } = this.props
-        let { userActions, menuActions, pageActions } = this.props.actions;
+        let { userActions, menuActions, pageActions, doorlockActions } = this.props.actions;
+
+        let { regist }     = userActions;
+        let { hide, show } = menuActions;
+        let { setPage }    = pageActions;
+        let { unlock }     = doorlockActions;
+
+        let { title, pages, sections } = staticStore;
+
+        let {
+            loadingPage,
+            initPage,
+            registPage,
+            mainPage,
+            historyPage,
+            searchPage,
+            searchResultPage,
+            setupPage,
+            myPage,
+            userListPage
+        } = pages;
 
         let currentPageId = store.getIn(['page', 'currentPageId']);
-        let currentPageTitle = '';
-        for( let title in staticStore.pages ){
-            if(staticStore.pages[title].id === currentPageId){
-                currentPageTitle = title;
-            }
-        }
 
         return (
-            <View style={{flex: 1, alignItems: 'stretch'}}>
+            <View style={[commonStyles.base]}>
                 <SideMenu
-                    title         = {staticStore.title}
-                    menus         = {staticStore.pages}
-                    sections      = {staticStore.sections}
-                    selectedMenu  = {currentPageTitle}
-                    onPressMenu   = {pageActions.setPage}
+                    title         = {title}
+                    menus         = {pages}
+                    sections      = {sections}
+                    selectedMenu  = {getCurrentPageTitle(currentPageId)}
+                    onPressMenu   = {setPage}
                     show          = {store.getIn(['menu', 'show'])}
-                    onDrawerClose = {menuActions.hide}
-                    onDrawerOpen  = {menuActions.show}>
+                    onDrawerClose = {hide}
+                    onDrawerOpen  = {show}>
                     <Pages currentPageId = {store.getIn(['page', 'currentPageId'])}>
-                        <Page id={staticStore.pages.loadingPage.id}>
-                            <LoadingPage title={staticStore.pages.loadingPage.title} />
+                        <Page id={loadingPage.id}>
+                            <LoadingPage />
                         </Page>
-                        <Page id={staticStore.pages.mainPage.id}>
-                            <MainPage title={staticStore.pages.mainPage.title} onUnlock={userActions.unregist} onShowMenu={menuActions.show} />
+                        <Page id={mainPage.id}>
+                            <MainPage />
                         </Page>
-                        <Page id={staticStore.pages.initPage.id}>
-                            <InitPage title={staticStore.pages.initPage.title} onStart={()=>pageActions.setPage(staticStore.pages.registPage.id)} />
+                        <Page id={initPage.id}>
+                            <InitPage />
                         </Page>
-                        <Page id={staticStore.pages.registPage.id}>
-                            <RegistPage title={staticStore.pages.registPage.title} onRegist={userActions.regist} />
+                        <Page id={registPage.id}>
+                            <RegistPage />
                         </Page>
-                        <Page id={staticStore.pages.historyPage.id}>
-                            <HistoryPage title={staticStore.pages.historyPage.title} onShowMenu={menuActions.show} />
+                        <Page id={historyPage.id}>
+                            <HistoryPage title={historyPage.title} onShowMenu={show} />
                         </Page>
-                        <Page id={staticStore.pages.searchPage.id}>
-                            <SearchPage title={staticStore.pages.searchPage.title} onShowMenu={menuActions.show} />
+                        <Page id={searchPage.id}>
+                            <SearchPage title={searchPage.title} onShowMenu={show} />
                         </Page>
-                        <Page id={staticStore.pages.searchResultPage.id}>
-                            <SearchResultPage title={staticStore.pages.searchResultPage.title} onShowMenu={menuActions.show} />
+                        <Page id={searchResultPage.id}>
+                            <SearchResultPage title={searchResultPage.title} onShowMenu={show} />
                         </Page>
-                        <Page id={staticStore.pages.setupPage.id}>
-                            <SetupPage title={staticStore.pages.setupPage.title} onShowMenu={menuActions.show} />
+                        <Page id={setupPage.id}>
+                            <SetupPage title={setupPage.title} onShowMenu={show} />
                         </Page>
-                        <Page id={staticStore.pages.myPage.id}>
-                            <MyPage title={staticStore.pages.myPage.title} onShowMenu={menuActions.show} />
+                        <Page id={myPage.id}>
+                            <MyPage />
                         </Page>
-                        <Page id={staticStore.pages.userListPage.id}>
-                            <UserListPage title={staticStore.pages.userListPage.title} onShowMenu={menuActions.show} />
+                        <Page id={userListPage.id}>
+                            <UserListPage title={userListPage.title} onShowMenu={show} />
                         </Page>
                     </Pages>
                 </SideMenu>
@@ -112,21 +157,12 @@ App.defaultProps = {
 
 }
 
-function mapStateToProps(state) {
-    return {
-        store: state.get('doorlock')
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: {
-            mainActions: bindActionCreators(doorlockActionCreators, dispatch),
-            menuActions: bindActionCreators(menuActionCreators, dispatch),
-            pageActions: bindActionCreators(pageActionCreators, dispatch),
-            userActions: bindActionCreators(userActionCreators, dispatch)
+function getCurrentPageTitle(currentPageId){
+    for(let title in staticStore.pages){
+        if(staticStore.pages[title].id === currentPageId){
+            return title;
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default createReduxComponent(App);

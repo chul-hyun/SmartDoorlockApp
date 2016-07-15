@@ -1,53 +1,48 @@
 'use strict';
 
-import { createReducer } from '../../util/extend-redux'
-import Immutable from 'immutable';
+import { createMapReducer } from '../../util/extend-redux'
 
 import TYPES from '../../actions/doorlock/types';
 
-const initialState = Immutable.Map()
-
-let reducer = createReducer(initialState, {
+let reducer = createMapReducer({
     [TYPES.SHOW_MENU]:
-        (menu, action)=> {
-            return menu.mergeDeep({
-                show: true
-            });
-        },
+        (_menu, action)=> _menu.mergeDeep({
+            show: true
+        }),
 
     [TYPES.HIDE_MENU]:
-        (menu, action)=> {
-            return menu.mergeDeep({
-                show: false
-            });
-        },
+        (_menu, action)=> _menu.mergeDeep({
+            show: false
+        }),
 
     [TYPES.TOGGLE_MENU]:
-        (menu, action)=> {
-            return menu.mergeDeep({
-                show: !menu.get('show', false)
-            });
-        }
+        (_menu, action)=> _menu.mergeDeep({
+            show: !_menu.get('show', false)
+        })
 })
 
-export default function(menu, action){
-    return autoCloseMenu(reducer(menu, action), action);
-}
-
-
-function autoCloseMenu(menu, action){
+// 메뉴 클릭 및 다른 행동시 메뉴가 hide되게 함.
+function autoHideMenu(_menu, action){
     if(!action){
-        return menu;
+        return _menu;
     }
 
     switch(action.type){
-        case TYPES.SHOW_MENU :
-        case TYPES.HIDE_MENU :
-        case TYPES.TOGGLE_MENU :
-            return menu;
+        case TYPES.SHOW_MENU               :
+        case TYPES.HIDE_MENU               :
+        case TYPES.TOGGLE_MENU             :
+        case TYPES.LOGIN                   :
+        case TYPES.CHANGE_SETTING          :
+        case TYPES.SET_GCM_REGISTRATION_ID :
+        case TYPES.LOGGED                  :
+            return _menu;
     }
 
-    return menu.mergeDeep({
+    return _menu.mergeDeep({
         show: false
     })
+}
+
+export default function(_menu, action){
+    return autoHideMenu(reducer(_menu, action), action);
 }

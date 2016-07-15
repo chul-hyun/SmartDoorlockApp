@@ -1,15 +1,19 @@
 import React, {
     Component,
-    View,
     PropTypes
+} from 'react';
+
+import {
+    View
 } from 'react-native';
 
 import { Page } from '../components/Page';
+import { commonStyles } from '../static/styles';
 
 export class Pages extends Component {
     render() {
         return (
-            <View>
+            <View style={[commonStyles.base]}>
                 {renderChildren(this.props)}
             </View>
         );

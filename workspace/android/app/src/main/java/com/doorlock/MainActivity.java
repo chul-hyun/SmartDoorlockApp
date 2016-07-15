@@ -1,4 +1,4 @@
-package com.doorlockapp;
+package com.doorlock;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactPackage;
@@ -6,6 +6,9 @@ import com.facebook.react.shell.MainReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
+
+import io.neson.react.notification.NotificationPackage;    // <- Add this line
+import com.oney.gcm.GcmPackage;                            // <- Add this line
 
 public class MainActivity extends ReactActivity {
 
@@ -15,7 +18,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "DoorlockApp";
+        return "doorlock";
     }
 
     /**
@@ -34,7 +37,9 @@ public class MainActivity extends ReactActivity {
     @Override
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
-            new MainReactPackage()
+            new MainReactPackage(),
+            new NotificationPackage(this),
+            new GcmPackage()
         );
     }
 }

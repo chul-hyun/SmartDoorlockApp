@@ -1,14 +1,25 @@
-import { middleServerURL } from '../static/app';
-import { incodeJSON } from './rsa';
+'use strict';
 
+import { middleServerURL } from '../static/app';
+import rsa from './rsa';
+import createLoger from './createLoger';
+import { ToastAndroid } from 'react-native';
+
+let loger = createLoger('#a68bff');
+
+// 서버에서 받은 공개키와 공개키 갱신주기 값
 let rsaInfo = {
-    N: 0,
-    e: 0
+    N        : 0,
+    e        : 0,
+    interval : 0
 };
 
+// 공개키 설정 시간
+let publicKeySetTime = 0;
+
 async function post(url, send){
+    ToastAndroid.show('통신중...', ToastAndroid.SHORT)
     try {
-        console.log(url);
         let response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -20,33 +31,32 @@ async function post(url, send){
         let responseJson = await response.json();
         return responseJson;
     } catch(error) {
-        // Handle error
-        console.error(error);
+        ToastAndroid.show('통신 오류', ToastAndroid.SHORT)
     }
 }
 
 async function rsaPost(op, message){
-    let send = {
-        rsaInfo,
-        screetData: incodeJSON(message, rsaInfo.e, rsaInfo.N)
-    };
-
-    console.log(send);
-
     return _rsaPost();
 
     async function _rsaPost(){
-        console.log(`rsa url: /rsa/${op}`);
-        let data = await post(`${middleServerURL}/rsa/${op}`, send);
-        console.log(`rsa /rsa/${op} data:`);
-        console.log(data);
-        if(data.state == 'rsa changed'){
-            rsaInfo = data.rsaInfo;
-            send = {
+        let data;
+        loger('send Data', message);
+        if(+new Date() - publicKeySetTime >= rsaInfo.interval){
+            // 키 재설정 시간(interval)이 지났을시 공개키를 받는다.
+            loger('url', '/rsa/get');
+            data = await post(`${middleServerURL}/rsa/get`);
+        }else{
+            loger('url', `/rsa/${op}`);
+            data = await post(`${middleServerURL}/rsa/${op}`, {
                 rsaInfo,
-                screetData: incodeJSON(message, rsaInfo.e, rsaInfo.N)
-            };
-
+                screetData: await rsa.incodeJSON(message, rsaInfo.e, rsaInfo.N) //암호화
+            });
+        }
+        loger('get data', data);
+        if(data.state == 'rsaInfo'){
+            // 공개키 재설정후 서버에 재요청
+            publicKeySetTime = +new Date();
+            rsaInfo = data.rsaInfo;
             return _rsaPost();
         }else{
             return data;
@@ -54,6 +64,16 @@ async function rsaPost(op, message){
     }
 }
 
+async function userPost(op, loginInfo, data = {}){
+    let req = await rsaPost(`user/${op}`, {loginInfo, data})
+    if(req.loginFailed){
+        //@TODO Error 처리
+        throw new Error('message');
+    }
+
+    return req;
+}
+
 export default {
-    rsaPost
+    rsaPost, userPost
 }

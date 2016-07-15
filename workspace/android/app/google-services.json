@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "771472003347",
+    "project_id": "smart-doorlock"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771472003347:android:fb986d8e9c59a378",
+        "android_client_info": {
+          "package_name": "com.doorlockapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhkOe64JUBIf_lU1KjiNnUvBEdAwHEGNI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

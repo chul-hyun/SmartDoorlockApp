@@ -1,35 +1,60 @@
 import React, {
     Component,
-    PropTypes,
+    PropTypes
+} from 'react';
+
+import {
     View,
-    Text
+    StyleSheet
 } from 'react-native';
 
-import { TouchButton } from '../components';
+import {
+    MenuButton,
+    UnlockButton,
+    Logo
+ } from '../components';
 
-export class MainPage extends Component {
+import { commonStyles } from '../static/styles';
+
+class MainPage extends Component {
     render() {
-        let { title, onUnlock, onShowMenu } = this.props;
         return (
-            <View>
-                <View>
-                    <TouchButton value={'menu.png'} onPress={onShowMenu}></TouchButton>
+            <View style={[commonStyles.center, commonStyles.base]}>
+                <View style={[styles.headerBox]}>
+                    <MenuButton />
                 </View>
-                <View>
-                    <Text>{title}</Text>
-                    <TouchButton value={'unlock.png'} onPress={onUnlock}></TouchButton>
+                <View style={[commonStyles.center, styles.titleBox]}>
+                    <Logo />
+                </View>
+                <View style={[commonStyles.center, styles.buttonBox]}>
+                    <UnlockButton />
                 </View>
             </View>
         );
     }
 }
 
+const styles = StyleSheet.create({
+    headerBox: {
+        height: 50,
+        width: 50,
+        padding: 10,
+        alignItems     : 'stretch',
+    },
+    titleBox: {
+        flex : 3,
+    },
+    buttonBox: {
+        flex : 4,
+    }
+});
+
 MainPage.propTypes = {
-    title      : PropTypes.string.isRequired,
-    onShowMenu : PropTypes.func,
-    onUnlock   : PropTypes.func
+
 }
 
 MainPage.defaultProps = {
 
 }
+
+export default MainPage;

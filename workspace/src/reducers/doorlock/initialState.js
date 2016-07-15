@@ -1,35 +1,40 @@
+'use strict';
+
 import Immutable from 'immutable';
 import { pages, sounds } from '../../static/app';
 
-export default Immutable.Map({
+export default Immutable.fromJS({
     user: {
-        name : null,
-        id: null,
-        password : null,
-        registDate : 0,
-        latestAuthDate : 0,
-        doorlockId: null
+        name              : null,
+        id                : null,
+        password          : null,
+        registDate        : 0,
+        latestAuthDate    : 0,
+        doorlockId        : null,
+        GCMRegistrationId : null
     },
     history: [],
     users: [],
     search: {
         filter: {
-            startTime: -1,
-            endTime: -1,
-            user: null,
-            state: null
+            startDate   : null,
+            endDate     : null,
+            userID      : -1,
+            searchState : false
         },
-        result: []
+        history: []
     },
     page: {
-        currentPageId: pages.loadingPage.id
+        currentPageId : pages.loadingPage.id
     },
     setting: {
-        successAlram: true,
-        failAlram: true,
-        alarmSound: sounds.alram1.id
+        alarm:{
+            onAuthSuccess : true,
+            onAuthFail    : true,
+            onTempWarning : true,
+        }
     },
     menu: {
-        show: false
+        show : false
     }
 });

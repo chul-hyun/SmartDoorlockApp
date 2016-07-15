@@ -1,24 +1,47 @@
 import React, {
     Component,
-    PropTypes,
+    PropTypes
+} from 'react';
+
+import {
     View,
-    Text
+    Text,
+    StyleSheet
 } from 'react-native';
+
+import { commonStyles } from '../static/styles';
+
+import {
+    Logo,
+ } from '../components';
 
 export class LoadingPage extends Component {
     render() {
-        let { title } = this.props;
         return (
-            <View>
-                <Text>{title}</Text>
-                <Text>{'loading image...'}</Text>
+            <View style={[commonStyles.center, commonStyles.base, styles.main]}>
+                <View style={[commonStyles.center, styles.titleBox]}>
+                    <Logo />
+                    <Text style={[styles.text]}>loading...</Text>
+                </View>
             </View>
         );
     }
 }
 
+const styles = StyleSheet.create({
+    main:{
+
+    },
+    titleBox: {
+        flex      : 1,
+    },
+    text: {
+        fontSize : 15
+    }
+});
+
 LoadingPage.propTypes = {
-    title      : PropTypes.string.isRequired,
+
 }
 
 LoadingPage.defaultProps = {

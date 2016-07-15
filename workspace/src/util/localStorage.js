@@ -1,127 +1,65 @@
+/*
+기존 AsyncStorage는 String값만 저장할수 있는 것을 모든 타입 저장 가능하게 개선.
+*/
+
+'use strict';
+
 import { AsyncStorage } from 'react-native';
-import Q from 'q';
 
-function getItem(key){
-    let def = Q.defer();
-
-    (async function(){
-        try{
-            let jsonStr = await AsyncStorage.getItem(key);
-            if (jsonStr === null){
-                def.reject();
-                return;
-            }
-            def.resolve((JSON.parse(jsonStr)).value);
-        }catch(error){
-            def.reject(error);
-        }
-    })();
-
-    return def.promise;
+async function getItem(key){
+    console.log('await AsyncStorage');
+    let jsonStr = await AsyncStorage.getItem(key);
+    console.log('jsonStr', jsonStr);
+    if (jsonStr === null){
+        return null;
+    }else{
+        return (JSON.parse(jsonStr)).value;
+    }
 }
 
-function setItem(key, value){
-    let def = Q.defer();
-
-    (async function(){
-        try{
-            def.resolve(await AsyncStorage.setItem(key, JSON.stringify({value})));
-        }catch(error){
-            def.reject(error);
-        }
-    })();
-
-    return def.promise;
+async function setItem(key, value){
+    return await AsyncStorage.setItem(key, JSON.stringify({value}));
 }
 
-function removeItem(key){
-    let def = Q.defer();
-
-    (async function(){
-        try{
-            def.resolve(await AsyncStorage.removeItem(key));
-        }catch(error){
-            def.reject(error);
-        }
-    })();
-
-    return def.promise;
+async function removeItem(key){
+    return await AsyncStorage.removeItem(key)
 }
 
-function multiSet(keyValuePairs){
-    let def = Q.defer();
+async function multiSet(keyValuePairs){
+    keyValuePairs.forEach((keyValuePair, i) => {
+        keyValuePairs[i][1] = JSON.stringify({value: keyValuePairs[i][1] })
+    });
 
-    (async function(){
-        keyValuePairs.forEach((keyValuePair, i) => {
-            keyValuePairs[i][1] = JSON.stringify({value: keyValuePairs[i][1] })
-        })
-        try{
-            def.resolve(await AsyncStorage.multiSet(keyValuePairs));
-        }catch(error){
-            def.reject(error);
-        }
-    })();
-
-    return def.promise;
+    return await AsyncStorage.multiSet(keyValuePairs);
 }
 
-function multiGet(keys){
-    let def = Q.defer();
-
-    (async function(){
-        try{
-            let jsonStrList = await AsyncStorage.multiGet(keys);
-            jsonStrList.forEach((jsonStr, i)=>{
-                if (jsonStr[1] === null){
-                    jsonStrList[i][1] = null
-                }else{
-                    jsonStrList[i][1] =(JSON.parse(jsonStr[1])).value;
-                }
-            })
-            def.resolve(jsonStrList);
-        }catch(error){
-            def.reject(error);
+async function multiGet(keys){
+    let jsonStrList = await AsyncStorage.multiGet(keys);
+    jsonStrList.forEach((jsonStr, i)=>{
+        if (jsonStr[1] === null){
+            jsonStrList[i][1] = null
+        }else{
+            jsonStrList[i][1] =(JSON.parse(jsonStr[1])).value;
         }
-    })();
-
-    return def.promise;
+    })
+    return jsonStrList;
 }
 
-function multiGetObject(keys){
-    let def = Q.defer();
-
-    (async function(){
-        try{
-            let jsonStrList = await AsyncStorage.multiGet(keys);
-            let jsonResult = {};
-            jsonStrList.forEach((jsonStr, i)=>{
-                if (jsonStr[1] === null){
-                    jsonResult[jsonStr[0]] = null;
-                }else{
-                    jsonResult[jsonStr[0]] = (JSON.parse(jsonStr[1])).value;
-                }
-            })
-            def.resolve(jsonResult);
-        }catch(error){
-            def.reject(error);
+async function multiGetObject(keys){
+    let jsonStrList = await AsyncStorage.multiGet(keys);
+    let jsonResult = {};
+    jsonStrList.forEach((jsonStr, i)=>{
+        if (jsonStr[1] === null){
+            jsonResult[jsonStr[0]] = null;
+        }else{
+            jsonResult[jsonStr[0]] = (JSON.parse(jsonStr[1])).value;
         }
-    })();
-
-    return def.promise;
+    })
+    return jsonResult;
 }
 
-function multiRemove(keys){
-    let def = Q.defer();
-
-    (async function(){
-        try{
-            def.resolve(await AsyncStorage.multiRemove(keys));
-        }catch(error){
-            def.reject(error);
-        }
-    })();
-
-    return def.promise;
+async function multiRemove(keys){
+    return await AsyncStorage.multiRemove(keys);
 }
 
 export default {
