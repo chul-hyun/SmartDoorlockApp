@@ -7,6 +7,7 @@ const through = require('through2')
 const path    = require('path')
 const fs      = require('fs')
 const pump    = require('pump')
+const _       = require('lodash');
 
 const rootDir      = path.join(__dirname, 'workspace')
 const srcDir       = path.join(rootDir, 'src');
@@ -49,7 +50,8 @@ gulp.task('delete_action_index', [], ()=>{
     ])
 })
 
-gulp.task('create_action_index', ['delete_action_index'], ()=>{
+gulp.task('create_action_index', ['delete_action_index'], (cb)=>{
+    let indexFiles = [];
     return pump([
         gulp.src(`${actionDir}/*/*.js`),
         through.obj(function(file, enc, done){
@@ -64,12 +66,33 @@ gulp.task('create_action_index', ['delete_action_index'], ()=>{
             done();
         }),
         through.obj(function(data, enc, done){
-            let folder = data[0];
-            let code   = data[1];
-            let stream = fs.createWriteStream(`${actionDir}/${folder}/index.js`, {flags: 'a'});
-            stream.once('open', (fd)=> {
-                stream.end(code);
+            let folder    = data[0];
+            let code      = data[1];
+            let indexFile = `${actionDir}/${folder}/index.js`;
+            indexFiles.push(indexFile);
+            let writeStream = fs.createWriteStream(indexFile, {flags: 'a'});
+            writeStream.once('open', (fd)=> {
+                writeStream.end(code);
                 done();
+            });
+        }, ()=>{
+            indexFiles = _.uniq(indexFiles);
+            let pendIndexFileNumber = indexFiles.length;
+            indexFiles.forEach((indexFile)=>{
+                fs.readFile(indexFile, (err, code)=>{
+                    let writeStream = fs.createWriteStream(indexFile, {flags: 'w'});
+                    writeStream.once('open', (fd)=> {
+                        writeStream.end(`
+                            // gulp 로 자동생성된 파일.
+                            // combine actions
+                            ${code}
+                        `);
+                        pendIndexFileNumber--;
+                        if(pendIndexFileNumber == 0){
+                            cb();
+                        }
+                    });
+                });
             })
         })
     ]);
@@ -90,7 +113,7 @@ gulp.task('create_reducer_index', ['delete_reducer_index'], function(cb){
             let name       = path.basename(file.path, '.js');
             let folder     = path.basename(path.resolve(file.path, '..'));
 
-            if(!(name == 'initialState' || name == 'filter' || name == folder)){
+            if(!(name == 'initialState' || name == 'root' || name == 'filter' || name == folder)){
                 rootReducers[folder] = (rootReducers[folder]) ? rootReducers[folder] : [];
                 rootReducers[folder].push(name);
             }
@@ -98,13 +121,18 @@ gulp.task('create_reducer_index', ['delete_reducer_index'], function(cb){
             this.push(file);
             done();
         }, ()=>{
+            let pendIndexFileNumber = _.keys(rootReducers).length;
             for(let key in rootReducers){
                 let reducers = rootReducers[key];
 
                 let code = `
+                    // gulp 로 자동생성된 파일.
+                    // combine reducers
+
                     'use strict';
                     import { combineReducers } from '../../util/extend-redux';
                     import filter from './filter';
+                    import root from './root';
                     import initialState from './initialState';
                     import Immutable from 'immutable';
                     ${reducers.reduce((imports, reducer) => {
@@ -114,13 +142,16 @@ gulp.task('create_reducer_index', ['delete_reducer_index'], function(cb){
                         ${reducers.join(',')}
                     });
                     export default function(state = initialState, action){
-                        return filter(childReducer(state, action), action);
+                        return filter(root(childReducer(state, action), action), action);
                     }`
 
                 let stream = fs.createWriteStream(`${reducerDir}/${key}/index.js`, {flags: 'a'});
                 stream.once('open', ()=> {
                     stream.end(code);
-                    cb();
+                    pendIndexFileNumber--;
+                    if(pendIndexFileNumber == 0){
+                        cb();
+                    }
                 });
             }
         })

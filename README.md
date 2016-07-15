@@ -109,9 +109,9 @@ Door locks to control the application
     }
     currentPageID : number,
     setting       : {
-        successAlram : boolean,
-        failAlram    : boolean,
-        alramSound   : ?
+        successAlarm : boolean,
+        failAlarm    : boolean,
+        alarmSound   : ?
     },
     menu: {
         items       : [MenuType],
@@ -568,7 +568,7 @@ Property 들을 이용해서 구축
 
             ```
             onValueChange = this.props.onChangeSetting
-            value         = this.props.setting.successAlram
+            value         = this.props.setting.successAlarm
             ```
     - View
         - Text
@@ -577,7 +577,7 @@ Property 들을 이용해서 구축
 
             ```
             onValueChange = this.props.onChangeSetting
-            value         = this.props.setting.failAlram
+            value         = this.props.setting.failAlarm
             ```
     - View
         - Text
@@ -586,7 +586,7 @@ Property 들을 이용해서 구축
 
             ```
             onValueChange = this.props.onChangeSetting
-            selectedValue = this.props.setting.alramSound
+            selectedValue = this.props.setting.alarmSound
             ```
 
 #### Property

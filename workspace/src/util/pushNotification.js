@@ -5,16 +5,8 @@ import localStorage from './localStorage';
 import _ from 'lodash';
 
 export default async function pushNotification(notificationData){
-//    let { message, type } = notificationData;
-//    console.log('message', message);
-//    alram(message)
-//    return;
-
-    console.log('pushNotification', notificationData);
     let { message, type } = notificationData;
-    console.log('GET setting');
     let setting     = await localStorage.getItem('setting');
-    console.log('setting', setting);
 
     let alarmSetting = {
         onAuthSuccess : true,
@@ -26,21 +18,15 @@ export default async function pushNotification(notificationData){
         alarmSetting = setting.alarm;
     }
 
-    console.log('alarmSetting', alarmSetting);
-    console.log('type', type);
-
     if(type == 'auth success' && alarmSetting.onAuthSuccess){
-        console.log(type)
         alram(message)
     }
 
     if(type == 'auth fail' && alarmSetting.onAuthFail){
-        console.log(type)
         alram(message)
     }
 
     if(type == 'temper warning' && alarmSetting.onTempWarning){
-        console.log(type)
         alram(message)
     }
 }

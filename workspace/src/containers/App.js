@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 console.log('App');
 
+=======
+>>>>>>> 9dbce7daa6d0bf2ed1f40f4e4d87950f0b2dc482
 import React, {
     Component,
     PropTypes
@@ -39,8 +42,11 @@ import createReduxComponent from './createReduxComponent';
 
 class App extends Component {
     componentWillMount(){
+<<<<<<< HEAD
         console.log('App componentWillMount');
 
+=======
+>>>>>>> 9dbce7daa6d0bf2ed1f40f4e4d87950f0b2dc482
         let { userActions, settingActions } = this.props.actions;
         userActions.checkUserInfo();
         userActions.login();
@@ -49,8 +55,11 @@ class App extends Component {
     componentWillReceiveProps(){
     }
     componentDidMount(){
+<<<<<<< HEAD
         console.log('App componentDidMount');
 
+=======
+>>>>>>> 9dbce7daa6d0bf2ed1f40f4e4d87950f0b2dc482
         let { userActions } = this.props.actions;
 
         reactGcmAndroid.addEventListener('register', (GCMRegistrationId)=>{
@@ -70,11 +79,16 @@ class App extends Component {
         });
 
         reactGcmAndroid.requestPermissions();
+<<<<<<< HEAD
 
     }
     render() {
         console.log('App render');
 
+=======
+    }
+    render() {
+>>>>>>> 9dbce7daa6d0bf2ed1f40f4e4d87950f0b2dc482
         let { store } = this.props
         let { userActions, menuActions, pageActions, doorlockActions } = this.props.actions;
 

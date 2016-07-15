@@ -7,9 +7,8 @@
 import { AsyncStorage } from 'react-native';
 
 async function getItem(key){
-    console.log('await AsyncStorage');
     let jsonStr = await AsyncStorage.getItem(key);
-    console.log('jsonStr', jsonStr);
+
     if (jsonStr === null){
         return null;
     }else{
