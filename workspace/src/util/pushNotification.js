@@ -11,7 +11,8 @@ export default async function pushNotification(notificationData){
     let alarmSetting = {
         onAuthSuccess : true,
         onAuthFail    : true,
-        onTempWarning : true
+        onTempWarning : true,
+        onNewUser     : true,
     }
 
     if( setting !== null && setting.alarm !== null ){

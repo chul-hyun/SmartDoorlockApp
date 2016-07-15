@@ -152,6 +152,10 @@ async function _regist(registInfo){
 
 async function _unregist(){
     console.log('removeItem');
+    let id        = store.getState().getIn(['doorlock', 'user', 'id'])
+    let password  = store.getState().getIn(['doorlock', 'user', 'password'])
+    let loginInfo = {id, password};
+    await middleServerAPI.userPost('unregist', loginInfo);
     await localStorage.removeItem('loginInfo');
 }
 
