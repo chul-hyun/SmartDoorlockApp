@@ -32,6 +32,7 @@ export default Immutable.fromJS({
             onAuthSuccess : true,
             onAuthFail    : true,
             onTempWarning : true,
+            onNewUser     : true,
         }
     },
     menu: {

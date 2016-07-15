@@ -35,6 +35,7 @@ class SetupPage extends Component {
             onAuthSuccess : store.getIn(['setting', 'alarm', 'onAuthSuccess']),
             onAuthFail    : store.getIn(['setting', 'alarm', 'onAuthFail']),
             onTempWarning : store.getIn(['setting', 'alarm', 'onTempWarning']),
+            onNewUser     : store.getIn(['setting', 'alarm', 'onNewUser']),
         };
     }
     render() {
@@ -46,7 +47,8 @@ class SetupPage extends Component {
         let {
             onAuthSuccess,
             onAuthFail,
-            onTempWarning
+            onTempWarning,
+            onNewUser
         } = this.state;
 
         return (
@@ -66,6 +68,18 @@ class SetupPage extends Component {
                             }}
                             style={[styles.option]}
                             value={onAuthSuccess} />
+                    </View>
+                </View>
+                <View style={[styles.item]}>
+                    <Text style={[styles.desc]}>등록 알림</Text>
+                    <View style={[styles.optionBox]}>
+                        <Switch
+                            onValueChange={(onNewUser) => {
+                                this.setState({onNewUser});
+                                setAlarmSetting({onNewUser})
+                            }}
+                            style={[styles.option]}
+                            value={onNewUser} />
                     </View>
                 </View>
                 {/*

@@ -29,6 +29,10 @@ export default async function pushNotification(notificationData){
     if(type == 'temper warning' && alarmSetting.onTempWarning){
         alram(message)
     }
+
+    if(type == 'new user' && alarmSetting.onNewUser){
+        alram(message)
+    }
 }
 
 const debounceAlram = (function(){
