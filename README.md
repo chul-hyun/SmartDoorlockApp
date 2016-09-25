@@ -1,7 +1,7 @@
 # Smart Doorlock App
 Door locks to control the application
 
-## Server Part
+## Doorlock Part
 [github](https://github.com/MuteInspiration/graduation_Univ_DoorLock)
 
 ## Preview
